@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\""
   },
   "dependencies": {
     "next": "^14.2.0",
@@ -20,7 +21,10 @@
     "autoprefixer": "^10.4.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^16.0.6",
+    "eslint-config-prettier": "^9.1.0",
     "postcss": "^8.4.0",
+    "prettier": "^3.2.0",
+    "prettier-plugin-tailwindcss": "^0.5.0",
     "tailwindcss": "^3.4.0",
     "typescript": "^5.4.0"
   }
