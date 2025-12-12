@@ -26,36 +26,39 @@ const spaceGrotesk = Space_Grotesk({
 // ============================================
 export const metadata: Metadata = {
   title: {
-    default: 'KashiCoding - Portfolio & Services',
-    template: '%s | KashiCoding',
+    default: 'Kashi Kweyu - Portfolio & Services',
+    template: '%s | Kashi Kweyu',
   },
   description:
-    'Professional web development services and portfolio. Built with Next.js 14, TypeScript, and Tailwind CSS.',
+    'Portfolio and web development services by Ashanti Kweyu (Kashi) - Junior Developer from Kampala, Uganda. Built with Next.js 14, TypeScript, and Tailwind CSS.',
   keywords: [
     'web development',
     'portfolio',
+    'Kashi Kweyu',
+    'Ashanti Kweyu',
     'Next.js',
     'React',
     'TypeScript',
     'Tailwind CSS',
-    'full-stack development',
+    'Uganda developer',
+    'Kampala',
   ],
-  authors: [{ name: 'KashiCoding' }],
-  creator: 'KashiCoding',
+  authors: [{ name: 'Ashanti Kweyu (Kashi)' }],
+  creator: 'Kashi Kweyu',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://kashicoding.com',
-    title: 'KashiCoding - Portfolio & Services',
+    url: 'https://kashikweyu.com',
+    title: 'Kashi Kweyu - Portfolio & Services',
     description:
-      'Professional web development services and portfolio. Built with Next.js 14, TypeScript, and Tailwind CSS.',
-    siteName: 'KashiCoding',
+      'Portfolio and web development services by Ashanti Kweyu (Kashi) - Junior Developer from Kampala, Uganda.',
+    siteName: 'Kashi Kweyu',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'KashiCoding - Portfolio & Services',
+    title: 'Kashi Kweyu - Portfolio & Services',
     description:
-      'Professional web development services and portfolio. Built with Next.js 14, TypeScript, and Tailwind CSS.',
+      'Portfolio and web development services by Ashanti Kweyu (Kashi) - Junior Developer from Kampala, Uganda.',
   },
   robots: {
     index: true,
