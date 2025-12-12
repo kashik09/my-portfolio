@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { Upload } from 'lucide-react'
+import { Upload, X, File } from 'lucide-react'
 
 export default function RequestPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,6 +20,25 @@ export default function RequestPage() {
     timeline: '',
     description: ''
   })
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      setSelectedFiles(prev => [...prev, ...Array.from(files)])
+    }
+  }
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -142,11 +163,64 @@ export default function RequestPage() {
           />
         </div>
 
-        <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-accent transition-colors cursor-pointer">
-          <Upload className="mx-auto mb-4 text-foreground/50" size={32} />
-          <p className="text-foreground/70 mb-2">Upload project files (optional)</p>
-          <p className="text-foreground/50 text-sm">Drag and drop or click to browse</p>
-          <input type="file" multiple className="hidden" />
+        <div>
+          <label className="block text-sm font-medium text-foreground mb-2">Project Files (Optional)</label>
+
+          {/* File Upload Area */}
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-accent hover:bg-accent/5 transition-all cursor-pointer group"
+          >
+            <Upload className="mx-auto mb-4 text-foreground/50 group-hover:text-accent transition-colors" size={32} />
+            <p className="text-foreground/70 mb-2 font-medium">Upload project files</p>
+            <p className="text-foreground/50 text-sm">Click to browse or drag and drop</p>
+            <p className="text-foreground/40 text-xs mt-2">Supports: PDF, DOC, JPG, PNG (Max 10MB each)</p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              className="hidden"
+              onChange={handleFileChange}
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif"
+            />
+          </div>
+
+          {/* Selected Files List */}
+          {selectedFiles.length > 0 && (
+            <div className="mt-4 space-y-2">
+              <p className="text-sm font-medium text-foreground/70">
+                Selected Files ({selectedFiles.length})
+              </p>
+              {selectedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-3 bg-card border border-border rounded-lg hover:border-accent transition-colors group"
+                >
+                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                    <div className="flex-shrink-0 p-2 bg-accent/10 rounded-lg">
+                      <File className="text-accent" size={20} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
+                        {file.name}
+                      </p>
+                      <p className="text-xs text-foreground/50">
+                        {formatFileSize(file.size)}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeFile(index)}
+                    className="flex-shrink-0 p-2 rounded-lg hover:bg-destructive/10 transition-colors group"
+                    aria-label="Remove file"
+                  >
+                    <X className="text-foreground/50 group-hover:text-destructive" size={18} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <Button
