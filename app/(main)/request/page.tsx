@@ -47,8 +47,8 @@ export default function RequestPage() {
   return (
     <div className="max-w-3xl mx-auto py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-text mb-4">Request a Service</h1>
-        <p className="text-xl text-text/70">
+        <h1 className="text-4xl font-bold text-foreground mb-4">Request a Service</h1>
+        <p className="text-xl text-foreground/70">
           Tell me about your project and I'll get back to you within 24 hours
         </p>
       </div>
@@ -81,7 +81,7 @@ export default function RequestPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text mb-2">Service Type</label>
+          <label className="block text-sm font-medium text-foreground mb-2">Service Type</label>
           <select
             value={formData.serviceType}
             onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
@@ -99,7 +99,7 @@ export default function RequestPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-text mb-2">Budget Range</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Budget Range</label>
             <select
               value={formData.budget}
               onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
@@ -115,7 +115,7 @@ export default function RequestPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-text mb-2">Timeline</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Timeline</label>
             <select
               value={formData.timeline}
               onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
@@ -131,7 +131,7 @@ export default function RequestPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-text mb-2">Project Description</label>
+          <label className="block text-sm font-medium text-foreground mb-2">Project Description</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -143,9 +143,9 @@ export default function RequestPage() {
         </div>
 
         <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-accent transition-colors cursor-pointer">
-          <Upload className="mx-auto mb-4 text-text/50" size={32} />
-          <p className="text-text/70 mb-2">Upload project files (optional)</p>
-          <p className="text-text/50 text-sm">Drag and drop or click to browse</p>
+          <Upload className="mx-auto mb-4 text-foreground/50" size={32} />
+          <p className="text-foreground/70 mb-2">Upload project files (optional)</p>
+          <p className="text-foreground/50 text-sm">Drag and drop or click to browse</p>
           <input type="file" multiple className="hidden" />
         </div>
 
@@ -159,7 +159,7 @@ export default function RequestPage() {
           {loading ? 'Submitting...' : 'Submit Request'}
         </Button>
 
-        <p className="text-center text-sm text-text/70">
+        <p className="text-center text-sm text-foreground/70">
           By submitting this form, you agree to our{' '}
           <a href="/terms" className="text-accent hover:underline">Terms of Service</a>
           {' '}and{' '}

@@ -27,7 +27,7 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-text hover:bg-accent/10 hover:text-accent transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-accent/10 hover:text-accent transition-colors"
                 >
                   <item.icon size={20} />
                   <span>{item.label}</span>
@@ -38,7 +38,7 @@ export default function AdminLayout({
             <div className="mt-8 pt-8 border-t border-border">
               <Link
                 href="/"
-                className="flex items-center gap-3 px-4 py-3 rounded-lg text-text hover:bg-accent/10 hover:text-accent transition-colors"
+                className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-accent/10 hover:text-accent transition-colors"
               >
                 <LogOut size={20} />
                 <span>Back to Site</span>

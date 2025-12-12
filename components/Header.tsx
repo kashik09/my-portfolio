@@ -39,7 +39,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-text hover:text-accent transition font-medium"
+                className="text-foreground hover:text-accent transition font-medium"
               >
                 {link.label}
               </Link>
@@ -52,7 +52,7 @@ export default function Header() {
             <select
               value={theme}
               onChange={(e) => setTheme(e.target.value as any)}
-              className="px-3 py-2 bg-secondary border border-border rounded-lg text-sm font-medium text-text focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+              className="px-3 py-2 bg-secondary border border-border rounded-lg text-sm font-medium text-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
             >
               {themes.map((t) => (
                 <option key={t.value} value={t.value}>
@@ -67,7 +67,7 @@ export default function Header() {
               className="p-2 rounded-lg bg-secondary border border-border hover:bg-accent/10 hover:border-accent transition"
               aria-label="Toggle dark mode"
             >
-              {mode === 'dark' ? <Sun size={20} className="text-text" /> : <Moon size={20} className="text-text" />}
+              {mode === 'dark' ? <Sun size={20} className="text-foreground" /> : <Moon size={20} className="text-foreground" />}
             </button>
 
             {/* Mobile Menu Button */}
@@ -76,7 +76,7 @@ export default function Header() {
               className="md:hidden p-2 rounded-lg bg-secondary border border-border hover:bg-accent/10 transition"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X size={20} className="text-text" /> : <Menu size={20} className="text-text" />}
+              {mobileMenuOpen ? <X size={20} className="text-foreground" /> : <Menu size={20} className="text-foreground" />}
             </button>
           </div>
         </div>
@@ -90,7 +90,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 text-text hover:text-accent hover:bg-secondary rounded-lg transition font-medium"
+                  className="px-4 py-2 text-foreground hover:text-accent hover:bg-secondary rounded-lg transition font-medium"
                 >
                   {link.label}
                 </Link>
