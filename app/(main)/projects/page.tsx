@@ -5,16 +5,20 @@ import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 
-// Define the Project type
+// Define the Project type to match API response
 interface Project {
   id: string
+  slug: string
   title: string
   description: string
   category: 'PERSONAL' | 'CLASS'
+  tags: string[]
   techStack: string[]
-  imageUrl: string
-  demoUrl?: string
+  thumbnail: string
+  liveUrl?: string
   githubUrl?: string
+  featured: boolean
+  publishedAt: string | null
 }
 
 export default function ProjectsPage() {
@@ -39,13 +43,13 @@ export default function ProjectsPage() {
       if (searchQuery) params.append('search', searchQuery)
 
       const response = await fetch(`/api/projects?${params}`)
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch projects')
       }
 
       const data = await response.json()
-      setProjects(data.projects || [])
+      setProjects(data.data || [])
     } catch (err) {
       console.error('Error fetching projects:', err)
       setError('Failed to load projects. Please try again.')
@@ -124,7 +128,7 @@ export default function ProjectsPage() {
             >
               <div className="aspect-video overflow-hidden bg-accent/10">
                 <img
-                  src={project.imageUrl}
+                  src={project.thumbnail}
                   alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
@@ -149,9 +153,9 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <div className="flex gap-3">
-                  {project.demoUrl && (
-                    
-                      href={project.demoUrl}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-accent hover:underline font-medium"
@@ -160,7 +164,7 @@ export default function ProjectsPage() {
                     </a>
                   )}
                   {project.githubUrl && (
-                    
+                    <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
