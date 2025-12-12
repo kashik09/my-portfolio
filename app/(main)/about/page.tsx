@@ -31,14 +31,18 @@ export default function AboutPage() {
         <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-accent">
           <Image
             src="/avatar.jpg"
-            alt="Kashi"
+            alt="Ashanti Kweyu (Kashi)"
             fill
             className="object-cover"
           />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground">About Me</h1>
-        <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
-          A passionate developer building innovative solutions with modern web technologies
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">Ashanti Kweyu</h1>
+        <p className="text-xl text-accent font-medium">Kashi</p>
+        <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+          Junior Developer from Kampala, Uganda
+        </p>
+        <p className="text-base text-foreground/60">
+          Building innovative solutions with modern web technologies
         </p>
       </section>
 
@@ -47,14 +51,20 @@ export default function AboutPage() {
         <h2 className="text-3xl font-bold text-foreground mb-6">My Story</h2>
         <div className="prose prose-lg">
           <p className="text-foreground/80 leading-relaxed mb-4">
-            Hey! I'm Kashi, a software development student at Moringa School currently working through 
-            Phase 0 Module 2 JavaScript coursework. I work as a junior developer for a financial technology 
-            company, where I develop features like savings goal tracking systems for mobile banking applications.
+            Hey! I'm Ashanti Kweyu (you can call me Kashi), a software development student at Moringa School
+            based in Kampala, Uganda. I'm currently working through Phase 0 Module 2 JavaScript coursework
+            while working as a junior developer for a financial technology company, where I develop features
+            like savings goal tracking systems for mobile banking applications.
+          </p>
+          <p className="text-foreground/80 leading-relaxed mb-4">
+            I have ADHD and have developed effective strategies for managing my learning and development work,
+            including breaking tasks into small commits with frequent dopamine rewards and using gamified approaches
+            to maintain focus. These strategies help me stay productive and deliver quality work consistently.
           </p>
           <p className="text-foreground/80 leading-relaxed">
-            I have ADHD and have developed effective strategies for managing my learning and development work, 
-            including breaking tasks into small commits with frequent dopamine rewards and using gamified approaches 
-            to maintain focus. My strong Christian faith influences my decision-making and relationships.
+            My strong Christian faith is an important part of who I am and influences my decision-making,
+            relationships, and approach to both work and life. I believe in building technology that makes
+            a positive impact and treating others with respect and integrity.
           </p>
         </div>
       </section>
