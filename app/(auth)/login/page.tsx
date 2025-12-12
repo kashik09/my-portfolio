@@ -41,8 +41,8 @@ export default function LoginPage() {
   return (
     <div className="w-full max-w-md p-8 bg-secondary rounded-2xl shadow-xl border border-border">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-text mb-2">Welcome Back</h1>
-        <p className="text-text/70">Sign in to your account</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
+        <p className="text-foreground/70">Sign in to your account</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,7 +71,7 @@ export default function LoginPage() {
         />
 
         <div className="flex items-center justify-between text-sm">
-          <label className="flex items-center gap-2 text-text">
+          <label className="flex items-center gap-2 text-foreground">
             <input type="checkbox" className="rounded" />
             Remember me
           </label>
@@ -93,7 +93,7 @@ export default function LoginPage() {
 
       <div className="my-6 flex items-center gap-4">
         <div className="flex-1 h-px bg-border"></div>
-        <span className="text-text/50 text-sm">OR</span>
+        <span className="text-foreground/50 text-sm">OR</span>
         <div className="flex-1 h-px bg-border"></div>
       </div>
 
@@ -112,7 +112,7 @@ export default function LoginPage() {
         Continue with Google
       </Button>
 
-      <p className="mt-6 text-center text-sm text-text/70">
+      <p className="mt-6 text-center text-sm text-foreground/70">
         Don't have an account?{' '}
         <Link href="/signup" className="text-accent hover:underline font-medium">
           Sign up

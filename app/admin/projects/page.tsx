@@ -25,8 +25,8 @@ export default function AdminProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-text">Projects</h1>
-          <p className="text-text/70">Manage your portfolio projects</p>
+          <h1 className="text-3xl font-bold text-foreground">Projects</h1>
+          <p className="text-foreground/70">Manage your portfolio projects</p>
         </div>
         <Link
           href="/admin/projects/new"
@@ -39,7 +39,7 @@ export default function AdminProjectsPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text/50" size={20} />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50" size={20} />
         <input
           type="text"
           placeholder="Search projects..."
@@ -55,18 +55,18 @@ export default function AdminProjectsPage() {
           <table className="w-full">
             <thead className="bg-primary border-b border-border">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text">Title</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text">Category</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text">Views</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-text">Created</th>
-                <th className="px-6 py-4 text-right text-sm font-semibold text-text">Actions</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Title</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Category</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Status</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Views</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Created</th>
+                <th className="px-6 py-4 text-right text-sm font-semibold text-foreground">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {projects.map((project) => (
                 <tr key={project.id} className="hover:bg-primary/50 transition">
-                  <td className="px-6 py-4 text-text font-medium">{project.title}</td>
+                  <td className="px-6 py-4 text-foreground font-medium">{project.title}</td>
                   <td className="px-6 py-4">
                     <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
                       {project.category}
@@ -77,8 +77,8 @@ export default function AdminProjectsPage() {
                       {project.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-text/70">{project.views}</td>
-                  <td className="px-6 py-4 text-text/70">{project.createdAt}</td>
+                  <td className="px-6 py-4 text-foreground/70">{project.views}</td>
+                  <td className="px-6 py-4 text-foreground/70">{project.createdAt}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-2">
                       <button className="p-2 hover:bg-accent/10 text-accent rounded-lg transition">

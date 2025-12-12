@@ -70,8 +70,8 @@ export default function SignupPage() {
   return (
     <div className="w-full max-w-md p-8 bg-secondary rounded-2xl shadow-xl border border-border">
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-text mb-2">Create Account</h1>
-        <p className="text-text/70">Sign up to get started</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Create Account</h1>
+        <p className="text-foreground/70">Sign up to get started</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -126,7 +126,7 @@ export default function SignupPage() {
                   />
                 ))}
               </div>
-              <p className="text-xs text-text/70">
+              <p className="text-xs text-foreground/70">
                 Password strength: {strength.label}
               </p>
             </div>
@@ -142,7 +142,7 @@ export default function SignupPage() {
           required
         />
 
-        <label className="flex items-start gap-2 text-sm text-text">
+        <label className="flex items-start gap-2 text-sm text-foreground">
           <input
             type="checkbox"
             checked={agreedToTerms}
@@ -172,7 +172,7 @@ export default function SignupPage() {
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-text/70">
+      <p className="mt-6 text-center text-sm text-foreground/70">
         Already have an account?{' '}
         <Link href="/login" className="text-accent hover:underline font-medium">
           Sign in

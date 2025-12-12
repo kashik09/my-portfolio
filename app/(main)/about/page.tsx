@@ -36,22 +36,22 @@ export default function AboutPage() {
             className="object-cover"
           />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold text-text">About Me</h1>
-        <p className="text-xl text-text/70 max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">About Me</h1>
+        <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
           A passionate developer building innovative solutions with modern web technologies
         </p>
       </section>
 
       {/* Bio Section */}
       <section className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-text mb-6">My Story</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-6">My Story</h2>
         <div className="prose prose-lg">
-          <p className="text-text/80 leading-relaxed mb-4">
+          <p className="text-foreground/80 leading-relaxed mb-4">
             Hey! I'm Kashi, a software development student at Moringa School currently working through 
             Phase 0 Module 2 JavaScript coursework. I work as a junior developer for a financial technology 
             company, where I develop features like savings goal tracking systems for mobile banking applications.
           </p>
-          <p className="text-text/80 leading-relaxed">
+          <p className="text-foreground/80 leading-relaxed">
             I have ADHD and have developed effective strategies for managing my learning and development work, 
             including breaking tasks into small commits with frequent dopamine rewards and using gamified approaches 
             to maintain focus. My strong Christian faith influences my decision-making and relationships.
@@ -61,7 +61,7 @@ export default function AboutPage() {
 
       {/* Skills Grid */}
       <section>
-        <h2 className="text-3xl font-bold text-text mb-8 text-center">Skills & Technologies</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Skills & Technologies</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skills.map((category) => (
             <div 
@@ -72,11 +72,11 @@ export default function AboutPage() {
                 <div className="p-3 bg-accent/10 rounded-lg">
                   <category.icon className="text-accent" size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-text">{category.name}</h3>
+                <h3 className="text-xl font-bold text-foreground">{category.name}</h3>
               </div>
               <ul className="space-y-2">
                 {category.items.map((item) => (
-                  <li key={item} className="text-text/70 flex items-center gap-2">
+                  <li key={item} className="text-foreground/70 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
                     {item}
                   </li>
@@ -89,7 +89,7 @@ export default function AboutPage() {
 
       {/* Experience Timeline */}
       <section>
-        <h2 className="text-3xl font-bold text-text mb-8 text-center">Experience</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Experience</h2>
         <div className="max-w-3xl mx-auto space-y-6">
           {experience.map((exp, index) => (
             <div 
@@ -99,11 +99,11 @@ export default function AboutPage() {
               <div className="absolute left-0 top-0 w-4 h-4 -translate-x-[9px] bg-accent rounded-full border-4 border-primary"></div>
               <div className="bg-secondary p-6 rounded-2xl border border-border">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-xl font-bold text-text">{exp.title}</h3>
+                  <h3 className="text-xl font-bold text-foreground">{exp.title}</h3>
                   <span className="text-sm text-accent font-medium">{exp.period}</span>
                 </div>
-                <p className="text-text/70 font-medium mb-2">{exp.company}</p>
-                <p className="text-text/80">{exp.description}</p>
+                <p className="text-foreground/70 font-medium mb-2">{exp.company}</p>
+                <p className="text-foreground/80">{exp.description}</p>
               </div>
             </div>
           ))}
@@ -112,7 +112,7 @@ export default function AboutPage() {
 
       {/* Social Links */}
       <section className="text-center">
-        <h2 className="text-3xl font-bold text-text mb-6">Let's Connect</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-6">Let's Connect</h2>
         <div className="flex items-center justify-center gap-4">
           <a 
             href="https://github.com/kashik09"

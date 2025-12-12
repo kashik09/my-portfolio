@@ -58,8 +58,8 @@ export default function ServicesPage() {
     <div className="space-y-16 py-12">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-text">Services</h1>
-        <p className="text-xl text-text/70 max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">Services</h1>
+        <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
           Professional development services tailored to your needs
         </p>
       </div>
@@ -76,16 +76,16 @@ export default function ServicesPage() {
                 <service.icon className="text-accent" size={32} />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-text mb-2">{service.title}</h3>
+                <h3 className="text-2xl font-bold text-foreground mb-2">{service.title}</h3>
                 <p className="text-accent font-semibold">{service.pricing}</p>
               </div>
             </div>
             
-            <p className="text-text/70 mb-6">{service.description}</p>
+            <p className="text-foreground/70 mb-6">{service.description}</p>
             
             <ul className="space-y-3">
               {service.features.map((feature) => (
-                <li key={feature} className="flex items-center gap-3 text-text/80">
+                <li key={feature} className="flex items-center gap-3 text-foreground/80">
                   <Check className="text-accent flex-shrink-0" size={20} />
                   <span>{feature}</span>
                 </li>
@@ -110,23 +110,23 @@ export default function ServicesPage() {
 
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-text mb-8 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
         <div className="space-y-6">
           <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-text mb-2">What's your typical turnaround time?</h3>
-            <p className="text-text/70">
+            <h3 className="text-xl font-bold text-foreground mb-2">What's your typical turnaround time?</h3>
+            <p className="text-foreground/70">
               Most projects take 2-4 weeks depending on complexity. Rush delivery is available for an additional fee.
             </p>
           </div>
           <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-text mb-2">Do you offer maintenance and support?</h3>
-            <p className="text-text/70">
+            <h3 className="text-xl font-bold text-foreground mb-2">Do you offer maintenance and support?</h3>
+            <p className="text-foreground/70">
               Yes! I offer ongoing maintenance packages to keep your project running smoothly and up-to-date.
             </p>
           </div>
           <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-text mb-2">What payment methods do you accept?</h3>
-            <p className="text-text/70">
+            <h3 className="text-xl font-bold text-foreground mb-2">What payment methods do you accept?</h3>
+            <p className="text-foreground/70">
               I accept bank transfers, PayPal, and most major credit cards. Payment terms are typically 50% upfront, 50% on completion.
             </p>
           </div>

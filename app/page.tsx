@@ -10,10 +10,10 @@ export default function HomePage() {
         <div className="inline-block px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium mb-4">
           ✨ Available for freelance projects
         </div>
-        <h1 className="text-5xl md:text-7xl font-bold text-text">
+        <h1 className="text-5xl md:text-7xl font-bold text-foreground">
           Hi, I'm <span className="text-accent">Kashi</span>
         </h1>
-        <p className="text-2xl md:text-3xl text-text/70 max-w-3xl mx-auto">
+        <p className="text-2xl md:text-3xl text-foreground/70 max-w-3xl mx-auto">
           A developer building innovative solutions with modern web technologies
         </p>
         <div className="flex gap-4 justify-center mt-8">
@@ -37,8 +37,8 @@ export default function HomePage() {
           <div className="inline-block p-4 bg-accent/10 rounded-xl mb-4">
             <Code2 className="text-accent" size={32} />
           </div>
-          <h3 className="text-xl font-bold text-text mb-2">Clean Code</h3>
-          <p className="text-text/70">
+          <h3 className="text-xl font-bold text-foreground mb-2">Clean Code</h3>
+          <p className="text-foreground/70">
             Writing maintainable, scalable, and efficient code following best practices
           </p>
         </div>
@@ -47,8 +47,8 @@ export default function HomePage() {
           <div className="inline-block p-4 bg-accent/10 rounded-xl mb-4">
             <Palette className="text-accent" size={32} />
           </div>
-          <h3 className="text-xl font-bold text-text mb-2">Modern Design</h3>
-          <p className="text-text/70">
+          <h3 className="text-xl font-bold text-foreground mb-2">Modern Design</h3>
+          <p className="text-foreground/70">
             Creating beautiful, responsive interfaces that users love
           </p>
         </div>
@@ -57,8 +57,8 @@ export default function HomePage() {
           <div className="inline-block p-4 bg-accent/10 rounded-xl mb-4">
             <Zap className="text-accent" size={32} />
           </div>
-          <h3 className="text-xl font-bold text-text mb-2">Fast Performance</h3>
-          <p className="text-text/70">
+          <h3 className="text-xl font-bold text-foreground mb-2">Fast Performance</h3>
+          <p className="text-foreground/70">
             Optimized applications that load quickly and run smoothly
           </p>
         </div>

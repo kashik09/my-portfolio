@@ -42,8 +42,8 @@ export default function AdminPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-text mb-2">Dashboard</h1>
-        <p className="text-text/70">Welcome back! Here's your site overview.</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Dashboard</h1>
+        <p className="text-foreground/70">Welcome back! Here's your site overview.</p>
       </div>
 
       {/* Stats Grid */}
@@ -59,15 +59,15 @@ export default function AdminPage() {
                 <stat.icon className={stat.color} size={24} />
               </div>
             </div>
-            <p className="text-text/70 text-sm mb-1">{stat.label}</p>
-            <p className="text-3xl font-bold text-text">{stat.value}</p>
+            <p className="text-foreground/70 text-sm mb-1">{stat.label}</p>
+            <p className="text-3xl font-bold text-foreground">{stat.value}</p>
           </Link>
         ))}
       </div>
 
       {/* Quick Actions */}
       <div className="bg-secondary rounded-2xl p-6 border border-border">
-        <h2 className="text-xl font-bold text-text mb-4">Quick Actions</h2>
+        <h2 className="text-xl font-bold text-foreground mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
             href="/admin/projects/new"
@@ -83,7 +83,7 @@ export default function AdminPage() {
           </Link>
           <Link
             href="/"
-            className="px-6 py-4 bg-secondary border-2 border-border text-text rounded-lg hover:bg-accent/10 transition text-center font-medium"
+            className="px-6 py-4 bg-secondary border-2 border-border text-foreground rounded-lg hover:bg-accent/10 transition text-center font-medium"
           >
             Visit Site
           </Link>
@@ -92,27 +92,27 @@ export default function AdminPage() {
 
       {/* Recent Activity */}
       <div className="bg-secondary rounded-2xl p-6 border border-border">
-        <h2 className="text-xl font-bold text-text mb-4">Recent Activity</h2>
+        <h2 className="text-xl font-bold text-foreground mb-4">Recent Activity</h2>
         <div className="space-y-4">
           <div className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
             <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
             <div className="flex-1">
-              <p className="text-text font-medium">New project request received</p>
-              <p className="text-text/70 text-sm">2 hours ago</p>
+              <p className="text-foreground font-medium">New project request received</p>
+              <p className="text-foreground/70 text-sm">2 hours ago</p>
             </div>
           </div>
           <div className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
             <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
             <div className="flex-1">
-              <p className="text-text font-medium">New user registered</p>
-              <p className="text-text/70 text-sm">5 hours ago</p>
+              <p className="text-foreground font-medium">New user registered</p>
+              <p className="text-foreground/70 text-sm">5 hours ago</p>
             </div>
           </div>
           <div className="flex items-start gap-4 pb-4 border-b border-border last:border-0 last:pb-0">
             <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
             <div className="flex-1">
-              <p className="text-text font-medium">Calculator project viewed 45 times</p>
-              <p className="text-text/70 text-sm">1 day ago</p>
+              <p className="text-foreground font-medium">Calculator project viewed 45 times</p>
+              <p className="text-foreground/70 text-sm">1 day ago</p>
             </div>
           </div>
         </div>
