@@ -9,9 +9,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="text-xl font-bold text-accent mb-3">KashiCoding</h3>
+            <h3 className="text-xl font-bold text-accent mb-3">Kashi Kweyu</h3>
             <p className="text-foreground-muted text-sm">
-              Building innovative solutions with modern web technologies
+              Junior Developer from Kampala, Uganda
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-border text-center">
           <p className="text-foreground-muted text-sm">
-            © {currentYear} KashiCoding. Built with Next.js & Tailwind CSS.
+            © {currentYear} Kashi Kweyu. Built with Next.js & Tailwind CSS.
           </p>
         </div>
       </div>
