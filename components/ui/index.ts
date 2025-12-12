@@ -2,4 +2,4 @@
 export { Button } from './Button'
 export { Card, CardHeader, CardContent } from './Card'
 export { Input } from './Input'
-export { Toast } from './Toast'
+export { ToastProvider, useToast } from './Toast'
