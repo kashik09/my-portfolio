@@ -1,15 +1,18 @@
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen">
-      {/* TODO: Add navigation header */}
-      <main className="container mx-auto px-4 py-8">
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container mx-auto px-4 py-8">
         {children}
       </main>
-      {/* TODO: Add footer */}
+      <Footer />
     </div>
   )
 }

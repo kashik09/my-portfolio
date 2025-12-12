@@ -3,19 +3,17 @@
 import { useState } from 'react'
 import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { Input } from '@/components/ui/Input'
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState<'ALL' | 'PERSONAL' | 'CLASS'>('ALL')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // TODO: Fetch from database
   const projects = [
     {
       id: 1,
       title: 'JS Calculator',
       description: 'A feature-rich calculator with draggable modals and multiple themes',
-      category: 'CLASS',
+      category: 'CLASS' as const,
       techStack: ['Next.js', 'React', 'Tailwind CSS'],
       imageUrl: 'https://via.placeholder.com/400x300',
       demoUrl: '',
@@ -25,22 +23,19 @@ export default function ProjectsPage() {
 
   const filteredProjects = projects.filter(project => {
     const matchesFilter = filter === 'ALL' || project.category === filter
-    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
   return (
     <div className="space-y-8 py-12">
-      {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl md:text-5xl font-bold text-text">My Projects</h1>
         <p className="text-xl text-text/70 max-w-2xl mx-auto">
-          A collection of my work showcasing various technologies and problem-solving approaches
+          A collection of my work showcasing various technologies
         </p>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
         <div className="flex gap-2">
           <Button
@@ -70,12 +65,11 @@ export default function ProjectsPage() {
             placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-secondary border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+            className="w-full pl-10 pr-4 py-2 bg-secondary border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition text-text"
           />
         </div>
       </div>
 
-      {/* Projects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProjects.map((project) => (
           <div
@@ -103,7 +97,7 @@ export default function ProjectsPage() {
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
                 {project.techStack.map((tech) => (
-                  <span key={tech} className="text-xs px-2 py-1 bg-primary rounded">
+                  <span key={tech} className="text-xs px-2 py-1 bg-primary rounded text-text">
                     {tech}
                   </span>
                 ))}
@@ -114,7 +108,7 @@ export default function ProjectsPage() {
                     href={project.demoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-accent hover:underline"
+                    className="text-sm text-accent hover:underline font-medium"
                   >
                     Live Demo →
                   </a>
@@ -124,7 +118,7 @@ export default function ProjectsPage() {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-text/70 hover:text-text"
+                    className="text-sm text-text/70 hover:text-text font-medium"
                   >
                     GitHub
                   </a>
@@ -135,7 +129,6 @@ export default function ProjectsPage() {
         ))}
       </div>
 
-      {/* Empty State */}
       {filteredProjects.length === 0 && (
         <div className="text-center py-12">
           <p className="text-text/70 text-lg">No projects found</p>
