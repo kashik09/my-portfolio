@@ -2,19 +2,18 @@
 
 import Link from 'next/link'
 import { useTheme } from '@/lib/ThemeContext'
-import { Moon, Sun, Menu, X } from 'lucide-react'
+import { Menu, X, Code2 } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Header() {
-  const { theme, mode, setTheme, toggleMode } = useTheme()
+  const { theme, setTheme } = useTheme()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const themes = [
-    { value: 'pastel', label: 'Pastel', emoji: '🌸' },
-    { value: 'neon', label: 'Neon', emoji: '⚡' },
-    { value: 'minimal', label: 'Minimal', emoji: '⚪' },
-    { value: 'retro', label: 'Retro', emoji: '🌈' },
-    { value: 'nature', label: 'Nature', emoji: '🌿' }
+    { value: 'monokai', label: 'Monokai', emoji: '🌙' },
+    { value: 'one-dark-pro', label: 'One Dark Pro', emoji: '💎' },
+    { value: 'dracula', label: 'Dracula', emoji: '🧛' },
+    { value: 'github-light', label: 'GitHub Light', emoji: '☀️' }
   ]
 
   const navLinks = [
@@ -29,8 +28,9 @@ export default function Header() {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold text-accent hover:opacity-80 transition">
-            KashiCoding
+          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-accent hover:opacity-80 transition">
+            <Code2 size={28} />
+            <span>KashiCoding</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -60,15 +60,6 @@ export default function Header() {
                 </option>
               ))}
             </select>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleMode}
-              className="p-2 rounded-lg bg-secondary border border-border hover:bg-accent/10 hover:border-accent transition"
-              aria-label="Toggle dark mode"
-            >
-              {mode === 'dark' ? <Sun size={20} className="text-foreground" /> : <Moon size={20} className="text-foreground" />}
-            </button>
 
             {/* Mobile Menu Button */}
             <button

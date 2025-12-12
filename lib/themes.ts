@@ -1,12 +1,11 @@
 /**
- * Multi-Theme System
+ * VS Code-Inspired Theme System
  *
- * Each theme has light and dark variants with RGB color values
- * for Tailwind CSS alpha channel support
+ * Professional color schemes inspired by popular VS Code themes
+ * Each theme is self-contained (no separate light/dark modes)
  */
 
-export type ThemeMode = 'light' | 'dark'
-export type ThemeName = 'pastel' | 'neon' | 'minimal' | 'retro' | 'nature'
+export type ThemeName = 'monokai' | 'one-dark-pro' | 'dracula' | 'github-light'
 
 export interface ThemeColors {
   // Main colors
@@ -44,8 +43,7 @@ export interface Theme {
   name: ThemeName
   displayName: string
   description: string
-  light: ThemeColors
-  dark: ThemeColors
+  colors: ThemeColors
   radius: {
     sm: string
     md: string
@@ -54,113 +52,33 @@ export interface Theme {
 }
 
 // ============================================
-// PASTEL THEME - Soft, dreamy colors
+// MONOKAI THEME - Classic dark theme
 // ============================================
-export const pastelTheme: Theme = {
-  name: 'pastel',
-  displayName: 'Pastel Dreams',
-  description: 'Soft, calming colors with a dreamy aesthetic',
-  light: {
-    primary: '203 166 247',           // Soft purple
-    'primary-foreground': '255 255 255',
-    secondary: '162 210 255',         // Light blue
-    'secondary-foreground': '30 41 59',
-    accent: '255 183 197',            // Pink
-    'accent-secondary': '255 218 185', // Peach
-    'accent-foreground': '255 255 255',
-    background: '255 250 250',        // Off-white
-    'background-secondary': '249 245 247',
-    foreground: '51 51 51',
-    'foreground-muted': '115 115 115',
-    border: '229 212 232',
-    'border-light': '243 232 245',
-    card: '255 255 255',
-    'card-hover': '252 247 252',
-    muted: '241 237 242',
-    destructive: '239 68 68',
-    success: '134 239 172',
-    warning: '251 191 36',
-    info: '96 165 250',
-  },
-  dark: {
-    primary: '167 139 250',           // Bright purple
-    'primary-foreground': '17 24 39',
-    secondary: '96 165 250',          // Blue
-    'secondary-foreground': '17 24 39',
-    accent: '251 113 133',            // Rose
-    'accent-secondary': '253 164 175', // Light pink
-    'accent-foreground': '17 24 39',
-    background: '24 24 27',
-    'background-secondary': '39 39 42',
-    foreground: '250 250 250',
-    'foreground-muted': '161 161 170',
-    border: '63 63 70',
-    'border-light': '82 82 91',
-    card: '39 39 42',
-    'card-hover': '52 52 58',
-    muted: '63 63 70',
-    destructive: '239 68 68',
-    success: '74 222 128',
-    warning: '250 204 21',
-    info: '147 197 253',
-  },
-  radius: {
-    sm: '0.375rem',
-    md: '0.5rem',
-    lg: '0.75rem',
-  },
-}
-
-// ============================================
-// NEON THEME - Vibrant, electric colors
-// ============================================
-export const neonTheme: Theme = {
-  name: 'neon',
-  displayName: 'Neon Nights',
-  description: 'Electric, high-contrast colors with a cyberpunk vibe',
-  light: {
-    primary: '236 72 153',            // Hot pink
-    'primary-foreground': '255 255 255',
-    secondary: '168 85 247',          // Purple
-    'secondary-foreground': '255 255 255',
-    accent: '34 211 238',             // Cyan
-    'accent-secondary': '132 204 22',  // Lime
-    'accent-foreground': '17 24 39',
-    background: '255 255 255',
-    'background-secondary': '249 250 251',
-    foreground: '17 24 39',
-    'foreground-muted': '100 116 139',
-    border: '226 232 240',
-    'border-light': '241 245 249',
-    card: '255 255 255',
-    'card-hover': '252 252 253',
-    muted: '241 245 249',
-    destructive: '239 68 68',
-    success: '34 197 94',
-    warning: '234 179 8',
-    info: '59 130 246',
-  },
-  dark: {
-    primary: '236 72 153',            // Hot pink
-    'primary-foreground': '255 255 255',
-    secondary: '168 85 247',          // Purple
-    'secondary-foreground': '255 255 255',
-    accent: '6 182 212',              // Bright cyan
-    'accent-secondary': '163 230 53',  // Bright lime
-    'accent-foreground': '17 24 39',
-    background: '10 10 10',
-    'background-secondary': '23 23 23',
-    foreground: '250 250 250',
-    'foreground-muted': '161 161 170',
-    border: '39 39 42',
-    'border-light': '63 63 70',
-    card: '23 23 23',
-    'card-hover': '39 39 42',
-    muted: '39 39 42',
-    destructive: '239 68 68',
-    success: '34 197 94',
-    warning: '234 179 8',
-    info: '59 130 246',
+export const monokaiTheme: Theme = {
+  name: 'monokai',
+  displayName: 'Monokai',
+  description: 'Classic dark theme with vibrant colors',
+  colors: {
+    primary: '230 219 116',           // #E6DB74 - Yellow
+    'primary-foreground': '39 40 34',
+    secondary: '249 38 114',          // #F92672 - Pink/Magenta
+    'secondary-foreground': '248 248 242',
+    accent: '166 226 46',             // #A6E22E - Green
+    'accent-secondary': '102 217 239', // #66D9EF - Blue
+    'accent-foreground': '39 40 34',
+    background: '39 40 34',           // #272822
+    'background-secondary': '32 33 27',
+    foreground: '248 248 242',        // #F8F8F2
+    'foreground-muted': '190 190 190',
+    border: '60 60 55',
+    'border-light': '75 76 70',
+    card: '46 47 41',
+    'card-hover': '52 53 47',
+    muted: '60 60 55',
+    destructive: '249 38 114',        // Pink for errors
+    success: '166 226 46',            // Green
+    warning: '253 151 31',            // #FD971F - Orange
+    info: '102 217 239',              // Blue
   },
   radius: {
     sm: '0.25rem',
@@ -170,171 +88,105 @@ export const neonTheme: Theme = {
 }
 
 // ============================================
-// MINIMAL THEME - Clean, professional
+// ONE DARK PRO THEME - Modern dark theme
 // ============================================
-export const minimalTheme: Theme = {
-  name: 'minimal',
-  displayName: 'Minimal',
-  description: 'Clean, minimalist design with neutral tones',
-  light: {
-    primary: '15 23 42',              // Slate
+export const oneDarkProTheme: Theme = {
+  name: 'one-dark-pro',
+  displayName: 'One Dark Pro',
+  description: 'Popular dark theme from Atom editor',
+  colors: {
+    primary: '97 175 239',            // #61AFEF - Blue
     'primary-foreground': '255 255 255',
-    secondary: '71 85 105',           // Gray
+    secondary: '198 120 221',         // #C678DD - Purple
     'secondary-foreground': '255 255 255',
-    accent: '100 116 139',            // Light gray
-    'accent-secondary': '148 163 184', // Lighter gray
+    accent: '152 195 121',            // #98C379 - Green
+    'accent-secondary': '224 108 117', // #E06C75 - Red
     'accent-foreground': '255 255 255',
-    background: '255 255 255',
-    'background-secondary': '248 250 252',
-    foreground: '15 23 42',
-    'foreground-muted': '100 116 139',
-    border: '226 232 240',
-    'border-light': '241 245 249',
-    card: '255 255 255',
-    'card-hover': '248 250 252',
-    muted: '241 245 249',
-    destructive: '220 38 38',
-    success: '22 163 74',
-    warning: '202 138 4',
-    info: '37 99 235',
-  },
-  dark: {
-    primary: '248 250 252',           // Light slate
-    'primary-foreground': '15 23 42',
-    secondary: '203 213 225',         // Light gray
-    'secondary-foreground': '15 23 42',
-    accent: '148 163 184',            // Gray
-    'accent-secondary': '203 213 225', // Light gray
-    'accent-foreground': '15 23 42',
-    background: '15 23 42',
-    'background-secondary': '30 41 59',
-    foreground: '248 250 252',
-    'foreground-muted': '148 163 184',
-    border: '51 65 85',
-    'border-light': '71 85 105',
-    card: '30 41 59',
-    'card-hover': '51 65 85',
-    muted: '51 65 85',
-    destructive: '239 68 68',
-    success: '34 197 94',
-    warning: '234 179 8',
-    info: '59 130 246',
+    background: '40 44 52',           // #282C34
+    'background-secondary': '33 37 43',
+    foreground: '171 178 191',        // #ABB2BF
+    'foreground-muted': '130 137 150',
+    border: '60 65 75',
+    'border-light': '75 80 90',
+    card: '46 50 58',
+    'card-hover': '52 56 64',
+    muted: '60 65 75',
+    destructive: '224 108 117',       // Red
+    success: '152 195 121',           // Green
+    warning: '209 154 102',           // #D19A66 - Orange
+    info: '86 182 194',               // #56B6C2 - Cyan
   },
   radius: {
-    sm: '0.125rem',
-    md: '0.25rem',
-    lg: '0.375rem',
+    sm: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
   },
 }
 
 // ============================================
-// RETRO THEME - Vintage, warm colors
+// DRACULA THEME - Elegant dark theme
 // ============================================
-export const retroTheme: Theme = {
-  name: 'retro',
-  displayName: 'Retro Wave',
-  description: 'Nostalgic colors inspired by the 80s and 90s',
-  light: {
-    primary: '234 88 12',             // Orange
+export const draculaTheme: Theme = {
+  name: 'dracula',
+  displayName: 'Dracula',
+  description: 'Elegant dark theme with purple accents',
+  colors: {
+    primary: '189 147 249',           // #BD93F9 - Purple
     'primary-foreground': '255 255 255',
-    secondary: '220 38 38',           // Red
+    secondary: '255 121 198',         // #FF79C6 - Pink
     'secondary-foreground': '255 255 255',
-    accent: '234 179 8',              // Yellow
-    'accent-secondary': '168 85 247',  // Purple
-    'accent-foreground': '255 255 255',
-    background: '254 252 232',        // Cream
-    'background-secondary': '254 249 195',
-    foreground: '71 40 4',
-    'foreground-muted': '120 53 15',
-    border: '253 224 71',
-    'border-light': '254 240 138',
-    card: '255 255 255',
-    'card-hover': '254 252 232',
-    muted: '254 243 199',
-    destructive: '220 38 38',
-    success: '22 163 74',
-    warning: '234 179 8',
-    info: '59 130 246',
-  },
-  dark: {
-    primary: '251 146 60',            // Orange
-    'primary-foreground': '17 24 39',
-    secondary: '239 68 68',           // Red
-    'secondary-foreground': '255 255 255',
-    accent: '250 204 21',             // Yellow
-    'accent-secondary': '192 132 252', // Purple
-    'accent-foreground': '17 24 39',
-    background: '23 23 23',
-    'background-secondary': '38 38 38',
-    foreground: '254 243 199',
-    'foreground-muted': '212 212 216',
-    border: '63 63 70',
-    'border-light': '82 82 91',
-    card: '38 38 38',
-    'card-hover': '52 52 58',
-    muted: '63 63 70',
-    destructive: '239 68 68',
-    success: '34 197 94',
-    warning: '250 204 21',
-    info: '96 165 250',
+    accent: '80 250 123',             // #50FA7B - Green
+    'accent-secondary': '139 233 253', // #8BE9FD - Cyan
+    'accent-foreground': '40 42 54',
+    background: '40 42 54',           // #282A36
+    'background-secondary': '33 34 44',
+    foreground: '248 248 242',        // #F8F8F2
+    'foreground-muted': '190 190 190',
+    border: '68 71 90',
+    'border-light': '85 88 107',
+    card: '46 48 60',
+    'card-hover': '52 54 66',
+    muted: '68 71 90',
+    destructive: '255 85 85',         // #FF5555 - Red
+    success: '80 250 123',            // Green
+    warning: '241 250 140',           // #F1FA8C - Yellow
+    info: '139 233 253',              // Cyan
   },
   radius: {
-    sm: '0.5rem',
-    md: '0.75rem',
-    lg: '1rem',
+    sm: '0.25rem',
+    md: '0.375rem',
+    lg: '0.5rem',
   },
 }
 
 // ============================================
-// NATURE THEME - Earthy, organic colors
+// GITHUB LIGHT THEME - Clean light theme
 // ============================================
-export const natureTheme: Theme = {
-  name: 'nature',
-  displayName: 'Nature',
-  description: 'Earthy, organic colors inspired by nature',
-  light: {
-    primary: '22 163 74',             // Green
+export const githubLightTheme: Theme = {
+  name: 'github-light',
+  displayName: 'GitHub Light',
+  description: 'Clean light theme inspired by GitHub',
+  colors: {
+    primary: '9 105 218',             // #0969DA - Blue
     'primary-foreground': '255 255 255',
-    secondary: '101 163 13',          // Olive
+    secondary: '130 80 223',          // #8250DF - Purple
     'secondary-foreground': '255 255 255',
-    accent: '132 204 22',             // Lime
-    'accent-secondary': '234 179 8',   // Gold
+    accent: '26 127 55',              // #1A7F37 - Green
+    'accent-secondary': '191 135 0',   // #BF8700 - Orange
     'accent-foreground': '255 255 255',
-    background: '250 250 249',        // Stone
-    'background-secondary': '245 245 244',
-    foreground: '28 25 23',
-    'foreground-muted': '87 83 78',
-    border: '214 211 209',
-    'border-light': '231 229 228',
+    background: '255 255 255',        // #FFFFFF
+    'background-secondary': '246 248 250',
+    foreground: '36 41 47',           // #24292F
+    'foreground-muted': '87 96 106',
+    border: '208 215 222',            // #D0D7DE
+    'border-light': '234 238 242',
     card: '255 255 255',
-    'card-hover': '250 250 249',
-    muted: '245 245 244',
-    destructive: '220 38 38',
-    success: '22 163 74',
-    warning: '234 179 8',
-    info: '14 165 233',
-  },
-  dark: {
-    primary: '74 222 128',            // Light green
-    'primary-foreground': '20 83 45',
-    secondary: '163 230 53',          // Lime
-    'secondary-foreground': '20 83 45',
-    accent: '132 204 22',             // Green
-    'accent-secondary': '250 204 21',  // Yellow
-    'accent-foreground': '20 83 45',
-    background: '28 25 23',           // Dark stone
-    'background-secondary': '41 37 36',
-    foreground: '250 250 249',
-    'foreground-muted': '168 162 158',
-    border: '68 64 60',
-    'border-light': '87 83 78',
-    card: '41 37 36',
-    'card-hover': '57 54 52',
-    muted: '68 64 60',
-    destructive: '239 68 68',
-    success: '74 222 128',
-    warning: '250 204 21',
-    info: '56 189 248',
+    'card-hover': '246 248 250',
+    muted: '246 248 250',
+    destructive: '207 34 46',         // #CF222E - Red
+    success: '26 127 55',             // Green
+    warning: '191 135 0',             // Orange
+    info: '9 105 218',                // Blue
   },
   radius: {
     sm: '0.375rem',
@@ -347,11 +199,10 @@ export const natureTheme: Theme = {
 // THEME REGISTRY
 // ============================================
 export const themes: Record<ThemeName, Theme> = {
-  pastel: pastelTheme,
-  neon: neonTheme,
-  minimal: minimalTheme,
-  retro: retroTheme,
-  nature: natureTheme,
+  'monokai': monokaiTheme,
+  'one-dark-pro': oneDarkProTheme,
+  'dracula': draculaTheme,
+  'github-light': githubLightTheme,
 }
 
 // ============================================
@@ -373,23 +224,17 @@ export function getThemeNames(): ThemeName[] {
 }
 
 /**
- * Get theme colors for a specific mode
+ * Get theme colors
  */
-export function getThemeColors(
-  themeName: ThemeName,
-  mode: ThemeMode
-): ThemeColors {
-  return themes[themeName][mode]
+export function getThemeColors(themeName: ThemeName): ThemeColors {
+  return themes[themeName].colors
 }
 
 /**
  * Convert theme colors to CSS variables
  */
-export function themeToCSSVariables(
-  themeName: ThemeName,
-  mode: ThemeMode
-): Record<string, string> {
-  const colors = getThemeColors(themeName, mode)
+export function themeToCSSVariables(themeName: ThemeName): Record<string, string> {
+  const colors = getThemeColors(themeName)
   const theme = getTheme(themeName)
 
   const cssVars: Record<string, string> = {}
@@ -410,18 +255,11 @@ export function themeToCSSVariables(
 /**
  * Apply theme to document root
  */
-export function applyTheme(themeName: ThemeName, mode: ThemeMode): void {
+export function applyTheme(themeName: ThemeName): void {
   if (typeof document === 'undefined') return
 
   const root = document.documentElement
 
   // Set data-theme attribute
   root.setAttribute('data-theme', themeName)
-
-  // Apply dark class
-  if (mode === 'dark') {
-    root.classList.add('dark')
-  } else {
-    root.classList.remove('dark')
-  }
 }

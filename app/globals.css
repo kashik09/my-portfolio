@@ -4,38 +4,38 @@
 
 @layer base {
   /* ============================================
-     DEFAULT THEME: MINIMAL LIGHT
+     DEFAULT THEME: MONOKAI
      ============================================ */
   :root {
     /* Color variables (RGB values for alpha support) */
-    --color-primary: 15 23 42;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 71 85 105;
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 100 116 139;
-    --color-accent-secondary: 148 163 184;
-    --color-accent-foreground: 255 255 255;
+    --color-primary: 230 219 116;
+    --color-primary-foreground: 39 40 34;
+    --color-secondary: 249 38 114;
+    --color-secondary-foreground: 248 248 242;
+    --color-accent: 166 226 46;
+    --color-accent-secondary: 102 217 239;
+    --color-accent-foreground: 39 40 34;
 
-    --color-background: 255 255 255;
-    --color-background-secondary: 248 250 252;
-    --color-foreground: 15 23 42;
-    --color-foreground-muted: 100 116 139;
+    --color-background: 39 40 34;
+    --color-background-secondary: 32 33 27;
+    --color-foreground: 248 248 242;
+    --color-foreground-muted: 190 190 190;
 
-    --color-border: 226 232 240;
-    --color-border-light: 241 245 249;
-    --color-card: 255 255 255;
-    --color-card-hover: 248 250 252;
-    --color-muted: 241 245 249;
+    --color-border: 60 60 55;
+    --color-border-light: 75 76 70;
+    --color-card: 46 47 41;
+    --color-card-hover: 52 53 47;
+    --color-muted: 60 60 55;
 
-    --color-destructive: 220 38 38;
-    --color-success: 22 163 74;
-    --color-warning: 202 138 4;
-    --color-info: 37 99 235;
+    --color-destructive: 249 38 114;
+    --color-success: 166 226 46;
+    --color-warning: 253 151 31;
+    --color-info: 102 217 239;
 
     /* Border radius */
-    --radius-sm: 0.125rem;
-    --radius-md: 0.25rem;
-    --radius-lg: 0.375rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
 
     /* Fonts */
     --font-sans: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -47,248 +47,135 @@
   }
 
   /* ============================================
-     PASTEL THEME
+     MONOKAI THEME - Classic dark theme
      ============================================ */
-  [data-theme='pastel'] {
-    --color-primary: 147 51 234;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 59 130 246;
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 219 39 119;
-    --color-accent-secondary: 251 146 60;
-    --color-accent-foreground: 255 255 255;
+  [data-theme='monokai'] {
+    --color-primary: 230 219 116;
+    --color-primary-foreground: 39 40 34;
+    --color-secondary: 249 38 114;
+    --color-secondary-foreground: 248 248 242;
+    --color-accent: 166 226 46;
+    --color-accent-secondary: 102 217 239;
+    --color-accent-foreground: 39 40 34;
 
-    --color-background: 255 250 250;
-    --color-background-secondary: 249 245 247;
-    --color-foreground: 30 30 30;
-    --color-foreground-muted: 82 82 82;
+    --color-background: 39 40 34;
+    --color-background-secondary: 32 33 27;
+    --color-foreground: 248 248 242;
+    --color-foreground-muted: 190 190 190;
 
-    --color-border: 229 212 232;
-    --color-border-light: 243 232 245;
-    --color-card: 255 255 255;
-    --color-card-hover: 252 247 252;
-    --color-muted: 241 237 242;
+    --color-border: 60 60 55;
+    --color-border-light: 75 76 70;
+    --color-card: 46 47 41;
+    --color-card-hover: 52 53 47;
+    --color-muted: 60 60 55;
 
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-  }
-
-  [data-theme='pastel'].dark {
-    --color-primary: 196 181 253;
-    --color-primary-foreground: 30 30 30;
-    --color-secondary: 147 197 253;
-    --color-secondary-foreground: 30 30 30;
-    --color-accent: 251 113 133;
-    --color-accent-secondary: 253 186 116;
-    --color-accent-foreground: 30 30 30;
-
-    --color-background: 24 24 27;
-    --color-background-secondary: 39 39 42;
-    --color-foreground: 250 250 250;
-    --color-foreground-muted: 212 212 216;
-
-    --color-border: 63 63 70;
-    --color-border-light: 82 82 91;
-    --color-card: 39 39 42;
-    --color-card-hover: 52 52 58;
-    --color-muted: 63 63 70;
-  }
-
-  /* ============================================
-     NEON THEME
-     ============================================ */
-  [data-theme='neon'] {
-    --color-primary: 219 39 119;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 147 51 234;
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 6 182 212;
-    --color-accent-secondary: 101 163 13;
-    --color-accent-foreground: 255 255 255;
-
-    --color-background: 255 255 255;
-    --color-background-secondary: 249 250 251;
-    --color-foreground: 15 23 42;
-    --color-foreground-muted: 71 85 105;
-
-    --color-border: 226 232 240;
-    --color-border-light: 241 245 249;
-    --color-card: 255 255 255;
-    --color-card-hover: 252 252 253;
-    --color-muted: 241 245 249;
+    --color-destructive: 249 38 114;
+    --color-success: 166 226 46;
+    --color-warning: 253 151 31;
+    --color-info: 102 217 239;
 
     --radius-sm: 0.25rem;
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
   }
 
-  [data-theme='neon'].dark {
-    --color-primary: 251 113 133;
+  /* ============================================
+     ONE DARK PRO THEME - Modern dark theme
+     ============================================ */
+  [data-theme='one-dark-pro'] {
+    --color-primary: 97 175 239;
     --color-primary-foreground: 255 255 255;
-    --color-secondary: 196 181 253;
-    --color-secondary-foreground: 15 23 42;
-    --color-accent: 34 211 238;
-    --color-accent-secondary: 190 242 100;
-    --color-accent-foreground: 15 23 42;
+    --color-secondary: 198 120 221;
+    --color-secondary-foreground: 255 255 255;
+    --color-accent: 152 195 121;
+    --color-accent-secondary: 224 108 117;
+    --color-accent-foreground: 255 255 255;
 
-    --color-background: 10 10 10;
-    --color-background-secondary: 23 23 23;
-    --color-foreground: 250 250 250;
-    --color-foreground-muted: 212 212 216;
+    --color-background: 40 44 52;
+    --color-background-secondary: 33 37 43;
+    --color-foreground: 171 178 191;
+    --color-foreground-muted: 130 137 150;
 
-    --color-border: 39 39 42;
-    --color-border-light: 63 63 70;
-    --color-card: 23 23 23;
-    --color-card-hover: 39 39 42;
-    --color-muted: 39 39 42;
+    --color-border: 60 65 75;
+    --color-border-light: 75 80 90;
+    --color-card: 46 50 58;
+    --color-card-hover: 52 56 64;
+    --color-muted: 60 65 75;
+
+    --color-destructive: 224 108 117;
+    --color-success: 152 195 121;
+    --color-warning: 209 154 102;
+    --color-info: 86 182 194;
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
   }
 
   /* ============================================
-     MINIMAL THEME
+     DRACULA THEME - Elegant dark theme
      ============================================ */
-  [data-theme='minimal'] {
-    --color-primary: 15 23 42;
+  [data-theme='dracula'] {
+    --color-primary: 189 147 249;
     --color-primary-foreground: 255 255 255;
-    --color-secondary: 71 85 105;
+    --color-secondary: 255 121 198;
     --color-secondary-foreground: 255 255 255;
-    --color-accent: 100 116 139;
-    --color-accent-secondary: 148 163 184;
+    --color-accent: 80 250 123;
+    --color-accent-secondary: 139 233 253;
+    --color-accent-foreground: 40 42 54;
+
+    --color-background: 40 42 54;
+    --color-background-secondary: 33 34 44;
+    --color-foreground: 248 248 242;
+    --color-foreground-muted: 190 190 190;
+
+    --color-border: 68 71 90;
+    --color-border-light: 85 88 107;
+    --color-card: 46 48 60;
+    --color-card-hover: 52 54 66;
+    --color-muted: 68 71 90;
+
+    --color-destructive: 255 85 85;
+    --color-success: 80 250 123;
+    --color-warning: 241 250 140;
+    --color-info: 139 233 253;
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+  }
+
+  /* ============================================
+     GITHUB LIGHT THEME - Clean light theme
+     ============================================ */
+  [data-theme='github-light'] {
+    --color-primary: 9 105 218;
+    --color-primary-foreground: 255 255 255;
+    --color-secondary: 130 80 223;
+    --color-secondary-foreground: 255 255 255;
+    --color-accent: 26 127 55;
+    --color-accent-secondary: 191 135 0;
     --color-accent-foreground: 255 255 255;
 
     --color-background: 255 255 255;
-    --color-background-secondary: 248 250 252;
-    --color-foreground: 15 23 42;
-    --color-foreground-muted: 100 116 139;
+    --color-background-secondary: 246 248 250;
+    --color-foreground: 36 41 47;
+    --color-foreground-muted: 87 96 106;
 
-    --color-border: 226 232 240;
-    --color-border-light: 241 245 249;
+    --color-border: 208 215 222;
+    --color-border-light: 234 238 242;
     --color-card: 255 255 255;
-    --color-card-hover: 248 250 252;
-    --color-muted: 241 245 249;
+    --color-card-hover: 246 248 250;
+    --color-muted: 246 248 250;
 
-    --radius-sm: 0.125rem;
-    --radius-md: 0.25rem;
-    --radius-lg: 0.375rem;
-  }
-
-  [data-theme='minimal'].dark {
-    --color-primary: 248 250 252;
-    --color-primary-foreground: 15 23 42;
-    --color-secondary: 203 213 225;
-    --color-secondary-foreground: 15 23 42;
-    --color-accent: 148 163 184;
-    --color-accent-secondary: 203 213 225;
-    --color-accent-foreground: 15 23 42;
-
-    --color-background: 15 23 42;
-    --color-background-secondary: 30 41 59;
-    --color-foreground: 248 250 252;
-    --color-foreground-muted: 148 163 184;
-
-    --color-border: 51 65 85;
-    --color-border-light: 71 85 105;
-    --color-card: 30 41 59;
-    --color-card-hover: 51 65 85;
-    --color-muted: 51 65 85;
-  }
-
-  /* ============================================
-     RETRO THEME
-     ============================================ */
-  [data-theme='retro'] {
-    --color-primary: 194 65 12;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 185 28 28;
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 161 98 7;
-    --color-accent-secondary: 107 33 168;
-    --color-accent-foreground: 255 255 255;
-
-    --color-background: 254 252 232;
-    --color-background-secondary: 254 249 195;
-    --color-foreground: 41 20 0;
-    --color-foreground-muted: 92 38 0;
-
-    --color-border: 217 119 6;
-    --color-border-light: 245 158 11;
-    --color-card: 255 255 255;
-    --color-card-hover: 254 252 232;
-    --color-muted: 254 243 199;
-
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
-  }
-
-  [data-theme='retro'].dark {
-    --color-primary: 251 146 60;
-    --color-primary-foreground: 30 30 30;
-    --color-secondary: 248 113 113;
-    --color-secondary-foreground: 30 30 30;
-    --color-accent: 250 204 21;
-    --color-accent-secondary: 192 132 252;
-    --color-accent-foreground: 30 30 30;
-
-    --color-background: 23 23 23;
-    --color-background-secondary: 38 38 38;
-    --color-foreground: 250 250 249;
-    --color-foreground-muted: 212 212 216;
-
-    --color-border: 63 63 70;
-    --color-border-light: 82 82 91;
-    --color-card: 38 38 38;
-    --color-card-hover: 52 52 58;
-    --color-muted: 63 63 70;
-  }
-
-  /* ============================================
-     NATURE THEME
-     ============================================ */
-  [data-theme='nature'] {
-    --color-primary: 22 163 74;
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 101 163 13;
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 101 163 13;
-    --color-accent-secondary: 202 138 4;
-    --color-accent-foreground: 255 255 255;
-
-    --color-background: 250 250 249;
-    --color-background-secondary: 245 245 244;
-    --color-foreground: 20 20 18;
-    --color-foreground-muted: 68 64 60;
-
-    --color-border: 214 211 209;
-    --color-border-light: 231 229 228;
-    --color-card: 255 255 255;
-    --color-card-hover: 250 250 249;
-    --color-muted: 245 245 244;
+    --color-destructive: 207 34 46;
+    --color-success: 26 127 55;
+    --color-warning: 191 135 0;
+    --color-info: 9 105 218;
 
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
-  }
-
-  [data-theme='nature'].dark {
-    --color-primary: 134 239 172;
-    --color-primary-foreground: 20 20 18;
-    --color-secondary: 190 242 100;
-    --color-secondary-foreground: 20 20 18;
-    --color-accent: 163 230 53;
-    --color-accent-secondary: 253 224 71;
-    --color-accent-foreground: 20 20 18;
-
-    --color-background: 28 25 23;
-    --color-background-secondary: 41 37 36;
-    --color-foreground: 250 250 249;
-    --color-foreground-muted: 214 211 209;
-
-    --color-border: 68 64 60;
-    --color-border-light: 87 83 78;
-    --color-card: 41 37 36;
-    --color-card-hover: 57 54 52;
-    --color-muted: 68 64 60;
   }
 
   /* ============================================
