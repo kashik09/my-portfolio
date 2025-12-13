@@ -80,7 +80,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://wa.me/256700000000"
+                href="https://wa.me/256760637783"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-primary rounded-lg border border-border hover:border-accent transition"
