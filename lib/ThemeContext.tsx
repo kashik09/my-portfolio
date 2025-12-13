@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { ThemeName, defaultTheme } from './themes'
+import { themes, ThemeName, defaultTheme } from './themes'  // ← ADD themes import!
 
 type ThemeContextType = {
   theme: ThemeName
