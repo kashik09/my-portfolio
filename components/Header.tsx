@@ -2,13 +2,16 @@
 
 import Link from 'next/link'
 import { useTheme } from '@/lib/ThemeContext'
-import { themes } from '@/lib/themes'
-import { Menu, X } from 'lucide-react'
+import { getThemesArray } from '@/lib/themes'
+import { Menu, X, ChevronDown } from 'lucide-react'
 import { useState } from 'react'
 
 export default function Header() {
   const { theme, setTheme } = useTheme()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [themeMenuOpen, setThemeMenuOpen] = useState(false)
+  const themesArray = getThemesArray()
+  const currentTheme = themesArray.find(t => t.key === theme)
 
   const navLinks = [
     { href: '/projects', label: 'Projects' },
@@ -41,17 +44,48 @@ export default function Header() {
 
           {/* Theme Selector */}
           <div className="flex items-center gap-3">
-            <select
-              value={theme}
-              onChange={(e) => setTheme(e.target.value as any)}
-              className="px-3 py-2 bg-card border border-border rounded-lg text-sm font-medium text-foreground focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
-            >
-              {Object.entries(themes).map(([key, { name, icon }]) => (
-                <option key={key} value={key}>
-                  {icon} {name}
-                </option>
-              ))}
-            </select>
+            <div className="relative">
+              <button
+                onClick={() => setThemeMenuOpen(!themeMenuOpen)}
+                className="flex items-center gap-2 px-3 py-2 bg-card border border-border rounded-lg text-sm font-medium text-foreground hover:border-accent focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+              >
+                {currentTheme && <currentTheme.icon size={16} className="text-accent" />}
+                <span>{currentTheme?.name}</span>
+                <ChevronDown size={14} className={`transition-transform ${themeMenuOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Theme Dropdown */}
+              {themeMenuOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 z-10"
+                    onClick={() => setThemeMenuOpen(false)}
+                  />
+                  <div className="absolute right-0 mt-2 w-48 bg-card border border-border rounded-lg shadow-lg overflow-hidden z-20">
+                    {themesArray.map(({ key, name, icon: Icon }) => (
+                      <button
+                        key={key}
+                        onClick={() => {
+                          setTheme(key)
+                          setThemeMenuOpen(false)
+                        }}
+                        className={`w-full flex items-center gap-2 px-4 py-2.5 text-sm transition-colors ${
+                          theme === key
+                            ? 'bg-accent/10 text-accent font-medium'
+                            : 'text-foreground hover:bg-card-hover'
+                        }`}
+                      >
+                        <Icon size={16} className={theme === key ? 'text-accent' : 'text-foreground/70'} />
+                        <span>{name}</span>
+                        {theme === key && (
+                          <span className="ml-auto text-xs">✓</span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Mobile Menu Button */}
             <button
