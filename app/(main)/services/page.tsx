@@ -58,8 +58,8 @@ export default function ServicesPage() {
     <div className="space-y-16 py-12">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground">Services</h1>
-        <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">Services</h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
           Professional development services tailored to your needs
         </p>
       </div>
@@ -69,24 +69,24 @@ export default function ServicesPage() {
         {services.map((service) => (
           <div
             key={service.title}
-            className="bg-secondary rounded-2xl p-8 border border-border hover:border-accent transition-all hover:shadow-xl"
+            className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-500 transition-all hover:shadow-xl"
           >
             <div className="flex items-start gap-4 mb-6">
-              <div className="p-4 bg-accent/10 rounded-xl">
-                <service.icon className="text-accent" size={32} />
+              <div className="p-4 bg-blue-50 rounded-xl">
+                <service.icon className="text-blue-600" size={32} />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-foreground mb-2">{service.title}</h3>
-                <p className="text-accent font-semibold">{service.pricing}</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{service.title}</h3>
+                <p className="text-blue-600 font-semibold">{service.pricing}</p>
               </div>
             </div>
-            
-            <p className="text-foreground/70 mb-6">{service.description}</p>
-            
+
+            <p className="text-gray-600 mb-6">{service.description}</p>
+
             <ul className="space-y-3">
               {service.features.map((feature) => (
-                <li key={feature} className="flex items-center gap-3 text-foreground/80">
-                  <Check className="text-accent flex-shrink-0" size={20} />
+                <li key={feature} className="flex items-center gap-3 text-gray-700">
+                  <Check className="text-blue-600 flex-shrink-0" size={20} />
                   <span>{feature}</span>
                 </li>
               ))}
@@ -96,37 +96,37 @@ export default function ServicesPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-accent to-accent-secondary rounded-2xl p-12 text-center text-white">
-        <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
-        <p className="text-lg mb-8 opacity-90">
-          Let's discuss how I can help bring your ideas to life
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-center text-white shadow-xl">
+        <h2 className="text-4xl font-bold mb-4 text-white">Ready to Start Your Project?</h2>
+        <p className="text-xl mb-8 text-white/90">
+          Let's work together to bring your ideas to life
         </p>
         <Link href="/request">
           <Button variant="secondary" size="lg">
             Request a Quote
           </Button>
         </Link>
-      </div>
+      </section>
 
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
         <div className="space-y-6">
-          <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-foreground mb-2">What's your typical turnaround time?</h3>
-            <p className="text-foreground/70">
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">What's your typical turnaround time?</h3>
+            <p className="text-gray-600">
               Most projects take 2-4 weeks depending on complexity. Rush delivery is available for an additional fee.
             </p>
           </div>
-          <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-foreground mb-2">Do you offer maintenance and support?</h3>
-            <p className="text-foreground/70">
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Do you offer maintenance and support?</h3>
+            <p className="text-gray-600">
               Yes! I offer ongoing maintenance packages to keep your project running smoothly and up-to-date.
             </p>
           </div>
-          <div className="bg-secondary p-6 rounded-2xl border border-border">
-            <h3 className="text-xl font-bold text-foreground mb-2">What payment methods do you accept?</h3>
-            <p className="text-foreground/70">
+          <div className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">What payment methods do you accept?</h3>
+            <p className="text-gray-600">
               I accept bank transfers, PayPal, and most major credit cards. Payment terms are typically 50% upfront, 50% on completion.
             </p>
           </div>
