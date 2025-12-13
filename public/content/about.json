@@ -1,0 +1,105 @@
+{
+  "hero": {
+    "name": "Ashanti Kweyu",
+    "nickname": "Kashi",
+    "title": "Junior Developer",
+    "location": "Kampala, Uganda",
+    "tagline": "Building innovative solutions with modern web technologies and AI",
+    "avatarUrl": "/avatar.jpg"
+  },
+  "story": [
+    {
+      "id": "intro",
+      "content": "I'm an aspiring software engineer passionate about creating innovative solutions that solve real-world problems. Currently studying at Flatiron School's Software Engineering program, I'm building a strong foundation in full-stack development while working on projects that make a difference."
+    },
+    {
+      "id": "education",
+      "content": "My journey into tech started with a curiosity about how things work and evolved into a deep passion for building applications. Through intensive bootcamp training at Moringa School and continuous learning on platforms like Coursera, I've developed skills across the entire development stack - from crafting intuitive user interfaces to designing robust backend systems."
+    },
+    {
+      "id": "approach",
+      "content": "What drives me is problem-solving. I love breaking down complex challenges into manageable pieces and finding elegant solutions. Whether it's optimizing database queries, creating responsive designs, or implementing new features, I approach each task with curiosity and determination. My faith guides my work ethic and commitment to excellence."
+    }
+  ],
+  "skills": [
+    {
+      "category": "Frontend",
+      "icon": "Palette",
+      "items": ["React", "Next.js", "TypeScript", "Tailwind CSS", "JavaScript", "HTML/CSS"]
+    },
+    {
+      "category": "Backend",
+      "icon": "Database",
+      "items": ["Node.js", "PostgreSQL", "Prisma", "API Design", "RESTful Services", "Authentication"]
+    },
+    {
+      "category": "Tools",
+      "icon": "Code2",
+      "items": ["Git", "VS Code", "Vercel", "Figma", "GitHub", "npm/yarn"]
+    },
+    {
+      "category": "Other",
+      "icon": "Zap",
+      "items": ["Problem Solving", "UI/UX Design", "Team Collaboration", "Agile Methodology"]
+    }
+  ],
+  "timeline": [
+    {
+      "id": "fintech-2024",
+      "title": "Junior Developer",
+      "organization": "FinTech Company",
+      "period": "2024 - Present",
+      "description": "Developing features for mobile banking applications including savings goal tracking systems and financial management tools.",
+      "type": "work"
+    },
+    {
+      "id": "moringa-2024",
+      "title": "Software Engineering Student",
+      "organization": "Moringa School",
+      "period": "2024",
+      "description": "Intensive software engineering bootcamp covering full-stack development, data structures, algorithms, and modern web technologies.",
+      "type": "education"
+    },
+    {
+      "id": "flatiron-2024",
+      "title": "Software Engineering Program",
+      "organization": "Flatiron School",
+      "period": "2024",
+      "description": "Comprehensive software engineering curriculum focusing on JavaScript, React, Ruby on Rails, and software development best practices.",
+      "type": "education"
+    },
+    {
+      "id": "coursera-2023",
+      "title": "Online Courses",
+      "organization": "Coursera",
+      "period": "2023",
+      "description": "Completed courses in web development, data structures, and computer science fundamentals to build a strong technical foundation.",
+      "type": "education"
+    },
+    {
+      "id": "moringa-phase0",
+      "title": "Phase 0 Module 2 JavaScript",
+      "organization": "Moringa School",
+      "period": "2023-2024",
+      "description": "Building projects like calculators and web applications while mastering JavaScript fundamentals and DOM manipulation.",
+      "type": "education"
+    },
+    {
+      "id": "php-course",
+      "title": "PHP Development Course",
+      "organization": "Self-Study",
+      "period": "2019",
+      "description": "First introduction to programming through PHP, learning server-side scripting and database interactions.",
+      "type": "education"
+    }
+  ],
+  "social": {
+    "github": "https://github.com/kashik09",
+    "linkedin": "https://linkedin.com/in/kashi",
+    "email": "kashiku789@gmail.com"
+  },
+  "metadata": {
+    "lastUpdated": "2025-12-13T00:00:00Z",
+    "version": "1.0"
+  }
+}
