@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     if (process.env.RESEND_API_KEY && process.env.NOTIFICATION_EMAIL) {
       try {
         await resend.emails.send({
-          from: 'Portfolio <noreply@yourdomain.com>', // Update with your verified domain
+          from: 'Portfolio Notifications <onboarding@resend.dev>', // Resend test domain
           to: process.env.NOTIFICATION_EMAIL,
           replyTo: email,
           subject: `New Service Request: ${serviceType}`,

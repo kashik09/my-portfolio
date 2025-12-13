@@ -10,10 +10,10 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const themes = [
-    { value: 'monokai', label: 'Monokai', Icon: Zap },
-    { value: 'one-dark-pro', label: 'One Dark Pro', Icon: Waves },
-    { value: 'dracula', label: 'Dracula', Icon: Moon },
-    { value: 'github-light', label: 'GitHub Light', Icon: Sun }
+    { value: 'onedark', label: 'One Dark Pro', Icon: Moon },
+    { value: 'tokyonight', label: 'Tokyo Night', Icon: Waves },
+    { value: 'monokai', label: 'Monokai Pro', Icon: Zap },
+    { value: 'githublight', label: 'GitHub Light', Icon: Sun }
   ]
 
   const navLinks = [
