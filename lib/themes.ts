@@ -1,23 +1,25 @@
+import { Moon, Sunset, Palette, Sun } from 'lucide-react'
+
 export const themes = {
   onedark: {
     name: 'One Dark Pro',
     value: 'onedark',
-    icon: '🌙',
+    icon: Moon,
   },
   tokyonight: {
     name: 'Tokyo Night',
     value: 'tokyonight',
-    icon: '🌃',
+    icon: Sunset,
   },
   monokai: {
     name: 'Monokai Pro',
     value: 'monokai',
-    icon: '🎨',
+    icon: Palette,
   },
   githublight: {
     name: 'GitHub Light',
     value: 'githublight',
-    icon: '☀️',
+    icon: Sun,
   },
 } as const
 

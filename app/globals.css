@@ -8,54 +8,187 @@
      ============================================ */
   :root,
   [data-theme='onedark'] {
-    --bg: 40 44 52;
-    --fg: 171 178 191;
-    --primary: 97 175 239;
-    --secondary: 198 120 221;
-    --accent: 152 195 121;
-    --border: 59 64 74;
+    --color-primary: 97 175 239;
+    --color-primary-foreground: 255 255 255;
+    --color-secondary: 198 120 221;
+    --color-secondary-foreground: 255 255 255;
+    --color-accent: 152 195 121;
+    --color-accent-secondary: 229 192 123;
+    --color-accent-foreground: 40 44 52;
+
+    --color-background: 40 44 52;
+    --color-background-secondary: 33 37 43;
+    --color-foreground: 171 178 191;
+    --color-foreground-muted: 92 99 112;
+
+    --color-border: 59 64 74;
+    --color-border-light: 76 82 99;
+    --color-card: 33 37 43;
+    --color-card-hover: 44 48 56;
+    --color-muted: 59 64 74;
+
+    --color-destructive: 224 108 117;
+    --color-success: 152 195 121;
+    --color-warning: 229 192 123;
+    --color-info: 86 182 194;
   }
 
   /* ============================================
      TOKYO NIGHT
      ============================================ */
   [data-theme='tokyonight'] {
-    --bg: 26 27 38;
-    --fg: 169 177 214;
-    --primary: 122 162 247;
-    --secondary: 187 154 247;
-    --accent: 158 206 106;
-    --border: 41 46 73;
+    --color-primary: 122 162 247;
+    --color-primary-foreground: 255 255 255;
+    --color-secondary: 187 154 247;
+    --color-secondary-foreground: 255 255 255;
+    --color-accent: 158 206 106;
+    --color-accent-secondary: 255 158 100;
+    --color-accent-foreground: 26 27 38;
+
+    --color-background: 26 27 38;
+    --color-background-secondary: 22 22 30;
+    --color-foreground: 169 177 214;
+    --color-foreground-muted: 86 95 137;
+
+    --color-border: 41 46 73;
+    --color-border-light: 52 59 88;
+    --color-card: 22 22 30;
+    --color-card-hover: 32 34 49;
+    --color-muted: 41 46 73;
+
+    --color-destructive: 247 118 142;
+    --color-success: 158 206 106;
+    --color-warning: 224 175 104;
+    --color-info: 125 207 255;
   }
 
   /* ============================================
      MONOKAI PRO
      ============================================ */
   [data-theme='monokai'] {
-    --bg: 45 42 46;
-    --fg: 252 252 250;
-    --primary: 255 97 136;
-    --secondary: 252 152 103;
-    --accent: 169 220 118;
-    --border: 66 62 67;
+    --color-primary: 255 97 136;
+    --color-primary-foreground: 252 252 250;
+    --color-secondary: 252 152 103;
+    --color-secondary-foreground: 252 252 250;
+    --color-accent: 169 220 118;
+    --color-accent-secondary: 255 216 102;
+    --color-accent-foreground: 45 42 46;
+
+    --color-background: 45 42 46;
+    --color-background-secondary: 35 33 37;
+    --color-foreground: 252 252 250;
+    --color-foreground-muted: 147 147 143;
+
+    --color-border: 66 62 67;
+    --color-border-light: 96 92 97;
+    --color-card: 35 33 37;
+    --color-card-hover: 45 42 46;
+    --color-muted: 66 62 67;
+
+    --color-destructive: 255 97 136;
+    --color-success: 169 220 118;
+    --color-warning: 255 216 102;
+    --color-info: 120 220 232;
   }
 
   /* ============================================
      GITHUB LIGHT
      ============================================ */
   [data-theme='githublight'] {
-    --bg: 255 255 255;
-    --fg: 36 41 47;
-    --primary: 9 105 218;
-    --secondary: 130 80 223;
-    --accent: 26 127 55;
-    --border: 208 215 222;
+    --color-primary: 9 105 218;
+    --color-primary-foreground: 255 255 255;
+    --color-secondary: 130 80 223;
+    --color-secondary-foreground: 255 255 255;
+    --color-accent: 26 127 55;
+    --color-accent-secondary: 191 63 3;
+    --color-accent-foreground: 255 255 255;
+
+    --color-background: 255 255 255;
+    --color-background-secondary: 246 248 250;
+    --color-foreground: 36 41 47;
+    --color-foreground-muted: 87 96 106;
+
+    --color-border: 208 215 222;
+    --color-border-light: 234 238 242;
+    --color-card: 255 255 255;
+    --color-card-hover: 246 248 250;
+    --color-muted: 234 238 242;
+
+    --color-destructive: 207 34 46;
+    --color-success: 26 127 55;
+    --color-warning: 149 117 8;
+    --color-info: 0 149 255;
   }
 
   /* ============================================
      BASE STYLES
      ============================================ */
+  * {
+    @apply border-border;
+  }
+
   body {
-    @apply bg-[rgb(var(--bg))] text-[rgb(var(--fg))] antialiased;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-foreground;
+  }
+
+  p {
+    @apply text-foreground-muted leading-7;
+  }
+
+  a {
+    @apply text-primary hover:underline transition-colors;
+  }
+
+  /* ============================================
+     SCROLLBAR
+     ============================================ */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border hover:bg-accent;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+    /* ============================================
+     FONTS - PIXEL VIBES
+     ============================================ */
+  :root {
+    --font-mono: var(--font-space-mono), 'Space Mono', 'IBM Plex Mono', 
+                 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                 'Liberation Mono', 'Courier New', monospace;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-mono);
+  }
+
+  /* Make headings use the pixel font too */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-foreground;
+    font-family: var(--font-mono);
+  }
+  
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

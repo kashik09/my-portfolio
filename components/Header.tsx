@@ -1,14 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Code2, Menu, X } from 'lucide-react'
 import { useState } from 'react'
-import { useTheme } from '@/lib/ThemeContext'
-import { themes } from '@/lib/themes'
+import { ThemeSelector } from './ThemeSelector'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
 
   const navLinks = [
     { href: '/projects', label: 'Projects' },
@@ -19,11 +17,11 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border shadow-sm">
-      <nav className="container mx-auto px-4 py-4">
+      <nav className="container mx-auto px-6 md:px-8 lg:px-12 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-accent hover:text-accent/80 transition">
-            <span className="text-3xl">&lt;/&gt;</span>
+          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-accent hover:opacity-80 transition">
+            <Code2 size={28} className="text-accent" />
             <span>Kashi Kweyu</span>
           </Link>
 
@@ -38,26 +36,20 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-
-            <select
-              value={theme}
-              onChange={(e) => setTheme(e.target.value as any)}
-              className="px-3 py-2 bg-background border border-border rounded text-foreground cursor-pointer hover:border-accent transition"
-            >
-              {Object.entries(themes).map(([key, t]) => (
-                <option key={key} value={key}>{t.icon} {t.name}</option>
-              ))}
-            </select>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg bg-background border border-border hover:border-accent transition text-foreground"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Theme Selector & Mobile Menu */}
+          <div className="flex items-center gap-3">
+            <ThemeSelector />
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg bg-card border border-border hover:bg-card-hover transition"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -69,21 +61,11 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 text-foreground hover:text-accent hover:bg-background/50 rounded-lg transition font-medium"
+                  className="px-4 py-2 text-foreground hover:text-accent hover:bg-card rounded-lg transition font-medium"
                 >
                   {link.label}
                 </Link>
               ))}
-
-              <select
-                value={theme}
-                onChange={(e) => setTheme(e.target.value as any)}
-                className="px-3 py-2 bg-background border border-border rounded text-foreground cursor-pointer"
-              >
-                {Object.entries(themes).map(([key, t]) => (
-                  <option key={key} value={key}>{t.icon} {t.name}</option>
-                ))}
-              </select>
             </div>
           </div>
         )}

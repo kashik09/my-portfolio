@@ -1,27 +1,41 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { ThemeName, defaultTheme } from './themes'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { themes, ThemeName, defaultTheme } from './themes'  // ← ADD themes import!
 
-const ThemeContext = createContext<{
+type ThemeContextType = {
   theme: ThemeName
   setTheme: (theme: ThemeName) => void
-} | null>(null)
+}
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<ThemeName>(defaultTheme)
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [theme, setThemeState] = useState<ThemeName>(defaultTheme)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Load saved theme
-    const saved = localStorage.getItem('theme') as ThemeName
-    if (saved) setTheme(saved)
+    setMounted(true)
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('theme') as ThemeName
+    if (savedTheme && Object.keys(themes).includes(savedTheme)) {
+      setThemeState(savedTheme)
+    }
   }, [])
 
   useEffect(() => {
-    // Apply theme
+    if (!mounted) return
+    
+    // Apply theme to document
     document.documentElement.setAttribute('data-theme', theme)
+    
+    // Save to localStorage
     localStorage.setItem('theme', theme)
-  }, [theme])
+  }, [theme, mounted])
+
+  const setTheme = (newTheme: ThemeName) => {
+    setThemeState(newTheme)
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
@@ -32,6 +46,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
 export function useTheme() {
   const context = useContext(ThemeContext)
-  if (!context) throw new Error('useTheme must be inside ThemeProvider')
+  if (!context) {
+    throw new Error('useTheme must be used within ThemeProvider')
+  }
   return context
 }
