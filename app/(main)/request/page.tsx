@@ -1,12 +1,56 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Upload, X, File } from 'lucide-react'
 
+interface FormConfig {
+  header: {
+    title: string
+    subtitle: string
+  }
+  fields: {
+    serviceTypes: Array<{ value: string; label: string }>
+    budgetRanges: Array<{ value: string; label: string }>
+    timelines: Array<{ value: string; label: string }>
+  }
+  placeholders: {
+    name: string
+    email: string
+    description: string
+  }
+  labels: {
+    name: string
+    email: string
+    serviceType: string
+    budget: string
+    timeline: string
+    description: string
+    files: string
+  }
+  fileUpload: {
+    title: string
+    subtitle: string
+    acceptedFormats: string
+  }
+  submitButton: {
+    text: string
+    loadingText: string
+  }
+  successMessage: string
+  disclaimer: {
+    text: string
+    termsText: string
+    termsLink: string
+    privacyText: string
+    privacyLink: string
+  }
+}
+
 export default function RequestPage() {
+  const [config, setConfig] = useState<FormConfig | null>(null)
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -20,6 +64,14 @@ export default function RequestPage() {
     timeline: '',
     description: ''
   })
+
+  // Fetch form configuration
+  useEffect(() => {
+    fetch('/api/content/request-form')
+      .then(res => res.json())
+      .then(data => setConfig(data))
+      .catch(err => console.error('Failed to load form config:', err))
+  }, [])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
@@ -79,7 +131,7 @@ export default function RequestPage() {
         // Don't fail the whole request if notification fails
       }
 
-      alert('Request submitted successfully! I\'ll get back to you within 24 hours.')
+      alert(config?.successMessage || 'Request submitted successfully! I\'ll get back to you within 24 hours.')
       router.push('/services')
     } catch (err) {
       setError('Something went wrong. Please try again.')
@@ -88,12 +140,21 @@ export default function RequestPage() {
     }
   }
 
+  // Show loading while config is being fetched
+  if (!config) {
+    return (
+      <div className="max-w-3xl mx-auto py-12 text-center">
+        <p className="text-gray-600">Loading form...</p>
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-3xl mx-auto py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Request a Service</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">{config.header.title}</h1>
         <p className="text-xl text-gray-600">
-          Tell me about your project and I'll get back to you within 24 hours
+          {config.header.subtitle}
         </p>
       </div>
 
@@ -106,26 +167,26 @@ export default function RequestPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Input
-            label="Full Name"
+            label={config.labels.name}
             type="text"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            placeholder="John Doe"
+            placeholder={config.placeholders.name}
             required
           />
 
           <Input
-            label="Email Address"
+            label={config.labels.email}
             type="email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            placeholder="john@example.com"
+            placeholder={config.placeholders.email}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Service Type</label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">{config.labels.serviceType}</label>
           <select
             value={formData.serviceType}
             onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
@@ -133,17 +194,15 @@ export default function RequestPage() {
             required
           >
             <option value="">Select a service...</option>
-            <option value="web">Web Development</option>
-            <option value="mobile">Mobile Development</option>
-            <option value="design">UI/UX Design</option>
-            <option value="consulting">Consulting</option>
-            <option value="other">Other</option>
+            {config.fields.serviceTypes.map(type => (
+              <option key={type.value} value={type.value}>{type.label}</option>
+            ))}
           </select>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Budget Range</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">{config.labels.budget}</label>
             <select
               value={formData.budget}
               onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
@@ -151,15 +210,14 @@ export default function RequestPage() {
               required
             >
               <option value="">Select budget...</option>
-              <option value="<500">Under $500</option>
-              <option value="500-1000">$500 - $1,000</option>
-              <option value="1000-2500">$1,000 - $2,500</option>
-              <option value="2500+">$2,500+</option>
+              {config.fields.budgetRanges.map(range => (
+                <option key={range.value} value={range.value}>{range.label}</option>
+              ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Timeline</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">{config.labels.timeline}</label>
             <select
               value={formData.timeline}
               onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
@@ -167,27 +225,27 @@ export default function RequestPage() {
               required
             >
               <option value="">Select timeline...</option>
-              <option value="urgent">ASAP (1-2 weeks)</option>
-              <option value="normal">Normal (2-4 weeks)</option>
-              <option value="flexible">Flexible (1-2 months)</option>
+              {config.fields.timelines.map(timeline => (
+                <option key={timeline.value} value={timeline.value}>{timeline.label}</option>
+              ))}
             </select>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Project Description</label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">{config.labels.description}</label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             rows={6}
             className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition resize-none"
-            placeholder="Tell me about your project, goals, and any specific requirements..."
+            placeholder={config.placeholders.description}
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Project Files (Optional)</label>
+          <label className="block text-sm font-medium text-gray-900 mb-2">{config.labels.files}</label>
 
           {/* File Upload Area */}
           <div
@@ -195,9 +253,9 @@ export default function RequestPage() {
             className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center hover:border-blue-500 hover:bg-blue-600/5 transition-all cursor-pointer group"
           >
             <Upload className="mx-auto mb-4 text-gray-900/50 group-hover:text-blue-600 transition-colors" size={32} />
-            <p className="text-gray-600 mb-2 font-medium">Upload project files</p>
-            <p className="text-gray-900/50 text-sm">Click to browse or drag and drop</p>
-            <p className="text-gray-900/40 text-xs mt-2">Supports: PDF, DOC, JPG, PNG (Max 10MB each)</p>
+            <p className="text-gray-600 mb-2 font-medium">{config.fileUpload.title}</p>
+            <p className="text-gray-900/50 text-sm">{config.fileUpload.subtitle}</p>
+            <p className="text-gray-900/40 text-xs mt-2">{config.fileUpload.acceptedFormats}</p>
             <input
               ref={fileInputRef}
               type="file"
@@ -253,14 +311,14 @@ export default function RequestPage() {
           className="w-full"
           disabled={loading}
         >
-          {loading ? 'Submitting...' : 'Submit Request'}
+          {loading ? config.submitButton.loadingText : config.submitButton.text}
         </Button>
 
         <p className="text-center text-sm text-gray-600">
-          By submitting this form, you agree to our{' '}
-          <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>
+          {config.disclaimer.text}{' '}
+          <a href={config.disclaimer.termsLink} className="text-blue-600 hover:underline">{config.disclaimer.termsText}</a>
           {' '}and{' '}
-          <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>
+          <a href={config.disclaimer.privacyLink} className="text-blue-600 hover:underline">{config.disclaimer.privacyText}</a>
         </p>
       </form>
     </div>
