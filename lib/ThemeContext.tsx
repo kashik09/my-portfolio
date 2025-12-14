@@ -1,40 +1,53 @@
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { themes, ThemeName, defaultTheme } from './themes'  // ← ADD themes import!
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { ThemeName } from './themes'
 
-type ThemeContextType = {
+interface ThemeContextType {
   theme: ThemeName
   setTheme: (theme: ThemeName) => void
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>(defaultTheme)
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setThemeState] = useState<ThemeName>('onedark')
   const [mounted, setMounted] = useState(false)
 
+  // Load theme from localStorage on mount
   useEffect(() => {
     setMounted(true)
-    // Load theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as ThemeName
-    if (savedTheme && Object.keys(themes).includes(savedTheme)) {
+    const savedTheme = localStorage.getItem('kashikweyu-theme') as ThemeName
+    if (savedTheme && ['onedark', 'tokyonight', 'monokai', 'githublight'].includes(savedTheme)) {
       setThemeState(savedTheme)
     }
   }, [])
 
+  // Apply theme to document
   useEffect(() => {
     if (!mounted) return
+
+    const root = document.documentElement
     
-    // Apply theme to document
-    document.documentElement.setAttribute('data-theme', theme)
+    // Set data-theme attribute
+    root.setAttribute('data-theme', theme)
     
     // Save to localStorage
-    localStorage.setItem('theme', theme)
+    localStorage.setItem('kashikweyu-theme', theme)
+    
+    // Debug logs
+    console.log('🎨 Theme set to:', theme)
+    console.log('📍 data-theme attr:', root.getAttribute('data-theme'))
   }, [theme, mounted])
 
   const setTheme = (newTheme: ThemeName) => {
+    console.log('🔄 Changing theme to:', newTheme)
     setThemeState(newTheme)
+  }
+
+  // Prevent flash of unstyled content
+  if (!mounted) {
+    return null
   }
 
   return (

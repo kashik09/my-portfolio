@@ -1,6 +1,14 @@
-import { Moon, Sunset, Palette, Sun } from 'lucide-react'
+import { Moon, CloudMoon, Palette, Sun, LucideIcon } from 'lucide-react'
 
-export const themes = {
+export type ThemeName = 'onedark' | 'tokyonight' | 'monokai' | 'githublight'
+
+export interface Theme {
+  name: string
+  value: ThemeName
+  icon: LucideIcon
+}
+
+export const themes: Record<ThemeName, Theme> = {
   onedark: {
     name: 'One Dark Pro',
     value: 'onedark',
@@ -9,7 +17,7 @@ export const themes = {
   tokyonight: {
     name: 'Tokyo Night',
     value: 'tokyonight',
-    icon: Sunset,
+    icon: CloudMoon,
   },
   monokai: {
     name: 'Monokai Pro',
@@ -21,7 +29,6 @@ export const themes = {
     value: 'githublight',
     icon: Sun,
   },
-} as const
+}
 
-export type ThemeName = keyof typeof themes
 export const defaultTheme: ThemeName = 'onedark'
