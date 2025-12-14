@@ -7,7 +7,16 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: 'rgb(var(--bg) / <alpha-value>)',
+        foreground: 'rgb(var(--fg) / <alpha-value>)',
+        primary: 'rgb(var(--primary) / <alpha-value>)',
+        secondary: 'rgb(var(--secondary) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        border: 'rgb(var(--border) / <alpha-value>)',
+      },
+    },
   },
   plugins: [],
 }
