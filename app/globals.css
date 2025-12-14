@@ -3,13 +3,59 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+  /* ============================================
+     ONE DARK PRO (Default)
+     ============================================ */
+  :root,
+  [data-theme='onedark'] {
+    --bg: 40 44 52;
+    --fg: 171 178 191;
+    --primary: 97 175 239;
+    --secondary: 198 120 221;
+    --accent: 152 195 121;
+    --border: 59 64 74;
   }
-}
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /* ============================================
+     TOKYO NIGHT
+     ============================================ */
+  [data-theme='tokyonight'] {
+    --bg: 26 27 38;
+    --fg: 169 177 214;
+    --primary: 122 162 247;
+    --secondary: 187 154 247;
+    --accent: 158 206 106;
+    --border: 41 46 73;
+  }
+
+  /* ============================================
+     MONOKAI PRO
+     ============================================ */
+  [data-theme='monokai'] {
+    --bg: 45 42 46;
+    --fg: 252 252 250;
+    --primary: 255 97 136;
+    --secondary: 252 152 103;
+    --accent: 169 220 118;
+    --border: 66 62 67;
+  }
+
+  /* ============================================
+     GITHUB LIGHT
+     ============================================ */
+  [data-theme='githublight'] {
+    --bg: 255 255 255;
+    --fg: 36 41 47;
+    --primary: 9 105 218;
+    --secondary: 130 80 223;
+    --accent: 26 127 55;
+    --border: 208 215 222;
+  }
+
+  /* ============================================
+     BASE STYLES
+     ============================================ */
+  body {
+    @apply bg-[rgb(var(--bg))] text-[rgb(var(--fg))] antialiased;
   }
 }
