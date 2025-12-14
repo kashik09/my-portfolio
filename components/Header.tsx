@@ -20,7 +20,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition">
-            KashiCoding
+            Kashi Kweyu
           </Link>
 
           {/* Desktop Navigation */}

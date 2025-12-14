@@ -1,6 +1,6 @@
-# KashiCoding Portfolio
+# Kashi Kweyu Portfolio
 
-A modern, full-stack portfolio website built with Next.js 14, featuring a multi-theme system, authentication, and a complete admin dashboard for managing projects and client requests.
+A modern, full-stack portfolio website built with Next.js 14, featuring a CMS for content management, authentication, and a complete admin dashboard for managing projects and client requests.
 
 ## Features
 
@@ -336,4 +336,4 @@ For issues and questions:
 
 ---
 
-Built with ❤️ by [KashiCoding](https://github.com/kashik09)
+Built with ❤️ by [Kashi Kweyu](https://github.com/kashik09)
