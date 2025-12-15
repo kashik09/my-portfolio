@@ -149,7 +149,7 @@ export default function RequestFormEditorPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-foreground-muted">Loading...</p>
       </div>
     )
   }
@@ -167,8 +167,8 @@ export default function RequestFormEditorPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Edit Request Form</h1>
-          <p className="text-gray-600 mt-1">Configure your project request form</p>
+          <h1 className="text-3xl font-bold text-foreground">Edit Request Form</h1>
+          <p className="text-foreground-muted mt-1">Configure your project request form</p>
         </div>
         <Button onClick={handleSave} disabled={saving} icon={<Save size={20} />}>
           {saving ? 'Saving...' : 'Save Changes'}
@@ -190,8 +190,8 @@ export default function RequestFormEditorPage() {
       )}
 
       {/* Page Header */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Page Header</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Page Header</h2>
         <Input
           label="Title"
           value={data.header.title}
@@ -205,8 +205,8 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Field Labels */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Field Labels</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Field Labels</h2>
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Name Label"
@@ -247,8 +247,8 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Placeholders */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Placeholders</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Placeholders</h2>
         <Input
           label="Name Placeholder"
           value={data.placeholders.name}
@@ -260,20 +260,20 @@ export default function RequestFormEditorPage() {
           onChange={(e) => setData({ ...data, placeholders: { ...data.placeholders, email: e.target.value } })}
         />
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Description Placeholder</label>
+          <label className="block text-sm font-medium text-foreground mb-2">Description Placeholder</label>
           <textarea
             value={data.placeholders.description}
             onChange={(e) => setData({ ...data, placeholders: { ...data.placeholders, description: e.target.value } })}
             rows={3}
-            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
+            className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
           />
         </div>
       </div>
 
       {/* Service Types */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Service Types</h2>
+          <h2 className="text-xl font-bold text-foreground">Service Types</h2>
           <Button onClick={() => addOption('serviceTypes')} variant="outline" icon={<Plus size={20} />}>
             Add Option
           </Button>
@@ -305,9 +305,9 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Budget Ranges */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Budget Ranges</h2>
+          <h2 className="text-xl font-bold text-foreground">Budget Ranges</h2>
           <Button onClick={() => addOption('budgetRanges')} variant="outline" icon={<Plus size={20} />}>
             Add Option
           </Button>
@@ -339,9 +339,9 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Timelines */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Timeline Options</h2>
+          <h2 className="text-xl font-bold text-foreground">Timeline Options</h2>
           <Button onClick={() => addOption('timelines')} variant="outline" icon={<Plus size={20} />}>
             Add Option
           </Button>
@@ -373,8 +373,8 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* File Upload Config */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">File Upload</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">File Upload</h2>
         <Input
           label="Title"
           value={data.fileUpload.title}
@@ -393,8 +393,8 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Submit Button */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Submit Button</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Submit Button</h2>
         <Input
           label="Button Text"
           value={data.submitButton.text}
@@ -408,22 +408,22 @@ export default function RequestFormEditorPage() {
       </div>
 
       {/* Success Message */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Success Message</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Success Message</h2>
         <div>
-          <label className="block text-sm font-medium text-gray-900 mb-2">Message</label>
+          <label className="block text-sm font-medium text-foreground mb-2">Message</label>
           <textarea
             value={data.successMessage}
             onChange={(e) => setData({ ...data, successMessage: e.target.value })}
             rows={3}
-            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
+            className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
           />
         </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Disclaimer</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Disclaimer</h2>
         <Input
           label="Disclaimer Text"
           value={data.disclaimer.text}
