@@ -62,8 +62,8 @@ export default function ProjectsPage() {
     <div className="space-y-8 py-12">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">My Projects</h1>
-        <p className="text-xl text-gray-900-muted max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">My Projects</h1>
+        <p className="text-xl text-foreground-muted max-w-2xl mx-auto">
           A collection of my work showcasing various technologies
         </p>
       </div>
@@ -92,13 +92,13 @@ export default function ProjectsPage() {
         </div>
 
         <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-900-muted" size={20} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-muted" size={20} />
           <input
             type="text"
             placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition text-gray-900"
+            className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition text-foreground"
           />
         </div>
       </div>
@@ -124,9 +124,9 @@ export default function ProjectsPage() {
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-blue-500 transition-all hover:shadow-xl"
+              className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary transition-all hover:shadow-xl"
             >
-              <div className="aspect-video overflow-hidden bg-blue-50">
+              <div className="aspect-video overflow-hidden bg-primary/10">
                 <img
                   src={project.thumbnail}
                   alt={project.title}
@@ -135,14 +135,14 @@ export default function ProjectsPage() {
               </div>
               <div className="p-6">
                 <div className="mb-2">
-                  <span className="px-3 py-1 bg-blue-600/20 text-blue-600 text-sm rounded-full">
+                  <span className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full">
                     {project.category}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition">
+                <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition">
                   {project.title}
                 </h3>
-                <p className="text-gray-900-muted text-sm mb-4 line-clamp-2">
+                <p className="text-foreground-muted text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -158,7 +158,7 @@ export default function ProjectsPage() {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-blue-600 hover:underline font-medium"
+                      className="text-sm text-primary hover:underline font-medium"
                     >
                       Live Demo →
                     </a>
@@ -168,7 +168,7 @@ export default function ProjectsPage() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-gray-600 hover:text-gray-900 font-medium"
+                      className="text-sm text-foreground-muted hover:text-foreground font-medium"
                     >
                       GitHub
                     </a>
@@ -183,8 +183,8 @@ export default function ProjectsPage() {
       {/* Empty State */}
       {!loading && !error && projects.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-900-muted text-lg">No projects found</p>
-          <p className="text-gray-900/50 text-sm">Try adjusting your filters or search query</p>
+          <p className="text-foreground-muted text-lg">No projects found</p>
+          <p className="text-foreground/50 text-sm">Try adjusting your filters or search query</p>
         </div>
       )}
     </div>
