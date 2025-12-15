@@ -36,7 +36,7 @@ export default async function AboutPage() {
     <div className="space-y-16 py-12">
       {/* Hero Section */}
       <section className="text-center space-y-4">
-        <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-accent">
+        <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-primary">
           <Image
             src={content?.hero?.avatarUrl || '/avatar.jpg'}
             alt={`${content?.hero?.name || 'Kashi'} (${content?.hero?.nickname || 'Kashi'})`}
@@ -106,9 +106,9 @@ export default async function AboutPage() {
           {content?.timeline?.map((item: any, index: number) => (
             <div
               key={item.id || index}
-              className="relative pl-8 pb-8 border-l-2 border-accent last:pb-0"
+              className="relative pl-8 pb-8 border-l-2 border-primary last:pb-0"
             >
-              <div className="absolute left-0 top-0 w-4 h-4 -translate-x-[9px] bg-primary rounded-full border-4 border-primary"></div>
+              <div className="absolute left-0 top-0 w-4 h-4 -translate-x-[9px] bg-primary rounded-full border-4 border-background"></div>
               <div className="bg-card p-6 rounded-2xl border border-border">
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
