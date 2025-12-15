@@ -52,8 +52,8 @@ export default async function ServicesPage() {
     <div className="space-y-16 py-12">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900">{data.header.title}</h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground">{data.header.title}</h1>
+        <p className="text-xl text-foreground-muted max-w-2xl mx-auto">
           {data.header.subtitle}
         </p>
       </div>
@@ -65,24 +65,24 @@ export default async function ServicesPage() {
           return (
             <div
               key={service.id}
-              className="bg-white rounded-2xl p-8 border border-gray-200 hover:border-blue-500 transition-all hover:shadow-xl"
+              className="bg-card rounded-2xl p-8 border border-border hover:border-primary transition-all hover:shadow-xl"
             >
               <div className="flex items-start gap-4 mb-6">
-                <div className="p-4 bg-blue-50 rounded-xl">
-                  <IconComponent className="text-blue-600" size={32} />
+                <div className="p-4 bg-primary/10 rounded-xl">
+                  <IconComponent className="text-primary" size={32} />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                  <p className="text-blue-600 font-semibold">{service.pricing}</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-2">{service.title}</h3>
+                  <p className="text-primary font-semibold">{service.pricing}</p>
                 </div>
               </div>
 
-              <p className="text-gray-600 mb-6">{service.description}</p>
+              <p className="text-foreground-muted mb-6">{service.description}</p>
 
               <ul className="space-y-3">
                 {service.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3 text-gray-700">
-                    <Check className="text-blue-600 flex-shrink-0" size={20} />
+                  <li key={feature} className="flex items-center gap-3 text-foreground-muted">
+                    <Check className="text-primary flex-shrink-0" size={20} />
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -107,12 +107,12 @@ export default async function ServicesPage() {
 
       {/* FAQ Section */}
       <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Frequently Asked Questions</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
         <div className="space-y-6">
           {data.faq.map((item) => (
-            <div key={item.id} className="bg-white p-6 rounded-2xl border border-gray-200 hover:border-gray-300 transition-colors">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{item.question}</h3>
-              <p className="text-gray-600">
+            <div key={item.id} className="bg-card p-6 rounded-2xl border border-border hover:border-border transition-colors">
+              <h3 className="text-xl font-bold text-foreground mb-2">{item.question}</h3>
+              <p className="text-foreground-muted">
                 {item.answer}
               </p>
             </div>
