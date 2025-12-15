@@ -33,7 +33,7 @@ export default function HomePage() {
 
       {/* Features */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-blue-300 transition-all">
+        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
           <div className="inline-block p-4 bg-primary/20 rounded-xl mb-4">
             <Code2 className="text-primary" size={32} />
           </div>
@@ -43,7 +43,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-purple-300 transition-all">
+        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-secondary transition-all">
           <div className="inline-block p-4 bg-secondary/20 rounded-xl mb-4">
             <Palette className="text-secondary" size={32} />
           </div>
@@ -53,7 +53,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-green-300 transition-all">
+        <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-accent transition-all">
           <div className="inline-block p-4 bg-accent/10 rounded-xl mb-4">
             <Zap className="text-accent" size={32} />
           </div>
@@ -65,13 +65,13 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-12 text-center text-white shadow-xl">
+      <section className="bg-gradient-to-r from-primary to-secondary rounded-3xl p-12 text-center text-white shadow-xl">
         <h2 className="text-4xl font-bold mb-4">Ready to start your project?</h2>
         <p className="text-xl mb-8 opacity-90">
           Let's work together to bring your ideas to life
         </p>
         <Link href="/request">
-          <Button variant="secondary" size="lg">
+          <Button variant="outline" size="lg" className="bg-white/10 border-white hover:bg-white hover:text-primary">
             Get Started Today
           </Button>
         </Link>

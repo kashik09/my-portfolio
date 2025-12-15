@@ -17,15 +17,15 @@ export default function AdminPage() {
       value: '0',
       icon: FileText,
       href: '/admin/requests',
-      color: 'text-green-500',
-      bg: 'bg-green-500/10'
+      color: 'text-success',
+      bg: 'bg-success/10'
     },
     {
       label: 'Total Users',
       value: '0',
       icon: Users,
       href: '/admin/users',
-      color: 'text-purple-500',
+      color: 'text-secondary',
       bg: 'bg-secondary/10'
     },
     {
@@ -33,8 +33,8 @@ export default function AdminPage() {
       value: '0',
       icon: Eye,
       href: '/admin/analytics',
-      color: 'text-orange-500',
-      bg: 'bg-orange-500/10'
+      color: 'text-warning',
+      bg: 'bg-warning/10'
     }
   ]
 
@@ -77,13 +77,13 @@ export default function AdminPage() {
           </Link>
           <Link
             href="/admin/content/request-form"
-            className="px-6 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-center font-medium shadow-sm"
+            className="px-6 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm"
           >
             Edit Request Form
           </Link>
           <Link
             href="/admin/content/about"
-            className="px-6 py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-center font-medium shadow-sm"
+            className="px-6 py-4 bg-accent text-accent-foreground rounded-lg hover:bg-accent/90 transition text-center font-medium shadow-sm"
           >
             Edit About Page
           </Link>

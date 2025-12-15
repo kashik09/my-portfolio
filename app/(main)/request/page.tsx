@@ -160,7 +160,7 @@ export default function RequestPage() {
 
       <form onSubmit={handleSubmit} className="bg-card rounded-2xl p-8 border border-border space-y-6">
         {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500 rounded-lg text-red-500">
+          <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-destructive">
             {error}
           </div>
         )}
@@ -190,7 +190,7 @@ export default function RequestPage() {
           <select
             value={formData.serviceType}
             onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-            className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+            className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
             required
           >
             <option value="">Select a service...</option>
@@ -206,7 +206,7 @@ export default function RequestPage() {
             <select
               value={formData.budget}
               onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
               required
             >
               <option value="">Select budget...</option>
@@ -221,7 +221,7 @@ export default function RequestPage() {
             <select
               value={formData.timeline}
               onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-              className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
+              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition"
               required
             >
               <option value="">Select timeline...</option>
@@ -238,7 +238,7 @@ export default function RequestPage() {
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             rows={6}
-            className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition resize-none"
+            className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition resize-none"
             placeholder={config.placeholders.description}
             required
           />

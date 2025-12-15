@@ -76,7 +76,7 @@ export default function SignupPage() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-3 bg-red-500/10 border border-red-500 rounded-lg text-red-500 text-sm">
+          <div className="p-3 bg-destructive/10 border border-destructive rounded-lg text-destructive text-sm">
             {error}
           </div>
         )}
@@ -117,10 +117,10 @@ export default function SignupPage() {
                     className={`h-1 flex-1 rounded ${
                       level <= strength.strength
                         ? strength.strength === 1
-                          ? 'bg-red-500'
+                          ? 'bg-destructive'
                           : strength.strength === 2
-                          ? 'bg-yellow-500'
-                          : 'bg-green-500'
+                          ? 'bg-warning'
+                          : 'bg-success'
                         : 'bg-border'
                     }`}
                   />

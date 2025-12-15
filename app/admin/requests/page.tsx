@@ -160,7 +160,7 @@ export default function AdminRequestsPage() {
                       <button className="p-2 hover:bg-accent/10 text-accent rounded-lg transition">
                         <Eye size={18} />
                       </button>
-                      <button className="p-2 hover:bg-red-500/10 text-red-500 rounded-lg transition">
+                      <button className="p-2 hover:bg-destructive/10 text-destructive rounded-lg transition">
                         <Trash2 size={18} />
                       </button>
                     </div>

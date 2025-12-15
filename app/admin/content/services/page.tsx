@@ -197,7 +197,7 @@ export default function ServicesEditorPage() {
   if (!data) {
     return (
       <div className="flex justify-center items-center py-12">
-        <p className="text-red-500">{error || 'Failed to load data'}</p>
+        <p className="text-destructive">{error || 'Failed to load data'}</p>
       </div>
     )
   }
@@ -217,13 +217,13 @@ export default function ServicesEditorPage() {
 
       {/* Success/Error Messages */}
       {success && (
-        <div className="p-4 bg-green-100 border border-green-500 rounded-lg text-green-800 flex items-center gap-2">
+        <div className="p-4 bg-success/10 border border-success rounded-lg text-success flex items-center gap-2">
           <AlertCircle size={20} />
           Changes saved successfully!
         </div>
       )}
       {error && (
-        <div className="p-4 bg-red-100 border border-red-500 rounded-lg text-red-800 flex items-center gap-2">
+        <div className="p-4 bg-destructive/10 border border-destructive rounded-lg text-destructive flex items-center gap-2">
           <AlertCircle size={20} />
           {error}
         </div>
@@ -260,7 +260,7 @@ export default function ServicesEditorPage() {
                 <h3 className="font-semibold text-foreground">{service.title}</h3>
                 <button
                   onClick={() => removeService(service.id)}
-                  className="text-red-500 hover:text-red-700 p-2"
+                  className="text-destructive hover:text-destructive/80 p-2"
                 >
                   <Trash2 size={20} />
                 </button>
@@ -297,7 +297,7 @@ export default function ServicesEditorPage() {
                   <label className="text-sm font-medium text-foreground">Features</label>
                   <button
                     onClick={() => addFeature(service.id)}
-                    className="text-primary hover:text-blue-700 text-sm font-medium"
+                    className="text-primary hover:text-primary/80 text-sm font-medium"
                   >
                     + Add Feature
                   </button>
@@ -309,11 +309,11 @@ export default function ServicesEditorPage() {
                         type="text"
                         value={feature}
                         onChange={(e) => updateFeature(service.id, index, e.target.value)}
-                        className="flex-1 px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition"
+                        className="flex-1 px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
                       />
                       <button
                         onClick={() => removeFeature(service.id, index)}
-                        className="text-red-500 hover:text-red-700 p-2"
+                        className="text-destructive hover:text-destructive/80 p-2"
                       >
                         <Trash2 size={20} />
                       </button>
@@ -362,7 +362,7 @@ export default function ServicesEditorPage() {
                 <label className="text-sm font-medium text-foreground">Question & Answer</label>
                 <button
                   onClick={() => removeFAQ(item.id)}
-                  className="text-red-500 hover:text-red-700 p-2"
+                  className="text-destructive hover:text-destructive/80 p-2"
                 >
                   <Trash2 size={20} />
                 </button>
@@ -378,7 +378,7 @@ export default function ServicesEditorPage() {
                   value={item.answer}
                   onChange={(e) => updateFAQ(item.id, 'answer', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
+                  className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition resize-none"
                 />
               </div>
             </div>

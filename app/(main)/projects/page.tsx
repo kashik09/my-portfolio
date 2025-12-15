@@ -113,7 +113,7 @@ export default function ProjectsPage() {
       {/* Error State */}
       {error && (
         <div className="text-center py-12">
-          <p className="text-red-500 mb-4">{error}</p>
+          <p className="text-destructive mb-4">{error}</p>
           <Button onClick={fetchProjects}>Try Again</Button>
         </div>
       )}
