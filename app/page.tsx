@@ -7,8 +7,8 @@ export default function HomePage() {
     <div className="space-y-20 py-12">
       {/* Hero Section */}
       <section className="text-center space-y-6 py-12">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 rounded-full">
-          <span className="text-accent">✨ Available for freelance projects</span>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-success/10 border border-success/20 rounded-full">
+          <span className="text-success">✨ Available for freelance projects</span>
         </div>
         <h1 className="text-5xl md:text-7xl font-bold text-foreground">
           Hi, I'm <span className="text-primary">Kashi</span>
@@ -54,7 +54,7 @@ export default function HomePage() {
         </div>
 
         <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-accent transition-all">
-          <div className="inline-block p-4 bg-accent/10 rounded-xl mb-4">
+          <div className="inline-block p-4 bg-accent/20 rounded-xl mb-4">
             <Zap className="text-accent" size={32} />
           </div>
           <h3 className="text-xl font-bold text-foreground mb-2">Fast Performance</h3>
