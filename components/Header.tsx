@@ -22,14 +22,13 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-accent hover:opacity-80 transition">
             <Code2 size={28} className="text-accent" />
-            <span>Kashi Kweyu</span>
+            <span className="text-accent">Kashi Kweyu</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
-                key={link.href}
                 href={link.href}
                 className="text-foreground hover:text-accent transition font-medium"
               >
