@@ -188,7 +188,7 @@ export default function AboutEditorPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <p className="text-gray-600">Loading...</p>
+        <p className="text-foreground-muted">Loading...</p>
       </div>
     )
   }
@@ -206,8 +206,8 @@ export default function AboutEditorPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Edit About Page</h1>
-          <p className="text-gray-600 mt-1">Manage your personal information and story</p>
+          <h1 className="text-3xl font-bold text-foreground">Edit About Page</h1>
+          <p className="text-foreground-muted mt-1">Manage your personal information and story</p>
         </div>
         <Button onClick={handleSave} disabled={saving} icon={<Save size={20} />}>
           {saving ? 'Saving...' : 'Save Changes'}
@@ -229,8 +229,8 @@ export default function AboutEditorPage() {
       )}
 
       {/* Hero Section */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Hero Section</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Hero Section</h2>
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Full Name"
@@ -261,18 +261,18 @@ export default function AboutEditorPage() {
       </div>
 
       {/* Story Section */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-6">
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Story</h2>
+          <h2 className="text-xl font-bold text-foreground">Story</h2>
           <Button onClick={addStoryParagraph} variant="outline" icon={<Plus size={20} />}>
             Add Paragraph
           </Button>
         </div>
         <div className="space-y-4">
           {data.story.map((para) => (
-            <div key={para.id} className="border border-gray-200 rounded-lg p-4">
+            <div key={para.id} className="border border-border rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-900">Paragraph</label>
+                <label className="text-sm font-medium text-foreground">Paragraph</label>
                 <button
                   onClick={() => removeStoryParagraph(para.id)}
                   className="text-red-500 hover:text-red-700 p-2"
@@ -284,7 +284,7 @@ export default function AboutEditorPage() {
                 value={para.content}
                 onChange={(e) => updateStoryParagraph(para.id, e.target.value)}
                 rows={4}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
+                className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
               />
             </div>
           ))}
@@ -292,11 +292,11 @@ export default function AboutEditorPage() {
       </div>
 
       {/* Skills Section */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-6">
-        <h2 className="text-xl font-bold text-gray-900">Skills</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-6">
+        <h2 className="text-xl font-bold text-foreground">Skills</h2>
         <div className="space-y-6">
           {data.skills.map((skillGroup) => (
-            <div key={skillGroup.category} className="border border-gray-200 rounded-lg p-4">
+            <div key={skillGroup.category} className="border border-border rounded-lg p-4">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <Input
@@ -314,7 +314,7 @@ export default function AboutEditorPage() {
                 </div>
                 <button
                   onClick={() => addSkillItem(skillGroup.category)}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium mt-6"
+                  className="text-primary hover:text-blue-700 text-sm font-medium mt-6"
                 >
                   + Add Skill
                 </button>
@@ -326,7 +326,7 @@ export default function AboutEditorPage() {
                       type="text"
                       value={skill}
                       onChange={(e) => updateSkillItem(skillGroup.category, index, e.target.value)}
-                      className="flex-1 px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition"
+                      className="flex-1 px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition"
                     />
                     <button
                       onClick={() => removeSkillItem(skillGroup.category, index)}
@@ -343,21 +343,21 @@ export default function AboutEditorPage() {
       </div>
 
       {/* Timeline Section */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-6">
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Timeline</h2>
+          <h2 className="text-xl font-bold text-foreground">Timeline</h2>
           <Button onClick={addTimelineItem} variant="outline" icon={<Plus size={20} />}>
             Add Item
           </Button>
         </div>
         <div className="space-y-4">
           {data.timeline.map((item) => (
-            <div key={item.id} className="border border-gray-200 rounded-lg p-4 space-y-3">
+            <div key={item.id} className="border border-border rounded-lg p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <select
                   value={item.type}
                   onChange={(e) => updateTimelineItem(item.id, 'type', e.target.value)}
-                  className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+                  className="px-3 py-1 bg-gray-50 border border-border rounded-lg text-sm"
                 >
                   <option value="work">Work</option>
                   <option value="education">Education</option>
@@ -388,12 +388,12 @@ export default function AboutEditorPage() {
                 placeholder="2024 - Present"
               />
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">Description</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Description</label>
                 <textarea
                   value={item.description}
                   onChange={(e) => updateTimelineItem(item.id, 'description', e.target.value)}
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
+                  className="w-full px-4 py-2 bg-gray-50 border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-blue-500/20 outline-none transition resize-none"
                 />
               </div>
             </div>
@@ -402,8 +402,8 @@ export default function AboutEditorPage() {
       </div>
 
       {/* Social Links */}
-      <div className="bg-white rounded-2xl p-6 border border-gray-200 space-y-4">
-        <h2 className="text-xl font-bold text-gray-900">Social Links</h2>
+      <div className="bg-card rounded-2xl p-6 border border-border space-y-4">
+        <h2 className="text-xl font-bold text-foreground">Social Links</h2>
         <Input
           label="GitHub"
           value={data.social.github}
