@@ -26,7 +26,7 @@ interface Project {
 
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const router = useRouter()
-  const { success, error: showError } = useToast()
+  const { showToast } = useToast()
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -39,12 +39,12 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     try {
       const response = await fetch(`/api/projects/${params.slug}`)
       if (!response.ok) throw new Error('Failed to fetch project')
-      
+
       const data = await response.json()
       setProject(data.data)
     } catch (err) {
       console.error('Error fetching project:', err)
-      showError('Failed to load project')
+      showToast('Failed to load project', 'error')
     } finally {
       setLoading(false)
     }
@@ -52,19 +52,19 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
 
   const handleDelete = async () => {
     if (!project) return
-    
+
     try {
       const response = await fetch(`/api/projects/${project.slug}`, {
         method: 'DELETE'
       })
-      
+
       if (!response.ok) throw new Error('Failed to delete project')
-      
-      success('Project deleted successfully')
+
+      showToast('Project deleted successfully', 'success')
       router.push('/admin/projects')
     } catch (err) {
       console.error('Error deleting project:', err)
-      showError('Failed to delete project')
+      showToast('Failed to delete project', 'error')
     }
   }
 

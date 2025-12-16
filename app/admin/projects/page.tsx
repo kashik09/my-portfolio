@@ -9,6 +9,7 @@ import ConfirmModal from '@/components/ui/ConfirmModal'
 interface Project {
   id: number
   title: string
+  slug: string
   category: string
   status: string
   views: number
@@ -26,6 +27,7 @@ export default function AdminProjectsPage() {
     {
       id: 1,
       title: 'JS Calculator',
+      slug: 'js-calculator',
       category: 'CLASS',
       status: 'Published',
       views: 234,
@@ -120,14 +122,14 @@ export default function AdminProjectsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <Link
-                          href={`/admin/projects/${project.id}`}
+                          href={`/admin/projects/${project.slug}`}
                           className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
                           title="View project"
                         >
                           <Eye size={18} />
                         </Link>
                         <Link
-                          href={`/admin/projects/${project.id}/edit`}
+                          href={`/admin/projects/${project.slug}/edit`}
                           className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
                           title="Edit project"
                         >
