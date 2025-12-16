@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { Search, Eye, Trash2, Mail, Clock, CheckCircle, XCircle } from 'lucide-react'
-import Toast, { ToastType } from '@/components/ui/Toast'
+import { useState, useEffect } from 'react'
+import { Search, Eye, Trash2, Mail, Clock, CheckCircle, XCircle, Undo, AlertTriangle } from 'lucide-react'
+import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 
 type RequestStatus = 'pending' | 'contacted' | 'completed' | 'rejected'
@@ -28,17 +28,8 @@ export default function AdminRequestsPage() {
   const [requestToDelete, setRequestToDelete] = useState<Request | null>(null)
   const [deletedRequest, setDeletedRequest] = useState<Request | null>(null)
   const [undoTimerId, setUndoTimerId] = useState<NodeJS.Timeout | null>(null)
-  const [toast, setToast] = useState<{ 
-    show: boolean
-    message: string
-    type: ToastType
-    showUndo: boolean
-  }>({
-    show: false,
-    message: '',
-    type: 'success',
-    showUndo: false
-  })
+  
+  const { showToast } = useToast()
 
   // TODO: Fetch from database
   const [requests, setRequests] = useState<Request[]>([
@@ -95,13 +86,12 @@ export default function AdminRequestsPage() {
     setRequestToDelete(null)
     if (showModal) setShowModal(false)
     
-    // Show toast with undo option
-    showToast('Request deleted successfully', 'success', true)
+    // Show success toast
+    showToast('Request deleted successfully', 'success')
     
     // Set timer to permanently delete after 5 seconds
     const timerId = setTimeout(() => {
       setDeletedRequest(null)
-      setToast(prev => ({ ...prev, showUndo: false }))
     }, 5000)
     
     setUndoTimerId(timerId)
@@ -120,26 +110,22 @@ export default function AdminRequestsPage() {
       setUndoTimerId(null)
       
       // Show success message
-      showToast('Request restored', 'info', false)
+      showToast('Request restored', 'info')
     }
   }
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (undoTimerId) {
+        clearTimeout(undoTimerId)
+      }
+    }
+  }, [undoTimerId])
 
   const confirmDelete = (request: Request) => {
     setRequestToDelete(request)
     setShowDeleteModal(true)
-  }
-
-  const showToast = (message: string, type: ToastType, showUndo = false) => {
-    setToast({ show: true, message, type, showUndo })
-  }
-
-  const closeToast = () => {
-    setToast({ show: false, message: '', type: 'success', showUndo: false })
-    if (undoTimerId) {
-      clearTimeout(undoTimerId)
-      setUndoTimerId(null)
-    }
-    setDeletedRequest(null)
   }
 
   const handleView = (request: Request) => {
@@ -149,10 +135,10 @@ export default function AdminRequestsPage() {
 
   const getStatusBadge = (status: RequestStatus) => {
     const styles = {
-      pending: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400',
-      contacted: 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
-      completed: 'bg-green-500/20 text-green-600 dark:text-green-400',
-      rejected: 'bg-red-500/20 text-red-600 dark:text-red-400'
+      pending: 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300',
+      contacted: 'bg-blue-500/20 text-blue-700 dark:text-blue-300',
+      completed: 'bg-green-500/20 text-green-700 dark:text-green-300',
+      rejected: 'bg-red-500/20 text-red-700 dark:text-red-300'
     }
     return styles[status]
   }
@@ -171,13 +157,13 @@ export default function AdminRequestsPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-foreground">Service Requests</h1>
-        <p className="text-foreground-muted">Manage incoming project requests</p>
+        <p className="text-muted-foreground">Manage incoming project requests</p>
       </div>
 
       {/* Filters & Search */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-muted" size={20} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <input
             type="text"
             placeholder="Search requests..."
@@ -203,39 +189,58 @@ export default function AdminRequestsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-foreground-muted text-sm">Pending</p>
-            <Clock className="text-yellow-500" size={20} />
+            <p className="text-muted-foreground text-sm">Pending</p>
+            <Clock className="text-yellow-600 dark:text-yellow-400" size={20} />
           </div>
           <p className="text-2xl font-bold text-foreground">{stats.pending}</p>
         </div>
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-foreground-muted text-sm">Contacted</p>
-            <Mail className="text-blue-500" size={20} />
+            <p className="text-muted-foreground text-sm">Contacted</p>
+            <Mail className="text-blue-600 dark:text-blue-400" size={20} />
           </div>
           <p className="text-2xl font-bold text-foreground">{stats.contacted}</p>
         </div>
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-foreground-muted text-sm">Completed</p>
-            <CheckCircle className="text-green-500" size={20} />
+            <p className="text-muted-foreground text-sm">Completed</p>
+            <CheckCircle className="text-green-600 dark:text-green-400" size={20} />
           </div>
           <p className="text-2xl font-bold text-foreground">{stats.completed}</p>
         </div>
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-foreground-muted text-sm">Total</p>
+            <p className="text-muted-foreground text-sm">Total</p>
             <Eye className="text-primary" size={20} />
           </div>
           <p className="text-2xl font-bold text-foreground">{stats.total}</p>
         </div>
       </div>
 
+      {/* Undo Banner */}
+      {deletedRequest && (
+        <div className="bg-yellow-500/10 dark:bg-yellow-500/20 border border-yellow-500/30 rounded-lg p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="text-yellow-700 dark:text-yellow-300" size={20} />
+            <p className="text-foreground">
+              Deleted request from <span className="font-semibold">{deletedRequest.name}</span>
+            </p>
+          </div>
+          <button
+            onClick={handleUndo}
+            className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 dark:bg-yellow-500 dark:hover:bg-yellow-600 transition font-medium flex items-center gap-2"
+          >
+            <Undo size={16} />
+            Undo
+          </button>
+        </div>
+      )}
+
       {/* Requests Table */}
       <div className="bg-card rounded-2xl border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-card-hover border-b border-border">
+            <thead className="bg-muted border-b border-border">
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Client</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-foreground">Service</th>
@@ -249,17 +254,17 @@ export default function AdminRequestsPage() {
             <tbody className="divide-y divide-border">
               {filteredRequests.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-foreground-muted">
+                  <td colSpan={7} className="px-6 py-12 text-center text-muted-foreground">
                     No requests found
                   </td>
                 </tr>
               ) : (
                 filteredRequests.map((request) => (
-                  <tr key={request.id} className="hover:bg-card-hover transition">
+                  <tr key={request.id} className="hover:bg-muted/50 transition">
                     <td className="px-6 py-4">
                       <div>
                         <p className="font-medium text-foreground">{request.name}</p>
-                        <p className="text-sm text-foreground-muted">{request.email}</p>
+                        <p className="text-sm text-muted-foreground">{request.email}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4 text-foreground">{request.serviceType}</td>
@@ -268,14 +273,14 @@ export default function AdminRequestsPage() {
                         {request.budget}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-foreground-muted">{request.timeline}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{request.timeline}</td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 text-sm rounded-full flex items-center gap-1 w-fit font-medium ${getStatusBadge(request.status)}`}>
                         {getStatusIcon(request.status)}
                         {request.status.charAt(0).toUpperCase() + request.status.slice(1)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-foreground-muted">{request.createdAt}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{request.createdAt}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
                         <button 
@@ -310,11 +315,11 @@ export default function AdminRequestsPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="text-2xl font-bold text-foreground mb-1">{selectedRequest.name}</h2>
-                  <p className="text-foreground-muted">{selectedRequest.email}</p>
+                  <p className="text-muted-foreground">{selectedRequest.email}</p>
                 </div>
                 <button 
                   onClick={() => setShowModal(false)}
-                  className="p-2 hover:bg-card-hover rounded-lg transition text-foreground-muted hover:text-foreground"
+                  className="p-2 hover:bg-muted rounded-lg transition text-muted-foreground hover:text-foreground"
                 >
                   ✕
                 </button>
@@ -323,23 +328,23 @@ export default function AdminRequestsPage() {
             
             <div className="p-6 space-y-6">
               <div>
-                <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Service Type</label>
+                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Service Type</label>
                 <p className="text-lg text-foreground mt-1">{selectedRequest.serviceType}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Budget</label>
+                  <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Budget</label>
                   <p className="text-lg text-foreground mt-1">{selectedRequest.budget}</p>
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Timeline</label>
+                  <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Timeline</label>
                   <p className="text-lg text-foreground mt-1">{selectedRequest.timeline}</p>
                 </div>
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Status</label>
+                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Status</label>
                 <div className="mt-2">
                   <span className={`px-4 py-2 text-sm rounded-full inline-flex items-center gap-2 font-medium ${getStatusBadge(selectedRequest.status)}`}>
                     {getStatusIcon(selectedRequest.status)}
@@ -350,13 +355,13 @@ export default function AdminRequestsPage() {
 
               {selectedRequest.description && (
                 <div>
-                  <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Description</label>
+                  <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Description</label>
                   <p className="text-foreground mt-2 leading-relaxed">{selectedRequest.description}</p>
                 </div>
               )}
 
               <div>
-                <label className="text-sm font-semibold text-foreground-muted uppercase tracking-wide">Submitted</label>
+                <label className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Submitted</label>
                 <p className="text-foreground mt-1">{selectedRequest.createdAt}</p>
               </div>
             </div>
@@ -364,46 +369,33 @@ export default function AdminRequestsPage() {
             <div className="p-6 border-t border-border flex gap-3">
               <button 
                 onClick={() => setShowModal(false)}
-                className="flex-1 px-6 py-3 bg-card-hover border border-border text-foreground rounded-lg hover:bg-card transition font-medium"
+                className="flex-1 px-6 py-3 bg-muted hover:bg-muted/80 border border-border text-foreground rounded-lg transition font-medium"
               >
                 Close
               </button>
               <button 
                 onClick={() => handleDelete(selectedRequest)}
-                className="px-6 py-3 bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-500/20 transition font-medium"
+                className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 rounded-lg transition font-medium"
               >
                 Delete Request
               </button>
             </div>
           </div>
-        </div>
+          </div>
       )}
-
-      {/* Delete Confirmation Modal */}
-      <ConfirmModal
-        isOpen={showDeleteModal}
-        onClose={() => {
-          setShowDeleteModal(false)
-          setRequestToDelete(null)
-        }}
-        onConfirm={() => requestToDelete && handleDelete(requestToDelete)}
-        title="Delete Request"
-        message={`Are you sure you want to delete the request from ${requestToDelete?.name}?`}
-        confirmText="Delete"
-        type="danger"
-      />
-
-      {/* Toast Notification */}
-      {toast.show && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          duration={toast.showUndo ? 5000 : 3000}
-          onClose={closeToast}
-          showUndo={toast.showUndo}
-          onUndo={handleUndo}
-        />
-      )}
-    </div>
-  )
+  {/* Delete Confirmation Modal */}
+  <ConfirmModal
+    isOpen={showDeleteModal}
+    onClose={() => {
+      setShowDeleteModal(false)
+      setRequestToDelete(null)
+    }}
+    onConfirm={() => requestToDelete && handleDelete(requestToDelete)}
+    title="Delete Request"
+    message={`Are you sure you want to delete the request from ${requestToDelete?.name}?`}
+    confirmText="Delete"
+    type="danger"
+  />
+</div>
+)
 }
