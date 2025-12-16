@@ -103,7 +103,7 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="text-center space-y-4">
         <h1 className="text-4xl md:text-5xl font-bold text-foreground">My Projects</h1>
-        <p className="text-xl text-foreground-muted max-w-2xl mx-auto">
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
           A collection of my work showcasing various technologies
         </p>
       </div>
@@ -132,13 +132,13 @@ export default function ProjectsPage() {
         </div>
 
         <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-foreground-muted" size={20} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <input
             type="text"
             placeholder="Search projects..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-lg focus:border-accent focus:ring-2 focus:ring-accent/20 outline-none transition text-foreground"
+            className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition text-foreground"
           />
         </div>
       </div>
@@ -183,7 +183,7 @@ export default function ProjectsPage() {
                 <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition">
                   {project.title}
                 </h3>
-                <p className="text-foreground-muted text-sm mb-4 line-clamp-2">
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-2">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -195,7 +195,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="flex gap-3">
                   {project.liveUrl && (
-                    
+                    <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -209,7 +209,7 @@ export default function ProjectsPage() {
                     </a>
                   )}
                   {project.githubUrl && (
-                    
+                    <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -217,7 +217,7 @@ export default function ProjectsPage() {
                         e.stopPropagation()
                         handleGithubClick(project)
                       }}
-                      className="text-sm text-foreground-muted hover:text-foreground font-medium"
+                      className="text-sm text-muted-foreground hover:text-foreground font-medium"
                     >
                       GitHub
                     </a>
@@ -232,8 +232,8 @@ export default function ProjectsPage() {
       {/* Empty State */}
       {!loading && !error && projects.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-foreground-muted text-lg">No projects found</p>
-          <p className="text-foreground/50 text-sm">Try adjusting your filters or search query</p>
+          <p className="text-muted-foreground text-lg">No projects found</p>
+          <p className="text-muted-foreground/50 text-sm">Try adjusting your filters or search query</p>
         </div>
       )}
     </div>
