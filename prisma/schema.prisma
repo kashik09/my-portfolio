@@ -23,18 +23,44 @@ model User {
   role          Role      @default(USER)
 
   // Theme preferences
-  theme         Theme     @default(SYSTEM)
+  theme Theme @default(SYSTEM)
+
+  // Account status
+  accountStatus       AccountStatus @default(ACTIVE)
+  accountLockedAt     DateTime?
+  accountLockedReason String?       @db.Text
+
+  // Age verification (for minors)
+  birthDate     DateTime?
+  guardianEmail String?
+  isMinor       Boolean   @default(false)
+
+  // Security
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret  String?
+
+  // Membership
+  membershipId String?
+  membership   Membership? @relation(fields: [membershipId], references: [id])
 
   // Timestamps
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // Relations
-  accounts       Account[]
-  sessions       Session[]
-  projectRequests ProjectRequest[]
+  accounts                Account[]
+  sessions                Session[]
+  projectRequests         ProjectRequest[]
+  digitalProductPurchases DigitalProductPurchase[]
+  licenses                License[]
+  downloads               Download[]
+  serviceProjects         ServiceProject[]
+  creditTransactions      CreditTransaction[]
+  auditLogs               AuditLog[]
 
   @@index([email])
+  @@index([accountStatus])
+  @@index([membershipId])
   @@map("users")
 }
 
@@ -85,39 +111,39 @@ model VerificationToken {
 // ============================================
 
 model ProjectRequest {
-  id          String        @id @default(cuid())
+  id String @id @default(cuid())
 
   // User relation (optional - can be null for non-authenticated requests)
-  userId      String?
-  user        User?         @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   // Contact information
-  name        String
-  email       String
-  phone       String?
-  company     String?
+  name    String
+  email   String
+  phone   String?
+  company String?
 
   // Project details
   projectType String
   budget      String
   timeline    String
-  description String        @db.Text
+  description String @db.Text
 
   // Additional details
-  requirements String?      @db.Text
-  attachments  String[]     // URLs to uploaded files
+  requirements String?  @db.Text
+  attachments  String[] // URLs to uploaded files
 
   // Status tracking
-  status      RequestStatus @default(PENDING)
-  priority    Priority      @default(MEDIUM)
+  status   RequestStatus @default(PENDING)
+  priority Priority      @default(MEDIUM)
 
   // Admin notes
-  adminNotes  String?       @db.Text
-  assignedTo  String?       // Admin user ID
+  adminNotes String? @db.Text
+  assignedTo String? // Admin user ID
 
   // Timestamps
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   respondedAt DateTime?
 
   @@index([userId])
@@ -133,46 +159,46 @@ model ProjectRequest {
 // ============================================
 
 model Project {
-  id          String         @id @default(cuid())
+  id String @id @default(cuid())
 
   // SEO & Identification
-  slug        String         @unique
+  slug        String @unique
   title       String
-  description String         @db.Text
+  description String @db.Text
 
   // Categorization
-  category    ProjectCategory
-  tags        String[]
+  category ProjectCategory
+  tags     String[]
 
   // Technical details
-  techStack   String[]
-  features    String[]
+  techStack String[]
+  features  String[]
 
   // Media
-  images      String[]       // Array of image URLs
-  thumbnail   String?        // Main thumbnail image
+  images    String[] // Array of image URLs
+  thumbnail String? // Main thumbnail image
 
   // Links
-  githubUrl   String?
-  liveUrl     String?
-  demoUrl     String?
+  githubUrl    String?
+  liveUrl      String?
+  demoUrl      String?
   caseStudyUrl String?
 
   // Additional content
-  content     String?        @db.Text // Markdown content for detailed case study
+  content String? @db.Text // Markdown content for detailed case study
 
   // Metrics
-  featured    Boolean        @default(false)
-  viewCount   Int            @default(0)
-  likeCount   Int            @default(0)
+  featured  Boolean @default(false)
+  viewCount Int     @default(0)
+  likeCount Int     @default(0)
 
   // Publishing
-  published   Boolean        @default(false)
+  published   Boolean   @default(false)
   publishedAt DateTime?
 
   // Timestamps
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([slug])
   @@index([category])
@@ -187,14 +213,14 @@ model Project {
 // ============================================
 
 model Visit {
-  id          String   @id @default(cuid())
+  id String @id @default(cuid())
 
   // Page information
-  pagePath    String
-  pageTitle   String?
+  pagePath  String
+  pageTitle String?
 
   // Visitor information
-  visitorId   String   // Anonymous ID or user ID
+  visitorId String // Anonymous ID or user ID
 
   // Referrer information
   referrer    String?
@@ -203,24 +229,24 @@ model Visit {
   utmCampaign String?
 
   // Device & Browser information
-  userAgent   String?  @db.Text
-  device      String?  // mobile, tablet, desktop
-  browser     String?
-  os          String?
+  userAgent String? @db.Text
+  device    String? // mobile, tablet, desktop
+  browser   String?
+  os        String?
 
   // Location (if available)
-  country     String?
-  city        String?
+  country String?
+  city    String?
 
   // Session information
-  sessionId   String?
-  duration    Int?     // Time spent on page in seconds
+  sessionId String?
+  duration  Int? // Time spent on page in seconds
 
   // Additional metadata
-  metadata    Json?    // Flexible field for additional data
+  metadata Json? // Flexible field for additional data
 
   // Timestamp
-  timestamp   DateTime @default(now())
+  timestamp DateTime @default(now())
 
   @@index([pagePath])
   @@index([visitorId])
@@ -230,13 +256,463 @@ model Visit {
 }
 
 // ============================================
+// DIGITAL PRODUCTS MODELS
+// ============================================
+
+model DigitalProduct {
+  id String @id @default(cuid())
+
+  // Product info
+  name        String
+  slug        String          @unique
+  description String          @db.Text
+  category    ProductCategory
+  tags        String[]
+
+  // Pricing
+  price    Decimal @db.Decimal(10, 2)
+  currency String  @default("USD")
+
+  // Files
+  fileUrl       String // Secure download URL
+  fileSize      Int // in bytes
+  fileType      String // zip, pdf, etc.
+  thumbnailUrl  String?
+  previewImages String[] // Array of preview image URLs
+
+  // License types offered
+  personalLicense   Boolean @default(true)
+  commercialLicense Boolean @default(true)
+  teamLicense       Boolean @default(false)
+
+  // Metadata
+  version       String  @default("1.0.0")
+  changelog     String? @db.Text
+  documentation String? @db.Text
+
+  // Publishing
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  featured    Boolean   @default(false)
+
+  // Stats
+  downloadCount Int @default(0)
+  purchaseCount Int @default(0)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  purchases DigitalProductPurchase[]
+  licenses  License[]
+  downloads Download[]
+
+  @@index([slug])
+  @@index([category])
+  @@index([published])
+  @@index([featured])
+  @@map("digital_products")
+}
+
+model DigitalProductPurchase {
+  id String @id @default(cuid())
+
+  // Buyer
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Product
+  productId String
+  product   DigitalProduct @relation(fields: [productId], references: [id])
+
+  // Purchase details
+  licenseType LicenseType
+  price       Decimal     @db.Decimal(10, 2)
+  currency    String
+
+  // Payment
+  paymentStatus PaymentStatus @default(PENDING)
+  paymentMethod String?
+  transactionId String?       @unique
+
+  // Timestamps
+  purchasedAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([productId])
+  @@index([paymentStatus])
+  @@map("digital_product_purchases")
+}
+
+model License {
+  id String @id @default(cuid())
+
+  // Owner
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Product
+  productId String
+  product   DigitalProduct @relation(fields: [productId], references: [id])
+
+  // License details
+  licenseKey  String        @unique
+  licenseType LicenseType
+  status      LicenseStatus @default(ACTIVE)
+
+  // Usage limits (for team licenses)
+  maxUsers     Int @default(1)
+  currentUsers Int @default(0)
+
+  // Abuse tracking
+  abuseDetected Boolean   @default(false)
+  abuseReason   String?   @db.Text
+  revokedAt     DateTime?
+  revokedReason String?   @db.Text
+
+  // Timestamps
+  issuedAt  DateTime  @default(now())
+  expiresAt DateTime? // null = lifetime
+
+  // Relations
+  downloads Download[]
+
+  @@index([userId])
+  @@index([productId])
+  @@index([licenseKey])
+  @@index([status])
+  @@map("licenses")
+}
+
+model Download {
+  id String @id @default(cuid())
+
+  // User & Product
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  productId String
+  product   DigitalProduct @relation(fields: [productId], references: [id])
+
+  licenseId String
+  license   License @relation(fields: [licenseId], references: [id])
+
+  // Download tracking
+  successful        Boolean @default(false)
+  ipHash            String // Hashed IP for security
+  deviceFingerprint String?
+  userAgent         String? @db.Text
+
+  // Download window tracking (3 downloads in 14 days)
+  downloadedAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([productId])
+  @@index([licenseId])
+  @@index([downloadedAt])
+  @@map("downloads")
+}
+
+model DownloadResetRequest {
+  id String @id @default(cuid())
+
+  userId    String
+  productId String
+
+  // Request details
+  reason String             @db.Text
+  status ResetRequestStatus @default(PENDING)
+
+  // Admin review
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  reviewNotes String?   @db.Text
+
+  // Timestamps
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([status])
+  @@map("download_reset_requests")
+}
+
+// ============================================
+// SERVICES MODELS
+// ============================================
+
+model ServiceProject {
+  id String @id @default(cuid())
+
+  // Client
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Project info
+  name        String
+  description String          @db.Text
+  category    ServiceCategory
+
+  // Current phase
+  currentPhase ProjectPhase @default(DESIGN)
+
+  // Revisions tracking
+  designRevisions    Int @default(0)
+  designRevisionsMax Int @default(2)
+  buildRevisions     Int @default(0)
+  buildRevisionsMax  Int @default(1)
+
+  // Scope
+  approvedFeatures String[] // List of approved features
+  scope            String?  @db.Text
+
+  // Timeline
+  startDate   DateTime?
+  deadline    DateTime?
+  isPaused    Boolean   @default(false)
+  pauseReason String?   @db.Text
+  pausedAt    DateTime?
+
+  // Status
+  status ServiceStatus @default(ACTIVE)
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  completedAt DateTime?
+
+  // Relations
+  phases ProjectPhaseHistory[]
+  addOns ServiceAddOn[]
+
+  @@index([userId])
+  @@index([currentPhase])
+  @@index([status])
+  @@map("service_projects")
+}
+
+model ProjectPhaseHistory {
+  id String @id @default(cuid())
+
+  projectId String
+  project   ServiceProject @relation(fields: [projectId], references: [id])
+
+  phase       ProjectPhase
+  startedAt   DateTime     @default(now())
+  completedAt DateTime?
+
+  notes String? @db.Text
+
+  @@index([projectId])
+  @@map("project_phase_history")
+}
+
+model ServiceAddOn {
+  id String @id @default(cuid())
+
+  projectId String
+  project   ServiceProject @relation(fields: [projectId], references: [id])
+
+  // Add-on details
+  type        AddOnType
+  description String    @db.Text
+  creditCost  Int
+
+  // Status
+  status AddOnStatus @default(PENDING)
+
+  // Timestamps
+  requestedAt DateTime  @default(now())
+  approvedAt  DateTime?
+  completedAt DateTime?
+
+  @@index([projectId])
+  @@index([status])
+  @@map("service_add_ons")
+}
+
+// ============================================
+// CREDIT & MEMBERSHIP MODELS
+// ============================================
+
+model Membership {
+  id String @id @default(cuid())
+
+  // Tier
+  tier MembershipTier
+
+  // Credits
+  totalCredits     Int // Total credits for this period
+  usedCredits      Int @default(0)
+  remainingCredits Int // Computed: totalCredits - usedCredits
+  rolloverCredits  Int @default(0)
+  rolloverCap      Int // Max credits that can roll over
+
+  // Validity
+  startDate   DateTime  @default(now())
+  endDate     DateTime
+  renewalDate DateTime?
+  autoRenew   Boolean   @default(false)
+
+  // Status
+  status MembershipStatus @default(ACTIVE)
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  users        User[]
+  transactions CreditTransaction[]
+
+  @@index([status])
+  @@map("memberships")
+}
+
+model CreditTransaction {
+  id String @id @default(cuid())
+
+  // User & Membership
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  membershipId String
+  membership   Membership @relation(fields: [membershipId], references: [id])
+
+  // Transaction details
+  type    CreditTransactionType
+  amount  Int // Positive = added, Negative = spent
+  balance Int // Credits remaining after transaction
+
+  // Description
+  description String
+  reference   String? // Related entity ID (project, add-on, etc.)
+
+  // Timestamp
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([membershipId])
+  @@index([createdAt])
+  @@map("credit_transactions")
+}
+
+// ============================================
+// SECURITY & AUDIT MODELS
+// ============================================
+
+model AuditLog {
+  id String @id @default(cuid())
+
+  // Actor
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  // Action
+  action     AuditAction
+  resource   String // e.g., "License", "Download", "ServiceProject"
+  resourceId String
+
+  // Details
+  details   Json? // Additional context
+  ipHash    String?
+  userAgent String? @db.Text
+
+  // Timestamp
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model DeviceSession {
+  id String @id @default(cuid())
+
+  userId String
+
+  deviceFingerprint String
+  ipHash            String
+  userAgent         String? @db.Text
+
+  // Status
+  blocked       Boolean @default(false)
+  blockedReason String? @db.Text
+
+  // Timestamps
+  firstSeen DateTime @default(now())
+  lastSeen  DateTime @default(now())
+
+  @@index([userId])
+  @@index([blocked])
+  @@map("device_sessions")
+}
+
+// ============================================
+// SYSTEM CONFIGURATION MODELS
+// ============================================
+
+model FeatureFlag {
+  id String @id @default(cuid())
+
+  name        String  @unique
+  description String? @db.Text
+  enabled     Boolean @default(false)
+
+  // Environment-specific
+  environment Environment @default(PRODUCTION)
+
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+  @@index([environment])
+  @@map("feature_flags")
+}
+
+model SystemBackup {
+  id String @id @default(cuid())
+
+  // Backup info
+  type        BackupType
+  description String?
+
+  // Storage
+  storageUrl String // Backup file location
+  size       Int // Size in bytes
+
+  // What's included
+  includesDatabase  Boolean @default(true)
+  includesFiles     Boolean @default(false)
+  includesConfig    Boolean @default(false)
+  includesAuditLogs Boolean @default(false)
+
+  // Status
+  status BackupStatus @default(PENDING)
+
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("system_backups")
+}
+
+// ============================================
 // ENUMS
 // ============================================
 
 enum Role {
   USER
+  VIEWER // Can view data
+  EDITOR // Can edit content
   ADMIN
   MODERATOR
+  OWNER // Full control
 }
 
 enum Theme {
@@ -269,10 +745,10 @@ enum BudgetRange {
 }
 
 enum Timeline {
-  URGENT         // Less than 1 month
-  SHORT          // 1-3 months
-  MEDIUM         // 3-6 months
-  LONG           // 6+ months
+  URGENT // Less than 1 month
+  SHORT // 1-3 months
+  MEDIUM // 3-6 months
+  LONG // 6+ months
   FLEXIBLE
 }
 
@@ -307,4 +783,156 @@ enum ProjectCategory {
   PERSONAL
   CLASS
   OTHER
+}
+
+// ============================================
+// PLATFORM ENUMS
+// ============================================
+
+enum AccountStatus {
+  ACTIVE
+  LOCKED
+  BANNED
+  SUSPENDED
+}
+
+enum ProductCategory {
+  TEMPLATE
+  THEME
+  UI_KIT
+  CODE_SNIPPET
+  DOCUMENTATION
+  ASSET
+  LICENSE
+  OTHER
+}
+
+enum LicenseType {
+  PERSONAL
+  COMMERCIAL
+  TEAM
+}
+
+enum LicenseStatus {
+  ACTIVE
+  EXPIRED
+  REVOKED
+  SUSPENDED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum ResetRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ServiceCategory {
+  WEB_DESIGN
+  WEB_DEVELOPMENT
+  MOBILE_APP
+  CUSTOM_SOFTWARE
+  CONSULTING
+  MAINTENANCE
+}
+
+enum ProjectPhase {
+  DESIGN
+  BUILD
+  POST_LAUNCH
+  COMPLETED
+  PAUSED
+}
+
+enum ServiceStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum AddOnType {
+  EXTRA_REVISION
+  CONTENT_EDIT
+  SUPPORT_CALL
+  RUSH_DELIVERY
+  EMERGENCY_FIX
+  REOPEN_PROJECT
+  CUSTOM
+}
+
+enum AddOnStatus {
+  PENDING
+  APPROVED
+  IN_PROGRESS
+  COMPLETED
+  REJECTED
+}
+
+enum MembershipTier {
+  BASIC_ACCESS
+  PRO
+  MANAGED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PAUSED
+}
+
+enum CreditTransactionType {
+  INITIAL_ALLOCATION
+  RENEWAL
+  TOP_UP
+  USAGE
+  REFUND
+  ROLLOVER
+  ADJUSTMENT
+}
+
+enum AuditAction {
+  USER_LOGIN
+  USER_LOGOUT
+  LICENSE_ISSUED
+  LICENSE_REVOKED
+  DOWNLOAD_ATTEMPTED
+  DOWNLOAD_SUCCEEDED
+  DOWNLOAD_FAILED
+  ABUSE_DETECTED
+  ACCOUNT_LOCKED
+  ACCOUNT_UNLOCKED
+  CREDIT_USED
+  MEMBERSHIP_CREATED
+  MEMBERSHIP_RENEWED
+  PROJECT_CREATED
+  PROJECT_PHASE_CHANGED
+  ADD_ON_REQUESTED
+  SETTINGS_CHANGED
+}
+
+enum Environment {
+  DEVELOPMENT
+  STAGING
+  PRODUCTION
+}
+
+enum BackupType {
+  SCHEDULED
+  MANUAL
+  PRE_DEPLOYMENT
+}
+
+enum BackupStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
 }

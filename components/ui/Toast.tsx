@@ -62,7 +62,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
 function ToastComponent({ message, type, onClose }: Toast & { onClose: () => void }) {
   const styles = {
-    success: 'bg-green-500/10 dark:bg-green-500/20 border-green-500/30 text-green-700 dark:text-green-300',
+    success: 'bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/30 text-blue-700 dark:text-blue-300',
     error: 'bg-red-500/10 dark:bg-red-500/20 border-red-500/30 text-red-700 dark:text-red-300',
     info: 'bg-blue-500/10 dark:bg-blue-500/20 border-blue-500/30 text-blue-700 dark:text-blue-300',
     warning: 'bg-yellow-500/10 dark:bg-yellow-500/20 border-yellow-500/30 text-yellow-700 dark:text-yellow-300'

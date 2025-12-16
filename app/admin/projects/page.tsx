@@ -61,7 +61,7 @@ export default function AdminProjectsPage() {
         </div>
         <Link
           href="/admin/projects/new"
-          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition shadow-sm font-medium"
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition shadow-sm font-medium"
         >
           <Plus size={20} />
           <span>Add Project</span>
@@ -111,7 +111,7 @@ export default function AdminProjectsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="px-3 py-1 bg-green-500/20 text-green-700 dark:text-green-300 text-sm rounded-full font-medium">
+                      <span className="px-3 py-1 bg-blue-500/20 text-blue-700 dark:text-blue-300 text-sm rounded-full font-medium">
                         {project.status}
                       </span>
                     </td>

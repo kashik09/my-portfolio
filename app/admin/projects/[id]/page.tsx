@@ -8,7 +8,7 @@ import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 
 interface Project {
-  id: number
+  id: string
   title: string
   slug: string
   description: string
@@ -20,50 +20,51 @@ interface Project {
   featured: boolean
   published: boolean
   createdAt: string
-  views: number
-  thumbnailUrl?: string
+  viewCount: number
+  thumbnail?: string
 }
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
+export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const router = useRouter()
-  const { showToast } = useToast()
+  const { success, error: showError } = useToast()
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
-    // TODO: Fetch from API
-    // Mock data for now
-    const mockProject: Project = {
-      id: parseInt(params.id),
-      title: 'JS Calculator',
-      slug: 'js-calculator',
-      description: 'A modern calculator built with Next.js and Tailwind CSS featuring a sleek UI and advanced calculations.',
-      category: 'CLASS',
-      githubUrl: 'https://github.com/yourusername/js-calculator',
-      liveUrl: 'https://calculator.example.com',
-      tags: ['javascript', 'calculator', 'webapp'],
-      techStack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-      featured: true,
-      published: true,
-      createdAt: '2024-01-15',
-      views: 234,
-      thumbnailUrl: '/projects/calculator.png'
-    }
-    
-    setTimeout(() => {
-      setProject(mockProject)
+    fetchProject()
+  }, [params.slug])
+
+  const fetchProject = async () => {
+    try {
+      const response = await fetch(`/api/projects/${params.slug}`)
+      if (!response.ok) throw new Error('Failed to fetch project')
+      
+      const data = await response.json()
+      setProject(data.data)
+    } catch (err) {
+      console.error('Error fetching project:', err)
+      showError('Failed to load project')
+    } finally {
       setLoading(false)
-    }, 500)
-  }, [params.id])
+    }
+  }
 
   const handleDelete = async () => {
+    if (!project) return
+    
     try {
-      // TODO: Call delete API
-      showToast('Project deleted successfully', 'success')
+      const response = await fetch(`/api/projects/${project.slug}`, {
+        method: 'DELETE'
+      })
+      
+      if (!response.ok) throw new Error('Failed to delete project')
+      
+      success('Project deleted successfully')
       router.push('/admin/projects')
-    } catch (error) {
-      showToast('Failed to delete project', 'error')
+    } catch (err) {
+      console.error('Error deleting project:', err)
+      showError('Failed to delete project')
     }
   }
 
@@ -93,18 +94,18 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <div className="flex items-center gap-4">
           <Link
             href="/admin/projects"
-            className="p-2 hover:bg-muted rounded-lg transition"
+            className="p-2 hover:bg-card-hover rounded-lg transition"
           >
             <ArrowLeft size={20} />
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-foreground">{project.title}</h1>
-            <p className="text-muted-foreground">Project Details</p>
+            <p className="text-foreground-muted">/{project.slug}</p>
           </div>
         </div>
         <div className="flex gap-3">
           <Link
-            href={`/admin/projects/${project.id}/edit`}
+            href={`/admin/projects/${project.slug}/edit`}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition"
           >
             <Edit size={18} />
@@ -125,14 +126,14 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         {/* Left Column - Main Info */}
         <div className="lg:col-span-2 space-y-6">
           {/* Thumbnail */}
-          {project.thumbnailUrl && (
+          {project.thumbnail && (
             <div className="bg-card rounded-2xl border border-border overflow-hidden">
               <img 
-                src={project.thumbnailUrl} 
+                src={project.thumbnail} 
                 alt={project.title}
                 className="w-full h-64 object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/800x400?text=Project+Image'
+                  e.currentTarget.src = 'https://via.placeholder.com/800x400?text=No+Image'
                 }}
               />
             </div>
@@ -172,7 +173,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                 {project.techStack.map(tech => (
                   <span 
                     key={tech}
-                    className="px-3 py-1 bg-muted text-foreground border border-border rounded-lg text-sm font-medium"
+                    className="px-3 py-1 bg-card-hover text-foreground border border-border rounded-lg text-sm font-medium"
                   >
                     {tech}
                   </span>
@@ -190,17 +191,17 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Category</span>
+                <span className="text-foreground-muted text-sm">Category</span>
                 <span className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium">
                   {project.category}
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Status</span>
+                <span className="text-foreground-muted text-sm">Status</span>
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  project.published 
-                    ? 'bg-green-500/20 text-green-700 dark:text-green-300' 
+                  project.published
+                    ? 'bg-blue-500/20 text-blue-700 dark:text-blue-300'
                     : 'bg-yellow-500/20 text-yellow-700 dark:text-yellow-300'
                 }`}>
                   {project.published ? 'Published' : 'Draft'}
@@ -208,18 +209,18 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground text-sm">Featured</span>
+                <span className="text-foreground-muted text-sm">Featured</span>
                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${
                   project.featured 
                     ? 'bg-blue-500/20 text-blue-700 dark:text-blue-300' 
-                    : 'bg-muted text-foreground'
+                    : 'bg-card-hover text-foreground'
                 }`}>
                   {project.featured ? 'Yes' : 'No'}
                 </span>
               </div>
 
               <div className="flex items-center justify-between pt-3 border-t border-border">
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <div className="flex items-center gap-2 text-foreground-muted text-sm">
                   <Calendar size={16} />
                   Created
                 </div>
@@ -227,11 +228,11 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
+                <div className="flex items-center gap-2 text-foreground-muted text-sm">
                   <Eye size={16} />
                   Views
                 </div>
-                <span className="text-foreground font-medium">{project.views}</span>
+                <span className="text-foreground font-medium">{project.viewCount}</span>
               </div>
             </div>
           </div>
@@ -241,33 +242,33 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <h3 className="text-lg font-bold text-foreground mb-4">Links</h3>
             
             {project.githubUrl && (
-              
+              <a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 bg-muted hover:bg-muted/80 rounded-lg transition group"
+                className="flex items-center gap-3 p-3 bg-card-hover hover:bg-card rounded-lg transition group"
               >
                 <Github className="text-foreground" size={20} />
                 <span className="text-foreground font-medium flex-1">GitHub</span>
-                <ExternalLink className="text-muted-foreground group-hover:text-foreground transition" size={16} />
+                <ExternalLink className="text-foreground-muted group-hover:text-foreground transition" size={16} />
               </a>
             )}
 
             {project.liveUrl && (
-              
+              <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 bg-muted hover:bg-muted/80 rounded-lg transition group"
+                className="flex items-center gap-3 p-3 bg-card-hover hover:bg-card rounded-lg transition group"
               >
                 <ExternalLink className="text-foreground" size={20} />
                 <span className="text-foreground font-medium flex-1">Live Demo</span>
-                <ExternalLink className="text-muted-foreground group-hover:text-foreground transition" size={16} />
+                <ExternalLink className="text-foreground-muted group-hover:text-foreground transition" size={16} />
               </a>
             )}
 
             {!project.githubUrl && !project.liveUrl && (
-              <p className="text-muted-foreground text-sm text-center py-4">No links available</p>
+              <p className="text-foreground-muted text-sm text-center py-4">No links available</p>
             )}
           </div>
         </div>
