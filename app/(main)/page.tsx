@@ -7,13 +7,13 @@ export default function HomePage() {
     <div className="space-y-20 py-12">
       {/* Hero Section */}
       <section className="text-center space-y-6 py-12">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full">
-          <span className="text-blue-700 dark:text-blue-300">✨ Available for freelance projects</span>
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
+          <span className="text-primary">✨ Available for freelance projects</span>
         </div>
         <h1 className="text-5xl md:text-7xl font-bold text-foreground">
           Hi, I'm <span className="text-primary">Kashi</span>
         </h1>
-        <p className="text-2xl md:text-3xl text-foreground-muted max-w-3xl mx-auto">
+        <p className="text-2xl md:text-3xl text-muted-foreground max-w-3xl mx-auto">
           A Junior Developer building innovative solutions with modern web technologies
         </p>
         <div className="flex gap-4 justify-center mt-8">
@@ -38,7 +38,7 @@ export default function HomePage() {
             <Code2 className="text-primary" size={32} />
           </div>
           <h3 className="text-xl font-bold text-foreground mb-2">Clean Code</h3>
-          <p className="text-foreground-muted">
+          <p className="text-muted-foreground">
             Writing maintainable, scalable, and efficient code following best practices
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function HomePage() {
             <Palette className="text-primary" size={32} />
           </div>
           <h3 className="text-xl font-bold text-foreground mb-2">Modern Design</h3>
-          <p className="text-foreground-muted">
+          <p className="text-muted-foreground">
             Creating beautiful, responsive interfaces that users love
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function HomePage() {
             <Zap className="text-primary" size={32} />
           </div>
           <h3 className="text-xl font-bold text-foreground mb-2">Fast Performance</h3>
-          <p className="text-foreground-muted">
+          <p className="text-muted-foreground">
             Optimized applications that load quickly and run smoothly
           </p>
         </div>
