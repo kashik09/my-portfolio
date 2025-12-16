@@ -3,12 +3,26 @@
 import { useState } from 'react'
 import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react'
 import Link from 'next/link'
+import { useToast } from '@/components/ui/Toast'
+import ConfirmModal from '@/components/ui/ConfirmModal'
+
+interface Project {
+  id: number
+  title: string
+  category: string
+  status: string
+  views: number
+  createdAt: string
+}
 
 export default function AdminProjectsPage() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [projectToDelete, setProjectToDelete] = useState<Project | null>(null)
+  const { showToast } = useToast()
 
   // TODO: Fetch from database
-  const projects = [
+  const [projects, setProjects] = useState<Project[]>([
     {
       id: 1,
       title: 'JS Calculator',
@@ -18,7 +32,24 @@ export default function AdminProjectsPage() {
       createdAt: '2024-01-15'
     },
     // Add more mock projects
-  ]
+  ])
+
+  const handleDelete = (project: Project) => {
+    setProjects(projects.filter(p => p.id !== project.id))
+    setShowDeleteModal(false)
+    setProjectToDelete(null)
+    showToast('Project deleted successfully', 'success')
+  }
+
+  const confirmDelete = (project: Project) => {
+    setProjectToDelete(project)
+    setShowDeleteModal(true)
+  }
+
+  const filteredProjects = projects.filter(project =>
+    project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    project.category.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="space-y-6">
@@ -30,10 +61,10 @@ export default function AdminProjectsPage() {
         </div>
         <Link
           href="/admin/projects/new"
-          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition"
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition shadow-sm font-medium"
         >
           <Plus size={20} />
-          Add Project
+          <span>Add Project</span>
         </Link>
       </div>
 
@@ -64,49 +95,74 @@ export default function AdminProjectsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {projects.map((project) => (
-                <tr key={project.id} className="hover:bg-muted/50 transition">
-                  <td className="px-6 py-4 text-foreground font-medium">{project.title}</td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full">
-                      {project.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="px-3 py-1 bg-green-500/20 text-green-700 dark:text-green-300 text-sm rounded-full">
-                      {project.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-muted-foreground">{project.views}</td>
-                  <td className="px-6 py-4 text-muted-foreground">{project.createdAt}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center justify-end gap-2">
-                      <button 
-                        className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
-                        title="View project"
-                      >
-                        <Eye size={18} />
-                      </button>
-                      <button 
-                        className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
-                        title="Edit project"
-                      >
-                        <Edit size={18} />
-                      </button>
-                      <button 
-                        className="p-2 hover:bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg transition"
-                        title="Delete project"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
+              {filteredProjects.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">
+                    No projects found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredProjects.map((project) => (
+                  <tr key={project.id} className="hover:bg-muted/50 transition">
+                    <td className="px-6 py-4 text-foreground font-medium">{project.title}</td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 bg-primary/20 text-primary text-sm rounded-full font-medium">
+                        {project.category}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="px-3 py-1 bg-green-500/20 text-green-700 dark:text-green-300 text-sm rounded-full font-medium">
+                        {project.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-muted-foreground">{project.views}</td>
+                    <td className="px-6 py-4 text-muted-foreground">{project.createdAt}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link
+                          href={`/admin/projects/${project.id}`}
+                          className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
+                          title="View project"
+                        >
+                          <Eye size={18} />
+                        </Link>
+                        <Link
+                          href={`/admin/projects/${project.id}/edit`}
+                          className="p-2 hover:bg-primary/10 text-primary rounded-lg transition"
+                          title="Edit project"
+                        >
+                          <Edit size={18} />
+                        </Link>
+                        <button
+                          onClick={() => confirmDelete(project)}
+                          className="p-2 hover:bg-red-500/10 text-red-600 dark:text-red-400 rounded-lg transition"
+                          title="Delete project"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false)
+          setProjectToDelete(null)
+        }}
+        onConfirm={() => projectToDelete && handleDelete(projectToDelete)}
+        title="Delete Project"
+        message={`Are you sure you want to delete "${projectToDelete?.title}"? This action cannot be undone.`}
+        confirmText="Delete"
+        type="danger"
+      />
     </div>
   )
 }
