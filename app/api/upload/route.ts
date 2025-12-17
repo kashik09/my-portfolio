@@ -1,68 +1,43 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import { join } from 'path'
-import { existsSync } from 'fs'
+import { NextResponse } from 'next/server'
+import path from 'path'
+import fs from 'fs/promises'
 
-export async function POST(request: NextRequest) {
+const MAX_BYTES = 5 * 1024 * 1024
+const ALLOWED = new Set(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'])
+
+export async function POST(req: Request) {
   try {
-    const formData = await request.formData()
-    const file = formData.get('file') as File
+    const form = await req.formData()
+    const file = form.get('file')
 
-    if (!file) {
-      return NextResponse.json(
-        { error: 'No file provided' },
-        { status: 400 }
-      )
+    if (!file || !(file instanceof File)) {
+      return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
     }
 
-    // Validate file type
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
-    if (!validTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: 'Invalid file type. Only images are allowed.' },
-        { status: 400 }
-      )
+    if (!ALLOWED.has(file.type)) {
+      return NextResponse.json({ error: 'Unsupported file type' }, { status: 400 })
     }
 
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024
-    if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: 'File too large. Maximum size is 5MB.' },
-        { status: 400 }
-      )
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json({ error: 'File too large (max 5MB)' }, { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads')
-    if (!existsSync(uploadsDir)) {
-      await mkdir(uploadsDir, { recursive: true })
-    }
+    const ext = file.type === 'image/jpeg' ? 'jpg' : file.type.split('/')[1]
+    const filename = `avatar-${Date.now()}.${ext}`
 
-    // Generate unique filename
-    const timestamp = Date.now()
-    const extension = file.name.split('.').pop()
-    const filename = `avatar-${timestamp}.${extension}`
-    const filepath = join(uploadsDir, filename)
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    await fs.mkdir(uploadDir, { recursive: true })
 
-    // Write file
-    await writeFile(filepath, buffer)
+    const filePath = path.join(uploadDir, filename)
+    await fs.writeFile(filePath, buffer)
 
-    // Return the public URL
     const url = `/uploads/${filename}`
-
-    return NextResponse.json({
-      success: true,
-      url
-    })
-  } catch (error) {
-    console.error('Error uploading file:', error)
-    return NextResponse.json(
-      { error: 'Failed to upload file' },
-      { status: 500 }
-    )
+    return NextResponse.json({ url }, { status: 200 })
+  } catch (e) {
+    console.error(e)
+    return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
   }
 }

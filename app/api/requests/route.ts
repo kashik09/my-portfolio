@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
-import { prisma } from '/home/kashi-kweyu/projects/portfolio/my-portfolio/lib/prisma'
+import { prisma } from '@/lib/prisma'
 
 type IncomingBody = {
   name?: string

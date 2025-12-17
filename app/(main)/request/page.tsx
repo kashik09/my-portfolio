@@ -100,6 +100,19 @@ export default function RequestPage() {
     setLoading(true)
     setError('')
 
+    // Client-side validation
+    if (!isAuthed && (!formData.name || !formData.email)) {
+      setError('Please provide your name and email.')
+      setLoading(false)
+      return
+    }
+
+    if (!formData.serviceType || !formData.budget || !formData.timeline || !formData.description) {
+      setError('Please fill out all required fields.')
+      setLoading(false)
+      return
+    }
+
     const payload = {
       ...formData,
       ...(isAuthed && {
@@ -116,7 +129,9 @@ export default function RequestPage() {
       })
 
       if (!response.ok) {
-        setError('Failed to submit request. Please try again.')
+        const errorData = await response.json().catch(() => null)
+        setError(errorData?.error || 'Failed to submit request. Please try again.')
+        setLoading(false)
         return
       }
 

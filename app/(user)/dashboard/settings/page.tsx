@@ -1,12 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/lib/ThemeContext'
 import { defaultTheme, ThemeName } from '@/lib/themes'
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
-import { ArrowLeft, User, Lock, Bell, Shield } from 'lucide-react'
+import {
+  ArrowLeft,
+  User,
+  Lock,
+  Bell,
+  Shield,
+  Upload,
+  Image as ImageIcon,
+  X,
+} from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
 
 type UserThemePreference = 'LIGHT' | 'DARK' | 'SYSTEM'
 
@@ -45,6 +56,7 @@ function mapUserThemeToAppTheme(theme: UserThemePreference): ThemeName {
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
   const { showToast } = useToast()
+  const { update: updateSession } = useSession()
 
   const [loading, setLoading] = useState(true)
 
@@ -67,6 +79,12 @@ export default function SettingsPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  // Avatar upload state
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [selectedAvatarFileName, setSelectedAvatarFileName] = useState('')
+  const [avatarPreview, setAvatarPreview] = useState<string>('')
 
   useEffect(() => {
     let cancelled = false
@@ -127,6 +145,80 @@ export default function SettingsPage() {
     }
   }, [setTheme, showToast, theme])
 
+  useEffect(() => {
+    return () => {
+      if (avatarPreview) URL.revokeObjectURL(avatarPreview)
+    }
+  }, [avatarPreview])
+
+  const handlePickAvatar = () => {
+    fileInputRef.current?.click()
+  }
+
+  const clearSelectedAvatar = () => {
+    if (avatarPreview) URL.revokeObjectURL(avatarPreview)
+    setAvatarPreview('')
+    setSelectedAvatarFileName('')
+    if (fileInputRef.current) fileInputRef.current.value = ''
+  }
+
+  const handleAvatarFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const allowed = [
+      'image/png',
+      'image/jpeg',
+      'image/jpg',
+      'image/webp',
+      'image/gif',
+    ]
+    if (!allowed.includes(file.type)) {
+      showToast('Unsupported image type. Try PNG, JPG, WEBP, or GIF.', 'error')
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      showToast('Image too large. Max 5MB.', 'error')
+      return
+    }
+
+    setSelectedAvatarFileName(file.name)
+
+    if (avatarPreview) URL.revokeObjectURL(avatarPreview)
+    setAvatarPreview(URL.createObjectURL(file))
+
+    // Upload immediately and set avatarUrl from response
+    try {
+      setUploadingAvatar(true)
+      const form = new FormData()
+      form.append('file', file)
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: form,
+      })
+
+      const body = await res.json().catch(() => null)
+
+      if (!res.ok || !body?.url) {
+        const msg = body?.error || 'Failed to upload avatar'
+        showToast(msg, 'error')
+        return
+      }
+
+      setAvatarUrl(body.url as string)
+      showToast('Avatar uploaded. Save profile to apply.', 'success')
+    } catch (err) {
+      console.error('Avatar upload failed:', err)
+      showToast('Failed to upload avatar', 'error')
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
   const handleSaveProfile = async () => {
     try {
       setSavingProfile(true)
@@ -152,6 +244,18 @@ export default function SettingsPage() {
       const appTheme = mapUserThemeToAppTheme(themePreference)
       if (theme !== appTheme) {
         setTheme(appTheme)
+      }
+
+      // Refresh NextAuth session so Header shows new avatar/name immediately
+      try {
+        await updateSession({
+          user: {
+            name,
+            image: avatarUrl || null,
+          } as any,
+        })
+      } catch (e) {
+        // Not fatal, just means UI might need a refresh
       }
 
       showToast('Profile updated successfully', 'success')
@@ -263,8 +367,7 @@ export default function SettingsPage() {
 
       if (!res.ok) {
         const body = await res.json().catch(() => null)
-        const message =
-          (body && body.error) || 'Failed to update ads preference'
+        const message = (body && body.error) || 'Failed to update ads preference'
         showToast(message, 'error')
       } else {
         showToast('Ads preference updated', 'success')
@@ -285,16 +388,12 @@ export default function SettingsPage() {
 
       if (!res.ok) {
         const body = await res.json().catch(() => null)
-        const message =
-          (body && body.error) || 'Failed to delete your account'
+        const message = (body && body.error) || 'Failed to delete your account'
         showToast(message, 'error')
         return
       }
 
-      showToast(
-        'Your account has been scheduled for deletion.',
-        'success'
-      )
+      showToast('Your account has been scheduled for deletion.', 'success')
       window.location.href = '/'
     } catch (error) {
       console.error('Error deleting account:', error)
@@ -310,6 +409,8 @@ export default function SettingsPage() {
     )
   }
 
+  const effectivePreview = avatarPreview || avatarUrl
+
   return (
     <div className="space-y-8">
       <Link
@@ -321,9 +422,7 @@ export default function SettingsPage() {
       </Link>
 
       <div>
-        <h1 className="text-3xl font-bold text-foreground mb-2">
-          Settings
-        </h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Settings</h1>
         <p className="text-muted-foreground">
           Manage your profile, preferences, and account.
         </p>
@@ -336,44 +435,106 @@ export default function SettingsPage() {
             <User className="text-primary" size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-foreground">
-              Profile
-            </h2>
+            <h2 className="text-xl font-bold text-foreground">Profile</h2>
             <p className="text-sm text-muted-foreground">
               Update your basic account information.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm text-muted-foreground">Name</label>
+        {/* Avatar uploader */}
+        <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 items-start">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-28 h-28 rounded-full border border-border bg-muted overflow-hidden flex items-center justify-center">
+              {effectivePreview ? (
+                <Image
+                  src={effectivePreview}
+                  alt="Avatar preview"
+                  width={112}
+                  height={112}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <ImageIcon className="text-muted-foreground" size={28} />
+              )}
+            </div>
+
             <input
-              type="text"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full px-3 py-2 bg-card border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/jpg,image/webp,image/gif"
+              className="hidden"
+              onChange={handleAvatarFileChange}
             />
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={handlePickAvatar}
+                disabled={uploadingAvatar}
+                className="inline-flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition text-sm font-medium disabled:opacity-70"
+              >
+                <Upload size={16} />
+                {uploadingAvatar ? 'Uploading...' : 'Upload'}
+              </button>
+
+              {(avatarPreview || selectedAvatarFileName) && (
+                <button
+                  type="button"
+                  onClick={clearSelectedAvatar}
+                  className="inline-flex items-center gap-2 px-3 py-2 bg-muted text-foreground rounded-lg hover:bg-muted/70 transition text-sm font-medium"
+                >
+                  <X size={16} />
+                  Clear
+                </button>
+              )}
+            </div>
+
+            {selectedAvatarFileName && (
+              <p className="text-xs text-muted-foreground text-center break-all">
+                {selectedAvatarFileName}
+              </p>
+            )}
+
+            <p className="text-xs text-muted-foreground text-center">
+              Max 5MB. PNG, JPG, WEBP, GIF.
+            </p>
           </div>
-          <div className="space-y-2">
-            <label className="text-sm text-muted-foreground">Email</label>
-            <input
-              type="email"
-              value={email}
-              disabled
-              className="w-full px-3 py-2 bg-muted border border-border rounded-lg text-muted-foreground cursor-not-allowed"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm text-muted-foreground">
-              Avatar URL
-            </label>
-            <input
-              type="url"
-              value={avatarUrl}
-              onChange={e => setAvatarUrl(e.target.value)}
-              className="w-full px-3 py-2 bg-card border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm text-muted-foreground">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                className="w-full px-3 py-2 bg-card border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm text-muted-foreground">Email</label>
+              <input
+                type="email"
+                value={email}
+                disabled
+                className="w-full px-3 py-2 bg-muted border border-border rounded-lg text-muted-foreground cursor-not-allowed"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-sm text-muted-foreground">Avatar URL</label>
+              <input
+                type="url"
+                value={avatarUrl}
+                onChange={e => setAvatarUrl(e.target.value)}
+                placeholder="/uploads/avatar-123.png or https://..."
+                className="w-full px-3 py-2 bg-card border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <p className="text-xs text-muted-foreground">
+                If you paste a URL, it will be used as the avatar too.
+              </p>
+            </div>
           </div>
         </div>
 
@@ -394,9 +555,7 @@ export default function SettingsPage() {
             <Lock className="text-primary" size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-foreground">
-              Security
-            </h2>
+            <h2 className="text-xl font-bold text-foreground">Security</h2>
             <p className="text-sm text-muted-foreground">
               Change your password for credential-based logins.
             </p>
@@ -417,9 +576,7 @@ export default function SettingsPage() {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm text-muted-foreground">
-                New password
-              </label>
+              <label className="text-sm text-muted-foreground">New password</label>
               <input
                 type="password"
                 value={newPassword}
@@ -463,48 +620,40 @@ export default function SettingsPage() {
             <Bell className="text-primary" size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-foreground">
-              Preferences
-            </h2>
+            <h2 className="text-xl font-bold text-foreground">Preferences</h2>
             <p className="text-sm text-muted-foreground">
               Theme, notifications, and personalized ads.
             </p>
           </div>
         </div>
 
-        {/* Theme preference */}
         <div className="space-y-2">
-          <p className="text-sm font-medium text-foreground">
-            Theme preference
-          </p>
+          <p className="text-sm font-medium text-foreground">Theme preference</p>
           <p className="text-sm text-muted-foreground mb-2">
             Choose how the dashboard should look across devices.
           </p>
           <div className="flex flex-wrap gap-3">
-            {(['SYSTEM', 'LIGHT', 'DARK'] as UserThemePreference[]).map(
-              value => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => setThemePreference(value)}
-                  className={`px-4 py-2 rounded-lg border text-sm font-medium ${
-                    themePreference === value
-                      ? 'bg-primary text-primary-foreground border-primary'
-                      : 'bg-card text-foreground border-border'
-                  }`}
-                >
-                  {value === 'SYSTEM'
-                    ? 'Match system'
-                    : value === 'LIGHT'
-                    ? 'Light'
-                    : 'Dark'}
-                </button>
-              )
-            )}
+            {(['SYSTEM', 'LIGHT', 'DARK'] as UserThemePreference[]).map(value => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setThemePreference(value)}
+                className={`px-4 py-2 rounded-lg border text-sm font-medium ${
+                  themePreference === value
+                    ? 'bg-primary text-primary-foreground border-primary'
+                    : 'bg-card text-foreground border-border'
+                }`}
+              >
+                {value === 'SYSTEM'
+                  ? 'Match system'
+                  : value === 'LIGHT'
+                  ? 'Light'
+                  : 'Dark'}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Email notifications */}
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-foreground">
@@ -519,14 +668,15 @@ export default function SettingsPage() {
             type="button"
             onClick={() => setEmailNotifications(prev => !prev)}
             className={`px-4 py-2 rounded-lg text-sm font-medium border border-border ${
-              emailNotifications ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+              emailNotifications
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground'
             }`}
           >
             {emailNotifications ? 'On' : 'Off'}
           </button>
         </div>
 
-        {/* Personalized ads */}
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-foreground">
@@ -543,7 +693,9 @@ export default function SettingsPage() {
             onClick={handleToggleAdsConsent}
             disabled={savingAdsConsent}
             className={`px-4 py-2 rounded-lg text-sm font-medium border border-border ${
-              personalizedAds ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'
+              personalizedAds
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground'
             } disabled:opacity-70`}
           >
             {personalizedAds ? 'On' : 'Off'}
@@ -567,12 +719,10 @@ export default function SettingsPage() {
             <Shield className="text-destructive" size={20} />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-destructive">
-              Delete account
-            </h2>
+            <h2 className="text-xl font-bold text-destructive">Delete account</h2>
             <p className="text-sm text-muted-foreground">
-              Permanently remove your account and personal data from this
-              portfolio app. This action cannot be undone.
+              Permanently remove your account and personal data from this app.
+              This action cannot be undone.
             </p>
           </div>
         </div>
@@ -591,7 +741,7 @@ export default function SettingsPage() {
             onClose={() => setShowDeleteModal(false)}
             onConfirm={handleDeleteAccount}
             title="Delete your account"
-            message="This will permanently delete your account, project requests, memberships, and download history. This action cannot be undone."
+            message="This will permanently delete your account, requests, memberships, and download history. This action cannot be undone."
             confirmText="Yes, delete my account"
             cancelText="Cancel"
             type="danger"
@@ -601,4 +751,3 @@ export default function SettingsPage() {
     </div>
   )
 }
-

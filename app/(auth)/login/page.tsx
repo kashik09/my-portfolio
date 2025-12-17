@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -10,7 +10,6 @@ import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 
 export default function LoginPage() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
 
@@ -31,18 +30,24 @@ export default function LoginPage() {
       const result = await signIn('credentials', {
         email: formData.email,
         password: formData.password,
+        rememberMe: formData.rememberMe ? '1' : '0',
         redirect: false
       })
 
       if (result?.error) {
         setError('Invalid email or password')
         setLoading(false)
-      } else if (result?.ok) {
-        // Wait a bit for session to be established
-        await new Promise(resolve => setTimeout(resolve, 500))
-        // Force a full page reload to ensure session is picked up
-        window.location.href = callbackUrl
+        return
       }
+
+      if (result?.ok) {
+        // Full reload makes NextAuth pick up fresh session everywhere (Header, middleware, etc.)
+        window.location.assign(callbackUrl)
+        return
+      }
+
+      setError('Something went wrong. Please try again.')
+      setLoading(false)
     } catch (err) {
       setError('Something went wrong. Please try again.')
       setLoading(false)
@@ -61,24 +66,20 @@ export default function LoginPage() {
 
   return (
     <div className="w-full max-w-md p-8 bg-card rounded-2xl shadow-2xl border border-border relative overflow-hidden">
-      {/* Gradient Background Effect */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 pointer-events-none"></div>
 
       <div className="relative z-10">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to your account</p>
         </div>
 
-        {/* Error Message */}
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-600 dark:text-red-400 text-sm">
             {error}
           </div>
         )}
 
-        {/* OAuth Buttons */}
         <div className="space-y-3 mb-6">
           <button
             type="button"
@@ -101,7 +102,6 @@ export default function LoginPage() {
           </button>
         </div>
 
-        {/* Divider */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-border"></div>
@@ -111,7 +111,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Email"
@@ -131,7 +130,6 @@ export default function LoginPage() {
             required
           />
 
-          {/* Remember Me & Forgot Password */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <input
@@ -161,9 +159,8 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        {/* Sign Up Link */}
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link href="/signup" className="text-primary hover:underline font-medium">
             Sign up
           </Link>

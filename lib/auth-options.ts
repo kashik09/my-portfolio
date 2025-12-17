@@ -9,6 +9,9 @@ import bcrypt from "bcryptjs"
 
 const prisma = new PrismaClient()
 
+const ONE_DAY_SECONDS = 60 * 60 * 24
+const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -16,42 +19,49 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
+        rememberMe: { label: "Remember Me", type: "text" }, // "1" or "0"
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
+          where: { email: credentials.email },
         })
 
-        // IMPORTANT: use the correct field from your schema
-        // If your schema uses passwordHash, replace user.password below with user.passwordHash
+        // IMPORTANT: if your schema uses passwordHash, swap user.password -> user.passwordHash
+        // @ts-ignore
         if (!user || !user.password) return null
 
+        // @ts-ignore
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
         if (!isPasswordValid) return null
 
+        // @ts-ignore
         if (user.accountStatus === "LOCKED" || user.accountStatus === "BANNED") return null
+
+        const rememberMe = credentials.rememberMe === "1"
 
         return {
           id: user.id,
           email: user.email,
           name: user.name,
+          // @ts-ignore
           role: user.role,
-          image: user.image
-        }
-      }
+          image: user.image,
+          rememberMe, // <-- pass through
+        } as any
+      },
     }),
 
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || ""
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
 
     GitHubProvider({
       clientId: process.env.GITHUB_ID || "",
-      clientSecret: process.env.GITHUB_SECRET || ""
+      clientSecret: process.env.GITHUB_SECRET || "",
     }),
 
     EmailProvider({
@@ -60,39 +70,73 @@ export const authOptions: NextAuthOptions = {
         port: Number(process.env.EMAIL_SERVER_PORT || 587),
         auth: {
           user: process.env.EMAIL_SERVER_USER || "",
-          pass: process.env.EMAIL_SERVER_PASSWORD || ""
-        }
+          pass: process.env.EMAIL_SERVER_PASSWORD || "",
+        },
       },
-      from: process.env.EMAIL_FROM || ""
-    })
+      from: process.env.EMAIL_FROM || "",
+    }),
   ],
 
   callbacks: {
     async jwt({ token, user }) {
+      // On first sign-in, we receive `user`
       if (user) {
         // @ts-ignore
         token.id = user.id
         // @ts-ignore
         token.role = (user as any).role
+        // @ts-ignore
+        token.image = (user as any).image
+
+        const rememberMe =
+          // Credentials sign-in will set this
+          // @ts-ignore
+          (user as any).rememberMe === true
+            ? true
+            : // OAuth sign-ins default to "remember" behavior
+              true
+
+        // Store rememberMe on token
+        // @ts-ignore
+        token.rememberMe = rememberMe
+
+        // Set JWT exp ourselves so "remember me" changes session validity
+        const now = Math.floor(Date.now() / 1000)
+        token.exp = now + (rememberMe ? THIRTY_DAYS_SECONDS : ONE_DAY_SECONDS)
       }
+
       return token
     },
+
     async session({ session, token }) {
       if (session?.user) {
         // @ts-ignore
         session.user.id = token.id
         // @ts-ignore
         session.user.role = token.role
+        // @ts-ignore
+        session.user.image = token.image
       }
+
+      // Align session expiry with token.exp (so UI shows the right expiry too)
+      if (token?.exp) {
+        session.expires = new Date(token.exp * 1000).toISOString()
+      }
+
       return session
-    }
+    },
   },
 
   pages: {
     signIn: "/login",
-    error: "/login"
+    error: "/login",
   },
 
-  session: { strategy: "jwt" },
-  secret: process.env.NEXTAUTH_SECRET
+  session: {
+    strategy: "jwt",
+    // Cookie expiry can be longer; token.exp is the real enforcement.
+    maxAge: THIRTY_DAYS_SECONDS,
+  },
+
+  secret: process.env.NEXTAUTH_SECRET,
 }
