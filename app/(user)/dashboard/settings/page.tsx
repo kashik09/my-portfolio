@@ -591,20 +591,7 @@ export default function SettingsPage() {
             onClose={() => setShowDeleteModal(false)}
             onConfirm={handleDeleteAccount}
             title="Delete your account"
-            message={
-              <div className="space-y-2 text-sm">
-                <p>
-                  This will permanently delete your account, your project
-                  requests, memberships, and download history associated with
-                  this portfolio. Digital product licenses may continue to be
-                  honored offline where applicable.
-                </p>
-                <p>
-                  This action cannot be undone. If you&apos;re unsure, consider
-                  contacting the site owner before proceeding.
-                </p>
-              </div>
-            }
+            message="This will permanently delete your account, project requests, memberships, and download history. This action cannot be undone."
             confirmText="Yes, delete my account"
             cancelText="Cancel"
             type="danger"
