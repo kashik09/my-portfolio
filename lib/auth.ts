@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 // TYPE DEFINITIONS
 // ============================================
 
-export type UserRole = 'USER' | 'ADMIN' | 'MODERATOR'
+export type UserRole = 'USER' | 'VIEWER' | 'EDITOR' | 'ADMIN' | 'MODERATOR' | 'OWNER'
 
 export interface SessionUser {
   id: string
@@ -62,7 +62,7 @@ export async function requireAdmin(
 ): Promise<AuthSession> {
   const session = await requireAuth()
 
-  if (session.user.role !== 'ADMIN') {
+  if (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER') {
     redirect(redirectTo)
   }
 
