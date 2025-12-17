@@ -270,7 +270,7 @@ export default function AnalyticsPage() {
         <h3 className="text-lg font-bold text-foreground mb-2">📊 Analytics Powered by Vercel</h3>
         <p className="text-foreground/80 text-sm">
           These analytics are tracked in real-time using Vercel Analytics. View more detailed insights in your{' '}
-          
+          <a
             href="https://vercel.com/dashboard/analytics"
             target="_blank"
             rel="noopener noreferrer"
