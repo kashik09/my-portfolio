@@ -73,14 +73,16 @@ export default function PrivacyPage() {
 
           <h3 className="text-xl font-semibold text-foreground mb-3 mt-6">2.3 Cookies and Tracking Technologies</h3>
           <p className="text-foreground leading-relaxed mb-4">
-            We use cookies and similar tracking technologies to enhance your experience. These may include:
+            We use cookies and similar tracking technologies to enhance your experience. These include:
           </p>
           <ul className="list-disc list-inside space-y-2 text-foreground ml-4">
-            <li>Session cookies for authentication</li>
-            <li>Preference cookies to remember your settings</li>
-            <li>Analytics cookies to understand site usage</li>
-            <li>Third-party cookies from integrated services</li>
+            <li><strong>Essential cookies</strong> for authentication and site functionality (required for the site to work)</li>
+            <li><strong>Preference cookies</strong> to remember your settings (like theme preferences)</li>
+            <li><strong>Optional analytics cookies</strong> to understand site usage and improve the experience</li>
           </ul>
+          <p className="text-foreground leading-relaxed mt-4">
+            We do not use advertising cookies or third-party tracking cookies for marketing purposes.
+          </p>
         </section>
 
         <section>
@@ -116,20 +118,19 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">5. Data Security</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-4">5. Security Measures</h2>
           <p className="text-foreground leading-relaxed mb-4">
-            We implement appropriate technical and organizational security measures to protect your personal information:
+            We implement industry-standard security measures to protect your information, including encryption where appropriate. However, no method of transmission over the internet or storage is 100% secure, and we cannot guarantee absolute security.
+          </p>
+          <p className="text-foreground leading-relaxed mb-4">
+            Our security practices include:
           </p>
           <ul className="list-disc list-inside space-y-2 text-foreground ml-4">
-            <li>Encryption of data in transit and at rest</li>
-            <li>Secure authentication mechanisms</li>
-            <li>Regular security assessments and updates</li>
-            <li>Access controls and authorization protocols</li>
-            <li>Employee training on data protection</li>
+            <li>Secure authentication mechanisms for user accounts</li>
+            <li>Regular security updates and monitoring</li>
+            <li>Access controls to limit who can view your data</li>
+            <li>Best practices for data handling and storage</li>
           </ul>
-          <p className="text-foreground leading-relaxed mt-4">
-            However, no method of transmission over the internet or electronic storage is 100% secure. While we strive to protect your information, we cannot guarantee absolute security.
-          </p>
         </section>
 
         <section>
@@ -166,9 +167,12 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-foreground mb-4">9. Children's Privacy</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-4">9. Age Requirements</h2>
           <p className="text-foreground leading-relaxed mb-4">
-            Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If you believe we have inadvertently collected information from a child, please contact us immediately.
+            Our Services are not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected information from a child under 13, please contact us immediately.
+          </p>
+          <p className="text-foreground leading-relaxed mb-4">
+            Minors aged 13-17 may use limited features with appropriate safeguards and parental or guardian consent where required by law.
           </p>
         </section>
 
