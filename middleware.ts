@@ -19,6 +19,18 @@ export default withAuth(
         return NextResponse.redirect(new URL("/", req.url))
       }
 
+      // Enforce 2FA for admin users
+      // @ts-ignore
+      const has2FA = token.twoFactorEnabled === true && token.twoFactorVerified === true
+      if (!has2FA && !path.startsWith("/admin/setup-2fa")) {
+        return NextResponse.redirect(new URL("/admin/setup-2fa", req.url))
+      }
+
+      // Redirect away from setup if already configured
+      if (has2FA && path.startsWith("/admin/setup-2fa")) {
+        return NextResponse.redirect(new URL("/admin", req.url))
+      }
+
       if (path.startsWith("/admin/users") || path.startsWith("/admin/settings")) {
         if (!["ADMIN", "OWNER"].includes(token.role as string)) {
           return NextResponse.redirect(new URL("/admin", req.url))

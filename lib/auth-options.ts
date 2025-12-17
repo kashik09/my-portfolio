@@ -78,7 +78,7 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       // On first sign-in, we receive `user`
       if (user) {
         // @ts-ignore
@@ -103,6 +103,28 @@ export const authOptions: NextAuthOptions = {
         // Set JWT exp ourselves so "remember me" changes session validity
         const now = Math.floor(Date.now() / 1000)
         token.exp = now + (rememberMe ? THIRTY_DAYS_SECONDS : ONE_DAY_SECONDS)
+
+        // Fetch 2FA status from database
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { twoFactorEnabled: true, twoFactorVerified: true },
+        })
+        // @ts-ignore
+        token.twoFactorEnabled = dbUser?.twoFactorEnabled || false
+        // @ts-ignore
+        token.twoFactorVerified = dbUser?.twoFactorVerified || false
+      }
+
+      // Refresh 2FA status on update trigger
+      if (trigger === 'update' && token.id) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.id as string },
+          select: { twoFactorEnabled: true, twoFactorVerified: true },
+        })
+        // @ts-ignore
+        token.twoFactorEnabled = dbUser?.twoFactorEnabled || false
+        // @ts-ignore
+        token.twoFactorVerified = dbUser?.twoFactorVerified || false
       }
 
       return token
