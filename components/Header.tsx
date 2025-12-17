@@ -1,51 +1,76 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { Code2, Menu, X, User, LogOut } from "lucide-react"
-import { useState } from "react"
-import { ThemeSelector } from "./ThemeSelector"
-import { useSession, signOut } from "next-auth/react"
+import Link from 'next/link'
+import { Code2, Menu, X, User, LogOut, ChevronDown } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ThemeSelector } from './ThemeSelector'
+import { useSession, signOut } from 'next-auth/react'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const { data: session, status } = useSession()
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const isAuthed = status === "authenticated"
+  const { data: session, status } = useSession()
+  const isAuthed = status === 'authenticated'
 
   const publicLinks = [
-    { href: "/projects", label: "Projects" },
-    { href: "/services", label: "Services" },
-    { href: "/about", label: "About" },
-    { href: "/request", label: "Request" }
+    { href: '/projects', label: 'Projects' },
+    { href: '/services', label: 'Services' },
+    { href: '/about', label: 'About' },
+    { href: '/request', label: 'Request' }
   ]
 
   const authedLinks = [
-    { href: "/dashboard", label: "Dashboard" },
-    { href: "/services", label: "Services" },
-    { href: "/about-developer", label: "About Developer" },
-    { href: "/request", label: "Request" }
+    { href: '/dashboard', label: 'Dashboard' },
+    { href: '/services', label: 'Services' },
+    { href: '/about-developer', label: 'About Developer' },
+    { href: '/request', label: 'Request' }
   ]
 
   const navLinks = isAuthed ? authedLinks : publicLinks
 
   const displayName =
-    session?.user?.name?.split(" ")[0] ||
-    session?.user?.email?.split("@")[0] ||
-    "Account"
+    session?.user?.name?.split(' ')[0] ||
+    session?.user?.email?.split('@')[0] ||
+    'Account'
+
+  useEffect(() => {
+    const onMouseDown = (e: MouseEvent) => {
+      if (!dropdownRef.current) return
+      if (!dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setDropdownOpen(false)
+    }
+
+    document.addEventListener('mousedown', onMouseDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onMouseDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border shadow-sm">
       <nav className="container mx-auto px-6 md:px-8 lg:px-12 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary hover:opacity-80 transition">
-            <Code2 size={28} />
-            <span>Kashi Kweyu</span>
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-2xl font-bold text-primary hover:opacity-80 transition"
+          >
+            <Code2 size={28} className="text-primary" />
+            <span className="text-primary">Kashi Kweyu</span>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            {navLinks.map(link => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -65,47 +90,76 @@ export default function Header() {
                 href="/login"
                 className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/20 transition font-medium"
               >
-                <User size={16} />
-                <span className="text-sm">Login</span>
+                <User size={16} className="text-primary" />
+                <span className="text-sm text-primary">Login</span>
               </Link>
             ) : (
-              <div className="hidden md:flex items-center gap-2">
-                <Link
-                  href="/dashboard"
-                  className="px-4 py-2 border border-border rounded-full hover:bg-card transition text-sm font-medium"
-                >
-                  {displayName}
-                </Link>
+              <div className="hidden md:block relative" ref={dropdownRef}>
                 <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="p-2 rounded-full hover:bg-destructive/10 transition"
-                  aria-label="Logout"
+                  type="button"
+                  onClick={() => setDropdownOpen((v) => !v)}
+                  className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full hover:bg-card-hover transition font-medium"
+                  aria-haspopup="menu"
+                  aria-expanded={dropdownOpen}
                 >
-                  <LogOut size={16} />
+                  <User size={16} className="text-primary" />
+                  <span className="text-sm">{displayName}</span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition ${dropdownOpen ? 'rotate-180' : ''}`}
+                  />
                 </button>
+
+                {dropdownOpen && (
+                  <div
+                    role="menu"
+                    className="absolute right-0 mt-2 w-52 overflow-hidden rounded-xl border border-border bg-card shadow-lg"
+                  >
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-3 hover:bg-muted transition text-sm"
+                      role="menuitem"
+                    >
+                      <User size={16} />
+                      Dashboard
+                    </Link>
+
+                    <button
+                      type="button"
+                      onClick={() => signOut({ callbackUrl: '/' })}
+                      className="w-full flex items-center gap-2 px-4 py-3 hover:bg-destructive/10 transition text-sm text-left"
+                      role="menuitem"
+                    >
+                      <LogOut size={16} />
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
-            {/* Mobile menu toggle */}
+            {/* Mobile Toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-lg bg-card border border-border hover:bg-card-hover transition"
+              aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pt-4 border-t border-border">
             <div className="flex flex-col gap-3">
-              {navLinks.map(link => (
+              {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 rounded-lg hover:bg-card transition font-medium"
+                  className="px-4 py-2 text-foreground hover:text-primary hover:bg-card rounded-lg transition font-medium"
                 >
                   {link.label}
                 </Link>
@@ -115,7 +169,7 @@ export default function Header() {
                 <Link
                   href="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-center font-medium"
+                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition font-medium text-center"
                 >
                   Login
                 </Link>
@@ -124,16 +178,17 @@ export default function Header() {
                   <Link
                     href="/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="px-4 py-2 bg-card rounded-lg text-center font-medium"
+                    className="px-4 py-2 bg-card border border-border rounded-lg transition font-medium text-center"
                   >
                     {displayName}
                   </Link>
+
                   <button
                     onClick={() => {
                       setMobileMenuOpen(false)
-                      signOut({ callbackUrl: "/" })
+                      signOut({ callbackUrl: '/' })
                     }}
-                    className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg font-medium"
+                    className="px-4 py-2 bg-destructive text-destructive-foreground rounded-lg transition font-medium"
                   >
                     Logout
                   </button>
