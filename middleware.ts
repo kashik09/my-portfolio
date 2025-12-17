@@ -6,25 +6,36 @@ export default withAuth(
     const token = req.nextauth.token
     const path = req.nextUrl.pathname
 
-    // Admin routes protection
+    // Protect Admin
     if (path.startsWith("/admin")) {
       if (!token) {
-        return NextResponse.redirect(new URL("/login?callbackUrl=/admin", req.url))
+        const loginUrl = new URL("/login", req.url)
+        loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname + req.nextUrl.search)
+        return NextResponse.redirect(loginUrl)
       }
 
-      // Check if user has admin access
-      const allowedRoles = ['ADMIN', 'OWNER', 'MODERATOR', 'EDITOR']
+      const allowedRoles = ["ADMIN", "OWNER", "MODERATOR", "EDITOR"]
       if (!allowedRoles.includes(token.role as string)) {
         return NextResponse.redirect(new URL("/", req.url))
       }
 
-      // Role-based access control for specific routes
       if (path.startsWith("/admin/users") || path.startsWith("/admin/settings")) {
-        // Only ADMIN and OWNER can access users and settings
-        if (!['ADMIN', 'OWNER'].includes(token.role as string)) {
+        if (!["ADMIN", "OWNER"].includes(token.role as string)) {
           return NextResponse.redirect(new URL("/admin", req.url))
         }
       }
+
+      return NextResponse.next()
+    }
+
+    // Protect Dashboard
+    if (path.startsWith("/dashboard")) {
+      if (!token) {
+        const loginUrl = new URL("/login", req.url)
+        loginUrl.searchParams.set("callbackUrl", req.nextUrl.pathname + req.nextUrl.search)
+        return NextResponse.redirect(loginUrl)
+      }
+      return NextResponse.next()
     }
 
     return NextResponse.next()
@@ -37,5 +48,5 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/dashboard/:path*"],
 }
