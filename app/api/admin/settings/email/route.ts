@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail, getEmailTemplate } from '@/lib/email'
+import { getServerSession } from '@/lib/auth'
 
 // POST /api/admin/settings/email - Save email settings and send test
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const body = await request.json()
     const { smtpHost, smtpPort, smtpUsername, smtpPassword, testEmail } = body
 

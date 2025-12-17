@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { getServerSession } from '@/lib/auth'
 
 // GET /api/admin/content - List all content pages
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const { searchParams } = new URL(request.url)
     const type = searchParams.get('type')
 
@@ -35,6 +45,15 @@ export async function GET(request: NextRequest) {
 // POST /api/admin/content - Create new content page
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const body = await request.json()
     const { slug, title, type, content, published } = body
 

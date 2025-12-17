@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { getServerSession } from '@/lib/auth'
 
 // GET /api/admin/content/[slug] - Get specific content page
 export async function GET(
@@ -7,6 +8,15 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const page = await prisma.contentPage.findUnique({
       where: { slug: params.slug }
     })
@@ -37,6 +47,15 @@ export async function PATCH(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     const body = await request.json()
     const { title, content, published } = body
 
@@ -68,6 +87,15 @@ export async function DELETE(
   { params }: { params: { slug: string } }
 ) {
   try {
+    const session = await getServerSession()
+
+    if (!session || (session.user.role !== 'ADMIN' && session.user.role !== 'OWNER')) {
+      return NextResponse.json(
+        { success: false, error: 'Forbidden' },
+        { status: 403 }
+      )
+    }
+
     await prisma.contentPage.delete({
       where: { slug: params.slug }
     })
