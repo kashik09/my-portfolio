@@ -86,7 +86,7 @@ export const sectionRegistry: SectionRegistry = {
     type: SectionType.CTA,
     label: 'Call to Action',
     description: 'Prominent CTA section with button',
-    component: CTAForm,
+    component: CTA,
     formComponent: CTAForm,
     defaultData: {
       title: '',

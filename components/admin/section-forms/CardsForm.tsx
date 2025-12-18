@@ -39,13 +39,12 @@ export function CardsForm({ data, onChange }: SectionFormProps<CardsData>) {
       <StyledSelect
         label="Columns"
         value={data.columns?.toString() || '3'}
-        onChange={(value) => onChange({ ...data, columns: parseInt(value) as 2 | 3 | 4 })}
-        options={[
-          { value: '2', label: '2 Columns' },
-          { value: '3', label: '3 Columns' },
-          { value: '4', label: '4 Columns' },
-        ]}
-      />
+        onChange={(e) => onChange({ ...data, columns: parseInt(e.target.value) as 2 | 3 | 4 })}
+      >
+        <option value="2">2 Columns</option>
+        <option value="3">3 Columns</option>
+        <option value="4">4 Columns</option>
+      </StyledSelect>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">

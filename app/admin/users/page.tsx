@@ -5,6 +5,7 @@ import { Search, UserPlus, Edit, Trash2, Shield, User, Lock, Unlock } from 'luci
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
+import { UserAvatar } from '@/components/ui/UserAvatar'
 
 interface UserType {
   id: string
@@ -235,15 +236,12 @@ export default function AdminUsersPage() {
                   <tr key={user.id} className="hover:bg-muted/50 transition">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {user.image ? (
-                          <img src={user.image} alt={user.name || ''} className="w-8 h-8 rounded-full" />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                            <span className="text-sm font-semibold text-primary">
-                              {(user.name || user.email).charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                        )}
+                        <UserAvatar
+                          name={user.name}
+                          email={user.email}
+                          imageUrl={user.image}
+                          size={32}
+                        />
                         <span className="font-medium text-foreground">{user.name || 'No name'}</span>
                       </div>
                     </td>

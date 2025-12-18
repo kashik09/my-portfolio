@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { ProjectCategory, ProductCategory } from '@prisma/client'
 import {
   projectToPortfolioItem,
   digitalProductToPortfolioItem,
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
     const projects = await prisma.project.findMany({
       where: {
         published: true,
-        ...(category && category !== 'ALL' ? { category } : {}),
+        ...(category && category !== 'ALL' ? { category: category as ProjectCategory } : {}),
       },
       orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }],
       take: limit,
@@ -32,7 +33,7 @@ export async function GET(request: Request) {
       const digitalProducts = await prisma.digitalProduct.findMany({
         where: {
           published: true,
-          ...(category && category !== 'ALL' ? { category } : {}),
+          ...(category && category !== 'ALL' ? { category: category as ProductCategory } : {}),
         },
         orderBy: [{ featured: 'desc' }, { publishedAt: 'desc' }],
         take: limit,

@@ -141,7 +141,7 @@ export const authOptions: NextAuthOptions = {
       }
 
       // Align session expiry with token.exp (so UI shows the right expiry too)
-      if (token?.exp) {
+      if (token?.exp && typeof token.exp === 'number') {
         session.expires = new Date(token.exp * 1000).toISOString()
       }
 

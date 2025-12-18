@@ -47,12 +47,11 @@ export function CTAForm({ data, onChange }: SectionFormProps<CTAData>) {
       <StyledSelect
         label="Variant"
         value={data.variant || 'primary'}
-        onChange={(value) => onChange({ ...data, variant: value as 'primary' | 'secondary' })}
-        options={[
-          { value: 'primary', label: 'Primary (Blue)' },
-          { value: 'secondary', label: 'Secondary (Gray)' },
-        ]}
-      />
+        onChange={(e) => onChange({ ...data, variant: e.target.value as 'primary' | 'secondary' })}
+      >
+        <option value="primary">Primary (Blue)</option>
+        <option value="secondary">Secondary (Gray)</option>
+      </StyledSelect>
     </div>
   )
 }

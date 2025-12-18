@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import { ThemeSelector } from './ThemeSelector'
 import { Code2, Menu, X, ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react'
-import InitialsAvatar from './ui/InitialsAvatar'
+import { UserAvatar } from './ui/UserAvatar'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -98,7 +98,12 @@ export default function Header() {
                   aria-haspopup="menu"
                   aria-expanded={dropdownOpen}
                 >
-                  <InitialsAvatar name={session?.user?.name} size={28} />
+                  <UserAvatar
+                    name={session?.user?.name}
+                    email={session?.user?.email}
+                    imageUrl={session?.user?.image}
+                    size={28}
+                  />
                   <span className="text-sm">{displayName}</span>
                   <ChevronDown
                     size={16}

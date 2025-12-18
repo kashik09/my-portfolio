@@ -17,14 +17,13 @@ export function ProjectGridForm({ data, onChange }: SectionFormProps<ProjectGrid
       <StyledSelect
         label="Filter by Category"
         value={data.filter || 'ALL'}
-        onChange={(value) => onChange({ ...data, filter: value as 'ALL' | 'WEB' | 'MOBILE' | 'DESIGN' })}
-        options={[
-          { value: 'ALL', label: 'All Projects' },
-          { value: 'WEB', label: 'Web Projects' },
-          { value: 'MOBILE', label: 'Mobile Projects' },
-          { value: 'DESIGN', label: 'Design Projects' },
-        ]}
-      />
+        onChange={(e) => onChange({ ...data, filter: e.target.value as 'ALL' | 'WEB' | 'MOBILE' | 'DESIGN' })}
+      >
+        <option value="ALL">All Projects</option>
+        <option value="WEB">Web Projects</option>
+        <option value="MOBILE">Mobile Projects</option>
+        <option value="DESIGN">Design Projects</option>
+      </StyledSelect>
 
       <Input
         label="Limit (optional)"
