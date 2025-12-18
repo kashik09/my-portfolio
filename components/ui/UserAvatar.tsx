@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -27,12 +27,14 @@ export function UserAvatar({
   showBadgeInitials?: boolean;
 }) {
   const initials = getInitials(name, email);
-  const [imgOk, setImgOk] = React.useState(Boolean(imageUrl));
+  const [imgError, setImgError] = useState(false);
 
-  // Reset imgOk when imageUrl changes
-  React.useEffect(() => {
-    setImgOk(Boolean(imageUrl));
+  // Reset error state when imageUrl changes
+  useEffect(() => {
+    setImgError(false);
   }, [imageUrl]);
+
+  const showImage = imageUrl && !imgError;
 
   return (
     <div
@@ -44,23 +46,23 @@ export function UserAvatar({
       aria-label={name ?? email ?? "User"}
       title={name ?? email ?? "User"}
     >
-      {imageUrl && imgOk ? (
+      {showImage ? (
         <img
           src={imageUrl}
           alt={name ?? "User avatar"}
           className="h-full w-full object-cover"
           referrerPolicy="no-referrer"
-          onError={() => setImgOk(false)}
+          onError={() => setImgError(true)}
         />
       ) : (
         <span className="select-none text-sm font-semibold">{initials}</span>
       )}
 
-      {showBadgeInitials && imageUrl && imgOk ? (
+      {showBadgeInitials && showImage && (
         <span className="absolute -bottom-0.5 -right-0.5 rounded-full bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white">
           {initials}
         </span>
-      ) : null}
+      )}
     </div>
   );
 }
