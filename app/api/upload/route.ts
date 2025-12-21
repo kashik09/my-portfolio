@@ -26,15 +26,15 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(bytes)
 
     const ext = file.type === 'image/jpeg' ? 'jpg' : file.type.split('/')[1]
-    const filename = `avatar-${Date.now()}.${ext}`
-
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads')
+    const filename = `project-${Date.now()}.${ext}`
+    
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'projects')
     await fs.mkdir(uploadDir, { recursive: true })
 
     const filePath = path.join(uploadDir, filename)
     await fs.writeFile(filePath, buffer)
 
-    const url = `/uploads/${filename}`
+    const url = `/uploads/projects/${filename}`
     return NextResponse.json({ url }, { status: 200 })
   } catch (e) {
     console.error(e)

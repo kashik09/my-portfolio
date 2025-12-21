@@ -377,12 +377,23 @@ export default function EditProjectPage({ params }: { params: { slug: string } }
 
             <div className="flex gap-2 mb-2">
               <input
-                type="text"
-                value={techInput}
-                onChange={(e) => setTechInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTech())}
-                className="flex-1 px-4 py-2 bg-background border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition text-foreground"
-                placeholder="Type a custom technology and press Enter"
+                type="file"
+                accept="image/*"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (file) {
+                    const formData = new FormData()
+                    formData.append('file', file)
+                    const res = await fetch('/api/upload', { method: 'POST', body: formData })
+                    const data = await res.json()
+                    if (data.url) {
+                      setThumbnailPath(data.url)
+                      setImagePreview(data.url)
+                      showToast('Image uploaded!', 'success')
+                    }
+                  }
+                }}
+                className="w-full px-4 py-2 bg-background border border-border rounded-lg"
               />
               <button
                 type="button"
