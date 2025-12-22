@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plus, Search, Package } from 'lucide-react'
+import { Plus, Search, Package, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast'
@@ -9,12 +9,15 @@ import { ProjectCard, ProjectCardData } from '@/components/ProjectCard'
 import { StyledSelect } from '@/components/ui/StyledSelect'
 import { Spinner } from '@/components/ui/Spinner'
 import ConfirmModal from '@/components/ui/ConfirmModal'
+import { FeaturedCheckbox } from '@/components/admin/FeaturedToggle'
 
 export default function AdminProjectsPage() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all')
+  const [featuredFilter, setFeaturedFilter] = useState<'all' | 'featured' | 'not-featured'>('all')
   const [projects, setProjects] = useState<ProjectCardData[]>([])
+  const [stats, setStats] = useState({ total: 0, published: 0, drafts: 0, featured: 0 })
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [projectToDelete, setProjectToDelete] = useState<ProjectCardData | null>(null)
@@ -22,7 +25,7 @@ export default function AdminProjectsPage() {
 
   useEffect(() => {
     fetchProjects()
-  }, [statusFilter, searchQuery])
+  }, [statusFilter, featuredFilter, searchQuery])
 
   const fetchProjects = async () => {
     setLoading(true)
@@ -39,7 +42,25 @@ export default function AdminProjectsPage() {
       }
 
       const data = await response.json()
-      setProjects(data.data || [])
+      let filteredProjects = data.data || []
+
+      // Apply featured filter
+      if (featuredFilter === 'featured') {
+        filteredProjects = filteredProjects.filter((p: ProjectCardData) => p.featured)
+      } else if (featuredFilter === 'not-featured') {
+        filteredProjects = filteredProjects.filter((p: ProjectCardData) => !p.featured)
+      }
+
+      setProjects(filteredProjects)
+
+      // Calculate stats
+      const allProjects = data.data || []
+      setStats({
+        total: allProjects.length,
+        published: allProjects.filter((p: ProjectCardData) => p.status === 'PUBLISHED').length,
+        drafts: allProjects.filter((p: ProjectCardData) => p.status !== 'PUBLISHED').length,
+        featured: allProjects.filter((p: ProjectCardData) => p.featured).length
+      })
     } catch (error) {
       console.error('Error fetching projects:', error)
       showToast('Failed to load projects', 'error')
@@ -96,6 +117,29 @@ export default function AdminProjectsPage() {
         </Link>
       </div>
 
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-card border border-border rounded-xl p-4">
+          <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+          <div className="text-sm text-muted-foreground">Total Projects</div>
+        </div>
+        <div className="bg-card border border-border rounded-xl p-4">
+          <div className="text-2xl font-bold text-green-600">{stats.published}</div>
+          <div className="text-sm text-muted-foreground">Published</div>
+        </div>
+        <div className="bg-card border border-border rounded-xl p-4">
+          <div className="text-2xl font-bold text-yellow-600">{stats.drafts}</div>
+          <div className="text-sm text-muted-foreground">Drafts</div>
+        </div>
+        <div className="bg-card border border-border rounded-xl p-4">
+          <div className="flex items-center gap-2">
+            <div className="text-2xl font-bold text-primary">{stats.featured}</div>
+            <Star size={18} className="text-primary" fill="currentColor" />
+          </div>
+          <div className="text-sm text-muted-foreground">Featured</div>
+        </div>
+      </div>
+
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4">
         {/* Search */}
@@ -121,6 +165,18 @@ export default function AdminProjectsPage() {
             <option value="draft">Drafts</option>
           </StyledSelect>
         </div>
+
+        {/* Featured Filter */}
+        <div className="w-full md:w-48">
+          <StyledSelect
+            value={featuredFilter}
+            onChange={(e) => setFeaturedFilter(e.target.value as 'all' | 'featured' | 'not-featured')}
+          >
+            <option value="all">All Featured</option>
+            <option value="featured">Featured Only</option>
+            <option value="not-featured">Not Featured</option>
+          </StyledSelect>
+        </div>
       </div>
 
       {/* Loading State */}
@@ -134,12 +190,21 @@ export default function AdminProjectsPage() {
       {!loading && projects.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              variant="admin"
-              onEdit={() => handleEdit(project.slug)}
-            />
+            <div key={project.id} className="relative">
+              <ProjectCard
+                project={project}
+                variant="admin"
+                onEdit={() => handleEdit(project.slug)}
+              />
+              <div className="absolute top-3 left-3 flex items-center gap-2 bg-card/90 backdrop-blur-sm px-2 py-1.5 rounded-lg border border-border shadow-sm">
+                <label className="text-xs text-muted-foreground font-medium">Featured</label>
+                <FeaturedCheckbox
+                  slug={project.slug}
+                  initialFeatured={project.featured || false}
+                  onToggle={() => fetchProjects()}
+                />
+              </div>
+            </div>
           ))}
         </div>
       )}
