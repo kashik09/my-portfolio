@@ -10,6 +10,11 @@ A modern, full-stack portfolio website built with Next.js 14, featuring a JSON-b
   - Tokyo Night 🌃
   - Monokai Pro 🎨
   - GitHub Light ☀️
+- **Automated Screenshot Capture**: Capture project screenshots automatically using Playwright
+  - Auto-capture screenshots from live URLs at 1920x1080 @2x resolution
+  - Full page screenshot option for entire scrollable content
+  - Smart filename generation with project context
+  - Toggle between manual upload and auto-capture in admin forms
 - **JSON-based CMS**: Simple file-based content management without database overhead
 - **Admin Content Editor**: Edit About, Services, and Request Form content via intuitive UI
 - **Responsive Design**: Fully responsive across all devices with mobile-first approach
@@ -79,7 +84,14 @@ yarn install
 pnpm install
 ```
 
-3. **Run the development server**
+3. **Set up Playwright (for screenshot capture feature)**
+```bash
+npx playwright install chromium
+```
+
+This installs the Chromium browser required for automated screenshot capture. If you skip this step, you can still use manual upload but the auto-capture feature won't work.
+
+4. **Run the development server**
 ```bash
 npm run dev
 # or
@@ -88,7 +100,7 @@ yarn dev
 pnpm dev
 ```
 
-4. **Open your browser**
+5. **Open your browser**
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
@@ -319,6 +331,84 @@ interface AboutData {
 }
 ```
 
+## Screenshot Capture
+
+### Features
+
+The portfolio includes an automated screenshot capture system for project thumbnails:
+
+- **Automated Capture**: Capture screenshots from live URLs using Playwright
+- **High Resolution**: Screenshots captured at 1920x1080 @2x resolution
+- **Full Page Support**: Option to capture entire scrollable page
+- **Smart Naming**: Context-aware filenames using project slug/title
+- **CLI Support**: Command-line interface for manual captures
+- **Admin Integration**: Toggle between manual upload and auto-capture in project forms
+
+### Usage
+
+#### In Admin Dashboard
+
+1. Navigate to `/admin/projects/new` or edit an existing project
+2. In the "Thumbnail Image" section, click the "Auto-Capture" tab
+3. Enter the live project URL
+4. Check "Full page" if you want to capture the entire scrollable content
+5. Click "Capture Screenshot"
+6. The screenshot will be automatically saved and set as the project thumbnail
+
+#### Via CLI
+
+Capture screenshots directly from the command line:
+
+```bash
+# Basic usage
+npx tsx scripts/capture-screenshot.ts https://example.com
+
+# With custom filename
+npx tsx scripts/capture-screenshot.ts https://example.com my-project.png
+```
+
+### Configuration
+
+The screenshot capture system can be configured in `scripts/capture-screenshot.ts`:
+
+- **Viewport**: Default 1920x1080 (configurable)
+- **Device Scale**: 2x for retina displays
+- **Delay**: 2000ms wait after page load (configurable)
+- **Output Directory**: `public/uploads/projects/`
+- **Format**: PNG with context-aware naming
+
+### Requirements
+
+- **Playwright**: Must be installed with `npx playwright install chromium`
+- **Admin Access**: ADMIN or OWNER role required for API access
+- **Public URLs**: Works best with publicly accessible project URLs
+
+### API Endpoint
+
+**POST /api/admin/screenshot**
+```typescript
+// Request
+{
+  url: string
+  projectSlug?: string
+  projectTitle?: string
+  fullPage?: boolean
+}
+
+// Response
+{
+  success: boolean
+  data: {
+    url: string        // Public path: /uploads/projects/filename.png
+    filename: string   // Generated filename
+  }
+}
+```
+
+**GET /api/admin/screenshot**
+- Check if Playwright is installed and available
+- Returns availability status
+
 ## Scripts
 
 ```bash
@@ -331,6 +421,9 @@ npm run start        # Start production server
 
 # Code Quality
 npm run lint         # Run ESLint
+
+# Screenshot Capture
+npx tsx scripts/capture-screenshot.ts <url> [filename]  # Capture project screenshot
 ```
 
 ## Deployment
