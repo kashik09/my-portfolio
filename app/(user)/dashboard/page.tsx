@@ -291,7 +291,7 @@ export default function DashboardPage() {
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition font-medium"
             >
               Browse Membership Plans
-              <ArrowRight size={18} />
+              <ArrowRight size={18} className="animate-arrow-bounce" />
             </Link>
           </div>
         )}
