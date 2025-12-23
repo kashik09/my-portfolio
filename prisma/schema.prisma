@@ -190,6 +190,7 @@ model Project {
 
   // Additional content
   content String? @db.Text // Markdown content for detailed case study
+  problem String? @db.Text // What problem this project solves / purpose
 
   // Metrics
   featured  Boolean @default(false)

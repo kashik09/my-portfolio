@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Plus, Trash2, Save, AlertCircle } from 'lucide-react'
+import { ImageUploadCrop } from '@/components/ImageUploadCrop'
 
 interface AboutData {
   hero: {
@@ -247,10 +248,11 @@ export default function AboutEditorPage() {
             value={data.hero.title}
             onChange={(e) => setData({ ...data, hero: { ...data.hero, title: e.target.value } })}
           />
-          <Input
-            label="Avatar URL"
-            value={data.hero.avatarUrl}
-            onChange={(e) => setData({ ...data, hero: { ...data.hero, avatarUrl: e.target.value } })}
+          <ImageUploadCrop
+            label="Avatar Image"
+            currentImage={data.hero.avatarUrl}
+            aspectRatio={1}
+            onImageCropped={(url) => setData({ ...data, hero: { ...data.hero, avatarUrl: url } })}
           />
         </div>
         <Input

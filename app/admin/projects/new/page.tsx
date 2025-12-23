@@ -22,6 +22,7 @@ export default function NewProjectPage() {
     title: '',
     slug: '',
     description: '',
+    problem: '',
     category: '',
     githubUrl: '',
     liveUrl: '',
@@ -173,6 +174,21 @@ export default function NewProjectPage() {
               className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition resize-none text-foreground"
               placeholder="A brief description of your project..."
               required
+            />
+          </div>
+
+          {/* Problem/Purpose */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Problem / Purpose
+              <span className="text-muted-foreground text-xs ml-2">(What problem does this solve?)</span>
+            </label>
+            <textarea
+              value={formData.problem}
+              onChange={(e) => setFormData({ ...formData, problem: e.target.value })}
+              rows={3}
+              className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition resize-none text-foreground"
+              placeholder="e.g., This calculator helps students quickly perform complex calculations without needing physical hardware..."
             />
           </div>
 
