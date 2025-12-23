@@ -259,6 +259,35 @@ model Visit {
   @@map("visits")
 }
 
+model AnalyticsEvent {
+  id String @id @default(cuid())
+
+  // Event details
+  action   String
+  page     String?
+  category String?
+  label    String?
+  value    Int?
+
+  // Device information
+  device   String?
+  referrer String?
+
+  // Flexible data storage
+  data Json?
+
+  // Timestamp
+  createdAt DateTime @default(now())
+
+  // Indexes for efficient queries
+  @@index([action])
+  @@index([page])
+  @@index([createdAt])
+  @@index([action, createdAt])
+  @@index([page, createdAt])
+  @@map("analytics_events")
+}
+
 // ============================================
 // DIGITAL PRODUCTS MODELS
 // ============================================

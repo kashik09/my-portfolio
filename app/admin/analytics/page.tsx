@@ -17,38 +17,38 @@ interface AnalyticsData {
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d' | 'all'>('7d')
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
 
-  // TODO: Fetch from Vercel Analytics API or your database
-  const [analytics] = useState<AnalyticsData>({
-    totalViews: 1247,
-    uniqueVisitors: 892,
-    avgTimeOnSite: 145, // seconds
-    topPages: [
-      { page: 'Projects', views: 456 },
-      { page: 'Home', views: 389 },
-      { page: 'About', views: 234 },
-      { page: 'Contact', views: 168 }
-    ],
-    devices: [
-      { type: 'desktop', count: 623 },
-      { type: 'mobile', count: 421 },
-      { type: 'tablet', count: 48 }
-    ],
-    popularProjects: [
-      { title: 'JS Calculator', views: 234 },
-      { title: 'Portfolio Website', views: 189 },
-      { title: 'React Todo App', views: 156 }
-    ],
-    recentEvents: [
-      { action: 'project_view', timestamp: '2024-01-20T10:30:00Z', data: { projectTitle: 'JS Calculator' } },
-      { action: 'form_submit', timestamp: '2024-01-20T10:25:00Z', data: { formName: 'Contact Form' } },
-      { action: 'theme_change', timestamp: '2024-01-20T10:20:00Z', data: { themeName: 'midnight' } }
-    ]
-  })
-
+  // Fetch analytics data from API
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setLoading(false), 1000)
+    const fetchAnalytics = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        const response = await fetch(`/api/admin/analytics?range=${timeRange}`)
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch analytics data')
+        }
+
+        const json = await response.json()
+
+        if (json.success && json.data) {
+          setAnalytics(json.data)
+        } else {
+          throw new Error(json.error || 'Failed to load analytics')
+        }
+      } catch (err) {
+        console.error('Analytics fetch error:', err)
+        setError(err instanceof Error ? err.message : 'Failed to load analytics')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAnalytics()
   }, [timeRange])
 
   const formatTime = (seconds: number) => {
@@ -70,6 +70,28 @@ export default function AnalyticsPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Spinner size="lg" />
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <p className="text-red-600 dark:text-red-400 text-lg">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition"
+        >
+          Retry
+        </button>
+      </div>
+    )
+  }
+
+  if (!analytics) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <p className="text-muted-foreground">No analytics data available</p>
       </div>
     )
   }
@@ -107,10 +129,6 @@ export default function AnalyticsPage() {
             <Eye className="text-blue-600 dark:text-blue-400" size={20} />
           </div>
           <p className="text-3xl font-bold text-foreground">{analytics.totalViews.toLocaleString()}</p>
-          <p className="text-xs text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
-            <TrendingUp size={12} />
-            +12% from last period
-          </p>
         </div>
 
         <div className="bg-card rounded-xl border border-border p-6">
@@ -119,9 +137,8 @@ export default function AnalyticsPage() {
             <Users className="text-purple-600 dark:text-purple-400" size={20} />
           </div>
           <p className="text-3xl font-bold text-foreground">{analytics.uniqueVisitors.toLocaleString()}</p>
-          <p className="text-xs text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
-            <TrendingUp size={12} />
-            +8% from last period
+          <p className="text-xs text-muted-foreground mt-2">
+            Approximate (based on device/referrer)
           </p>
         </div>
 
@@ -131,21 +148,16 @@ export default function AnalyticsPage() {
             <Clock className="text-orange-600 dark:text-orange-400" size={20} />
           </div>
           <p className="text-3xl font-bold text-foreground">{formatTime(analytics.avgTimeOnSite)}</p>
-          <p className="text-xs text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
-            <TrendingUp size={12} />
-            +5% from last period
-          </p>
         </div>
 
         <div className="bg-card rounded-xl border border-border p-6">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-muted-foreground text-sm">Engagement Rate</p>
+            <p className="text-muted-foreground text-sm">Total Events</p>
             <MousePointer className="text-green-600 dark:text-green-400" size={20} />
           </div>
-          <p className="text-3xl font-bold text-foreground">68%</p>
-          <p className="text-xs text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
-            <TrendingUp size={12} />
-            +3% from last period
+          <p className="text-3xl font-bold text-foreground">{analytics.recentEvents.length}</p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Recent activity tracked
           </p>
         </div>
       </div>
@@ -158,7 +170,10 @@ export default function AnalyticsPage() {
             Top Pages
           </h2>
           <div className="space-y-4">
-            {analytics.topPages.map((page, index) => {
+            {analytics.topPages.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No page views yet</p>
+            ) : (
+              analytics.topPages.map((page, index) => {
               const maxViews = analytics.topPages[0].views
               const percentage = (page.views / maxViews) * 100
 
@@ -175,8 +190,8 @@ export default function AnalyticsPage() {
                     />
                   </div>
                 </div>
-              )
-            })}
+              ))
+            )}
           </div>
         </div>
 
@@ -187,7 +202,10 @@ export default function AnalyticsPage() {
             Device Breakdown
           </h2>
           <div className="space-y-4">
-            {analytics.devices.map((device) => {
+            {analytics.devices.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No device data yet</p>
+            ) : (
+              analytics.devices.map((device) => {
               const total = analytics.devices.reduce((sum, d) => sum + d.count, 0)
               const percentage = ((device.count / total) * 100).toFixed(1)
 
@@ -207,8 +225,8 @@ export default function AnalyticsPage() {
                     />
                   </div>
                 </div>
-              )
-            })}
+              ))
+            )}
           </div>
         </div>
 
@@ -219,7 +237,10 @@ export default function AnalyticsPage() {
             Popular Projects
           </h2>
           <div className="space-y-3">
-            {analytics.popularProjects.map((project, index) => (
+            {analytics.popularProjects.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No project views yet</p>
+            ) : (
+              analytics.popularProjects.map((project, index) => (
               <div
                 key={project.title}
                 className="flex items-center justify-between p-3 bg-muted rounded-lg hover:bg-muted/80 transition"
@@ -230,7 +251,8 @@ export default function AnalyticsPage() {
                 </div>
                 <span className="text-muted-foreground text-sm">{project.views} views</span>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -241,7 +263,10 @@ export default function AnalyticsPage() {
             Recent Activity
           </h2>
           <div className="space-y-3">
-            {analytics.recentEvents.map((event, index) => (
+            {analytics.recentEvents.length === 0 ? (
+              <p className="text-center text-muted-foreground py-8">No recent events</p>
+            ) : (
+              analytics.recentEvents.map((event, index) => (
               <div
                 key={index}
                 className="flex items-start gap-3 p-3 bg-muted rounded-lg"
@@ -261,25 +286,19 @@ export default function AnalyticsPage() {
                   )}
                 </div>
               </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>
 
       {/* Info Banner */}
       <div className="bg-blue-500/10 dark:bg-blue-500/20 border border-blue-500/30 rounded-xl p-6">
-        <h3 className="text-lg font-bold text-foreground mb-2">📊 Analytics Powered by Vercel</h3>
+        <h3 className="text-lg font-bold text-foreground mb-2">📊 Analytics Overview</h3>
         <p className="text-foreground/80 text-sm">
-          These analytics are tracked in real-time using Vercel Analytics. View more detailed insights in your{' '}
-          <a
-            href="https://vercel.com/dashboard/analytics"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline font-medium"
-          >
-            Vercel Dashboard
-          </a>
-          .
+          Analytics are tracked using a custom implementation with Postgres database storage. Data is collected
+          client-side and stored securely. Unique visitor counts are approximated based on device and referrer
+          combinations.
         </p>
       </div>
     </div>
