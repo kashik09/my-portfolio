@@ -53,9 +53,6 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="max-w-6xl mx-auto px-4">
         <div className="text-center space-y-6 py-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
-            <span className="text-primary">✨ Available for freelance projects</span>
-          </div>
           <h1 className="text-5xl md:text-7xl font-bold text-foreground">
             Hi, I'm <span className="text-primary">Kashi</span>
           </h1>
