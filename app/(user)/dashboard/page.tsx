@@ -282,9 +282,18 @@ export default function DashboardPage() {
             </div>
           </div>
         ) : (
-          <p className="text-sm text-muted-foreground">
-            You don&apos;t have an active membership yet. Credits and usage limits will appear here once a membership is assigned to your account.
-          </p>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              You don&apos;t have an active membership yet. Credits and usage limits will appear here once a membership is assigned to your account.
+            </p>
+            <Link
+              href="/memberships"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition font-medium"
+            >
+              Browse Membership Plans
+              <ArrowRight size={18} />
+            </Link>
+          </div>
         )}
       </div>
 

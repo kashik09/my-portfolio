@@ -18,6 +18,7 @@ export default function Header() {
   const publicLinks = [
     { href: '/projects', label: 'Projects' },
     { href: '/services', label: 'Services' },
+    { href: '/memberships', label: 'Pricing' },
     { href: '/about', label: 'About' },
     { href: '/request', label: 'Request' },
   ]
@@ -25,6 +26,7 @@ export default function Header() {
   const authedLinks = [
     { href: '/dashboard', label: 'Dashboard' },
     { href: '/services', label: 'Services' },
+    { href: '/memberships', label: 'Pricing' },
     { href: '/about-developer', label: 'About Developer' },
     { href: '/request', label: 'Request' },
   ]
