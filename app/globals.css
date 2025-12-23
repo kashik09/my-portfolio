@@ -130,7 +130,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     caret-color: rgb(var(--color-primary));
-    outline: 4px solid #ff3b30;
   }
 
   h1, h2, h3, h4, h5, h6 {
