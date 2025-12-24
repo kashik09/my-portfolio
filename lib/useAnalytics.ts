@@ -16,6 +16,19 @@ interface EventData {
   value?: number
 }
 
+const getDeviceType = () => {
+  if (typeof navigator === 'undefined') return 'desktop'
+
+  const ua = navigator.userAgent
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return 'tablet'
+  }
+  if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+    return 'mobile'
+  }
+  return 'desktop'
+}
+
 // Helper function to send analytics to our database (non-blocking)
 const sendToDatabase = async (eventData: any) => {
   try {
@@ -180,18 +193,6 @@ export function useAnalytics() {
 
     // Send to our database (non-blocking)
     sendToDatabase(eventData)
-  }
-
-  // Helper: Get device type
-  const getDeviceType = () => {
-    const ua = navigator.userAgent
-    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-      return 'tablet'
-    }
-    if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
-      return 'mobile'
-    }
-    return 'desktop'
   }
 
   return {
