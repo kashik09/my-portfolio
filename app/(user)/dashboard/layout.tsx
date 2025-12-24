@@ -5,7 +5,6 @@ import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { Home, Download, FileText, Settings, ArrowLeft, Menu, X, User, AlertTriangle } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { ThemeSelector } from '@/components/ThemeSelector'
 import { ToastProvider } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 
@@ -90,8 +89,6 @@ export default function DashboardLayout({
 
               {/* Right Actions */}
               <div className="flex items-center gap-3">
-                <ThemeSelector />
-
                 {/* User Info */}
                 <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
                   <User size={16} className="text-primary" />

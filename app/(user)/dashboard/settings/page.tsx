@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useTheme } from '@/lib/ThemeContext'
-import { defaultTheme, ThemeName } from '@/lib/themes'
+import { usePreferences } from '@/lib/preferences/PreferencesContext'
+import type { ThemePref } from '@/lib/preferences/types'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 import ConfirmModal from '@/components/ui/ConfirmModal'
@@ -48,14 +48,14 @@ interface NotificationsResponse {
   }
 }
 
-function mapUserThemeToAppTheme(theme: UserThemePreference): ThemeName {
-  if (theme === 'LIGHT') return 'ayulight'
-  if (theme === 'DARK') return 'dracula'
-  return defaultTheme
+function mapUserThemeToPref(theme: UserThemePreference): ThemePref {
+  if (theme === 'LIGHT') return 'light'
+  if (theme === 'DARK') return 'dark'
+  return 'system'
 }
 
 export default function SettingsPage() {
-  const { theme, setTheme } = useTheme()
+  const { preferences, setTheme: setThemePref } = usePreferences()
   const { showToast } = useToast()
   const { update: updateSession } = useSession()
 
@@ -110,11 +110,9 @@ export default function SettingsPage() {
             setEmailNotifications(Boolean(data.emailNotifications))
             setHasPassword(Boolean(data.hasPassword))
 
-            const appTheme = mapUserThemeToAppTheme(
-              data.theme || 'SYSTEM'
-            ) as ThemeName
-            if (theme !== appTheme) {
-              setTheme(appTheme)
+            const preferredTheme = mapUserThemeToPref(data.theme || 'SYSTEM')
+            if (preferences.theme !== preferredTheme) {
+              setThemePref(preferredTheme)
             }
           }
         } else {
@@ -144,7 +142,7 @@ export default function SettingsPage() {
     return () => {
       cancelled = true
     }
-  }, [setTheme, showToast, theme])
+  }, [preferences.theme, setThemePref, showToast])
 
   useEffect(() => {
     return () => {
@@ -242,9 +240,9 @@ export default function SettingsPage() {
         return
       }
 
-      const appTheme = mapUserThemeToAppTheme(themePreference)
-      if (theme !== appTheme) {
-        setTheme(appTheme)
+      const preferredTheme = mapUserThemeToPref(themePreference)
+      if (preferences.theme !== preferredTheme) {
+        setThemePref(preferredTheme)
       }
 
       // Refresh NextAuth session so Header shows new avatar/name immediately
