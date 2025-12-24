@@ -7,7 +7,7 @@
      MIDNIGHT PURPLE (Default)
      ============================================ */
   :root,
-  [data-theme='dracula'] {
+  [data-legacy-theme='dracula'] {
     --color-primary: 189 147 249;        /* Purple */
     --color-primary-foreground: 40 42 54;
     --color-secondary: 255 121 198;      /* Pink */
@@ -36,7 +36,7 @@
   /* ============================================
      DESERT DAWN
      ============================================ */
-  [data-theme='ayulight'] {
+  [data-legacy-theme='ayulight'] {
     --color-primary: 65 137 223;         /* Blue */
     --color-primary-foreground: 255 255 255;
     --color-secondary: 250 116 34;       /* Orange */
@@ -65,7 +65,7 @@
   /* ============================================
      CLEAN SLATE
      ============================================ */
-  [data-theme='quietlight'] {
+  [data-legacy-theme='quietlight'] {
     --color-primary: 0 119 170;          /* Blue */
     --color-primary-foreground: 255 255 255;
     --color-secondary: 166 38 164;       /* Purple */
@@ -94,7 +94,7 @@
   /* ============================================
      OCEAN DEEP
      ============================================ */
-  [data-theme='material'] {
+  [data-legacy-theme='material'] {
     --color-primary: 130 170 255;        /* Blue */
     --color-primary-foreground: 255 255 255;
     --color-secondary: 199 146 234;      /* Purple */
@@ -121,6 +121,96 @@
   }
 
   /* ============================================
+     PREFERENCES TOKENS (FORMAL + VIBEY)
+     ============================================ */
+  :root {
+    --bg: rgb(var(--color-background));
+    --surface: rgb(var(--color-card));
+    --border: rgb(var(--color-border));
+    --text: rgb(var(--color-foreground));
+    --muted: rgb(var(--color-foreground-muted));
+    --primary: rgb(var(--color-primary));
+    --primary2: rgb(var(--color-secondary));
+    --ring: rgb(var(--color-primary));
+  }
+
+  [data-theme='light'] {
+    --bg: theme('colors.zinc.50');
+    --surface: theme('colors.white');
+    --border: theme('colors.zinc.200');
+    --text: theme('colors.zinc.900');
+    --muted: theme('colors.zinc.600');
+  }
+
+  [data-theme='dark'] {
+    --bg: theme('colors.zinc.950');
+    --surface: theme('colors.zinc.900');
+    --border: theme('colors.zinc.800');
+    --text: theme('colors.zinc.50');
+    --muted: theme('colors.zinc.300');
+  }
+
+  [data-mode='formal'][data-theme='light'] {
+    --primary: theme('colors.blue.600');
+    --primary2: theme('colors.slate.600');
+    --ring: theme('colors.blue.600');
+  }
+
+  [data-mode='formal'][data-theme='dark'] {
+    --primary: theme('colors.blue.400');
+    --primary2: theme('colors.slate.400');
+    --ring: theme('colors.blue.400');
+  }
+
+  [data-mode='vibey'][data-vibey='grape'][data-theme='light'] {
+    --primary: theme('colors.violet.600');
+    --primary2: theme('colors.fuchsia.500');
+    --ring: theme('colors.violet.600');
+  }
+
+  [data-mode='vibey'][data-vibey='grape'][data-theme='dark'] {
+    --primary: theme('colors.violet.400');
+    --primary2: theme('colors.fuchsia.400');
+    --ring: theme('colors.violet.400');
+  }
+
+  [data-mode='vibey'][data-vibey='ocean'][data-theme='light'] {
+    --primary: theme('colors.cyan.600');
+    --primary2: theme('colors.teal.500');
+    --ring: theme('colors.cyan.600');
+  }
+
+  [data-mode='vibey'][data-vibey='ocean'][data-theme='dark'] {
+    --primary: theme('colors.cyan.400');
+    --primary2: theme('colors.teal.400');
+    --ring: theme('colors.cyan.400');
+  }
+
+  [data-mode='vibey'][data-vibey='peach'][data-theme='light'] {
+    --primary: theme('colors.orange.400');
+    --primary2: theme('colors.purple.500');
+    --ring: theme('colors.orange.400');
+  }
+
+  [data-mode='vibey'][data-vibey='peach'][data-theme='dark'] {
+    --primary: theme('colors.orange.300');
+    --primary2: theme('colors.purple.400');
+    --ring: theme('colors.orange.300');
+  }
+
+  [data-mode='vibey'][data-vibey='neon'][data-theme='light'] {
+    --primary: theme('colors.lime.500');
+    --primary2: theme('colors.emerald.500');
+    --ring: theme('colors.lime.500');
+  }
+
+  [data-mode='vibey'][data-vibey='neon'][data-theme='dark'] {
+    --primary: theme('colors.lime.400');
+    --primary2: theme('colors.emerald.400');
+    --ring: theme('colors.lime.400');
+  }
+
+  /* ============================================
      BASE STYLES
      ============================================ */
   * {
@@ -129,7 +219,9 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    caret-color: rgb(var(--color-primary));
+    background-color: var(--bg, rgb(var(--color-background)));
+    color: var(--text, rgb(var(--color-foreground)));
+    caret-color: var(--primary, rgb(var(--color-primary)));
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -185,5 +277,37 @@
 
   .animate-arrow-bounce {
     animation: arrow-bounce 2s ease-in-out infinite;
+  }
+
+  .bg-app {
+    background-color: var(--bg);
+  }
+
+  .surface-app {
+    background-color: var(--surface);
+  }
+
+  .border-app {
+    border-color: var(--border);
+  }
+
+  .text-app {
+    color: var(--text);
+  }
+
+  .text-muted-app {
+    color: var(--muted);
+  }
+
+  .accent {
+    color: var(--primary);
+  }
+
+  .accent-2 {
+    color: var(--primary2);
+  }
+
+  .ring-app {
+    --tw-ring-color: var(--ring);
   }
 }
