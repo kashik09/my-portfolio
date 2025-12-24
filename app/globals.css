@@ -307,6 +307,18 @@
     color: var(--primary2);
   }
 
+  .bg-accent {
+    background-color: var(--primary);
+  }
+
+  .bg-accent-soft {
+    background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+  }
+
+  .border-accent {
+    border-color: var(--primary);
+  }
+
   .ring-app {
     --tw-ring-color: var(--ring);
   }
