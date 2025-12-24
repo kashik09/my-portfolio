@@ -1,7 +1,13 @@
+'use client'
+
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { PreferencesPanel } from '@/components/preferences/PreferencesPanel'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const pathname = usePathname()
+  const showPreferences = !pathname?.startsWith('/admin')
 
   return (
     <footer className="bg-background-secondary border-t border-border mt-auto">
@@ -108,6 +114,13 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
+
+            {showPreferences && (
+              <div className="mt-6">
+                <h4 className="font-semibold text-foreground mb-3">Preferences</h4>
+                <PreferencesPanel />
+              </div>
+            )}
           </div>
         </div>
 
