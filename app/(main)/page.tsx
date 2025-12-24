@@ -74,7 +74,7 @@ export default async function HomePage() {
       {/* Features */}
       <section className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
+          <div className="vibey-card text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
             <div className="inline-block p-4 bg-primary/20 rounded-xl mb-4">
               <Code2 className="text-primary" size={32} />
             </div>
@@ -84,7 +84,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
+          <div className="vibey-card text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
             <div className="inline-block p-4 bg-primary/20 rounded-xl mb-4">
               <Palette className="text-primary" size={32} />
             </div>
@@ -94,7 +94,7 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
+          <div className="vibey-card text-center p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-md hover:border-primary transition-all">
             <div className="inline-block p-4 bg-primary/20 rounded-xl mb-4">
               <Zap className="text-primary" size={32} />
             </div>
@@ -110,10 +110,10 @@ export default async function HomePage() {
       <section className="container mx-auto px-4">
         <div className="bg-gradient-to-br from-primary via-primary to-primary/80 rounded-3xl p-12 md:p-20 text-center text-white shadow-xl">
           <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white drop-shadow-lg">Ready to start your project?</h2>
-          <p className="text-xl md:text-2xl mb-10 font-medium max-w-3xl mx-auto text-white/95 drop-shadow-md">
+          <p className="text-xl md:text-2xl mb-10 font-medium max-w-3xl mx-auto text-white drop-shadow-md">
             Let's work together to bring your ideas to life
           </p>
-          <Link href="/request">
+          <Link href="/request" className="no-underline">
             <Button variant="outline" size="lg" className="bg-white text-primary border-white hover:bg-white/90 hover:scale-105 transition-transform font-semibold">
               Get Started Today
             </Button>

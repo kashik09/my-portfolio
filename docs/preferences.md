@@ -20,7 +20,6 @@ The client gate applies resolved attributes on `<html>`:
 
 If mode is `formal`, the gate removes `data-vibey`.
 
-Legacy theme selection still sets `data-legacy-theme` to avoid conflicts.
 
 ## Token variables
 

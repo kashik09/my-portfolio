@@ -1,56 +1,110 @@
 'use client'
 
 import Link from 'next/link'
-import { Home, User, LogOut } from 'lucide-react'
-import { ThemeSelector } from './ThemeSelector'
+import { Home, LogOut, Sparkles } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
+import { usePreferences } from '@/lib/preferences/PreferencesContext'
+import type { VibeyTheme } from '@/lib/preferences/types'
+
+const vibeyOptions: { value: VibeyTheme; label: string }[] = [
+  { value: 'grape', label: 'Grape' },
+  { value: 'ocean', label: 'Ocean' },
+  { value: 'peach', label: 'Peach' },
+  { value: 'neon', label: 'Neon' },
+]
 
 export default function AdminHeader() {
   const { data: session } = useSession()
+  const { preferences, setVibeyTheme } = usePreferences()
+
+  const getInitials = (name?: string | null) => {
+    if (!name) return 'A'
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
+  // Calculate active pill position for sliding background
+  const activeIndex = vibeyOptions.findIndex(opt => opt.value === preferences.vibeyTheme)
 
   return (
-    <header className="sticky top-0 z-50 bg-card border-b border-border backdrop-blur-sm">
-      <div className="px-6 py-4">
+    <header className="sticky top-0 z-50 border-b border-app backdrop-blur-xl surface-app shadow-sm">
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+
+      <div className="relative px-6 py-3.5">
         <div className="flex items-center justify-between">
-          {/* Left: Admin Title */}
-          <div className="flex items-center gap-4">
-            <Link href="/admin" className="flex items-center gap-2">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <span className="text-2xl font-bold text-primary">A</span>
+          {/* Left: Premium Brand */}
+          <Link href="/admin" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/30 transition-colors" />
+              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg shadow-primary/25 group-hover:shadow-primary/40 transition-all group-hover:scale-105">
+                <Sparkles className="w-5 h-5 text-primary-foreground" strokeWidth={2.5} />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">Admin Dashboard</h1>
-                <p className="text-xs text-muted-foreground">Portfolio Management</p>
-              </div>
-            </Link>
-          </div>
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-base font-bold text-app tracking-tight">Admin Dashboard</h1>
+              <p className="text-[11px] text-muted font-medium">Portfolio Management</p>
+            </div>
+          </Link>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-3">
-            <ThemeSelector />
+          <div className="flex items-center gap-2.5">
+            {/* Vibey Theme Pills with Sliding Background */}
+            <div className="hidden md:flex items-center relative rounded-full border border-app surface-app p-1">
+              {/* Sliding background indicator */}
+              <div
+                className="absolute top-1 bottom-1 rounded-full bg-accent shadow-lg shadow-accent/30 transition-all duration-300 ease-out"
+                style={{
+                  width: '56px',
+                  left: `calc(4px + ${activeIndex * 56}px)`
+                }}
+              />
+
+              {vibeyOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setVibeyTheme(option.value)}
+                  className={`relative z-10 w-14 rounded-full py-1.5 text-[11px] font-bold transition-colors duration-200 ${
+                    preferences.vibeyTheme === option.value
+                      ? 'text-white'
+                      : 'text-app hover:text-app/80'
+                  } focus-visible:outline-none focus-visible:ring-2 ring-accent ring-offset-2 ring-offset-app`}
+                  aria-pressed={preferences.vibeyTheme === option.value}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
 
             <Link
               href="/"
-              className="flex items-center gap-2 px-4 py-2 bg-background border border-border rounded-full hover:bg-muted transition text-sm font-medium text-foreground"
+              className="flex items-center gap-2 h-9 px-4 surface-app border border-app rounded-full hover:bg-app transition-all text-xs font-semibold text-app hover:shadow-sm"
             >
-              <Home size={16} />
+              <Home size={14} />
               <span className="hidden md:inline">View Site</span>
             </Link>
 
             {session?.user && (
               <>
-                <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full">
-                  <User size={16} className="text-primary" />
-                  <span className="text-sm font-medium text-primary">
-                    {session.user.name || session.user.email}
+                {/* User Avatar Pill */}
+                <div className="flex items-center gap-2 h-9 pl-1.5 pr-4 bg-primary/10 border border-primary/20 rounded-full hover:bg-primary/15 transition-all group cursor-pointer shadow-sm">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center text-[10px] font-extrabold text-primary-foreground shadow-md">
+                    {getInitials(session.user.name)}
+                  </div>
+                  <span className="text-xs font-bold text-primary max-w-[100px] truncate">
+                    {session.user.name || session.user.email?.split('@')[0]}
                   </span>
                 </div>
 
                 <button
                   onClick={() => signOut({ callbackUrl: '/login' })}
-                  className="flex items-center gap-2 px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-full hover:bg-red-500/20 transition text-sm font-medium text-red-600 dark:text-red-400"
+                  className="flex items-center gap-2 h-9 px-4 bg-destructive/10 border border-destructive/20 rounded-full hover:bg-destructive/15 hover:border-destructive/30 transition-all text-xs font-bold text-destructive shadow-sm"
                 >
-                  <LogOut size={16} />
+                  <LogOut size={14} />
                   <span className="hidden md:inline">Logout</span>
                 </button>
               </>

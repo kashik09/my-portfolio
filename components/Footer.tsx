@@ -8,6 +8,15 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
   const pathname = usePathname()
   const showPreferences = !pathname?.startsWith('/admin')
+  const isActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname?.startsWith(href))
+
+  const linkClass = (href: string) =>
+    `transition text-sm ${
+      isActive(href)
+        ? 'text-[color:rgb(var(--primary))] font-medium'
+        : 'text-muted hover:text-[color:rgb(var(--primary))]'
+    }`
 
   return (
     <footer className="surface-app border-t border-app mt-auto">
@@ -16,7 +25,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h3 className="text-xl font-bold accent mb-3">Kashi Kweyu</h3>
-            <p className="text-muted-app text-sm">
+            <p className="text-muted text-sm">
               Junior Developer
             </p>
           </div>
@@ -26,22 +35,22 @@ export default function Footer() {
             <h4 className="font-semibold text-app mb-3">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/projects" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/projects" className={linkClass('/projects')}>
                   Projects
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/services" className={linkClass('/services')}>
                   Services
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/about" className={linkClass('/about')}>
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/request" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/request" className={linkClass('/request')}>
                   Request Service
                 </Link>
               </li>
@@ -53,12 +62,12 @@ export default function Footer() {
             <h4 className="font-semibold text-app mb-3">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/legal/privacy-policy" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/legal/privacy-policy" className={linkClass('/legal/privacy-policy')}>
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/legal/terms" className="text-muted-app hover:text-[color:var(--primary)] transition text-sm">
+                <Link href="/legal/terms" className={linkClass('/legal/terms')}>
                   Terms of Service
                 </Link>
               </li>
@@ -125,7 +134,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-app text-center">
-          <p className="text-muted-app text-sm">
+          <p className="text-muted text-sm">
             © {currentYear} Kashi Kweyu. Built with Next.js & Tailwind CSS.
           </p>
         </div>

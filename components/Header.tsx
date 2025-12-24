@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
-import { ThemeSelector } from './ThemeSelector'
 import { Code2, Menu, X, ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react'
 import { UserAvatar } from './ui/UserAvatar'
 
@@ -73,7 +72,7 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-app hover:text-[color:var(--primary)] transition font-medium"
+                className="text-app hover:text-[color:rgb(var(--primary))] transition font-medium"
               >
                 {link.label}
               </Link>
@@ -81,12 +80,11 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-3">
-            <ThemeSelector />
 
             {!isAuthed ? (
               <Link
                 href="/login"
-                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-accent bg-accent-soft text-[color:var(--primary)] hover:opacity-90 transition font-medium"
+                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-accent bg-accent-soft text-[color:rgb(var(--primary))] hover:opacity-90 transition font-medium"
               >
                 <UserIcon size={16} className="accent" />
                 <span className="text-sm">Login</span>
@@ -170,7 +168,7 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-2 text-app hover:text-[color:var(--primary)] hover:bg-app rounded-lg transition font-medium"
+                  className="px-4 py-2 text-app hover:text-[color:rgb(var(--primary))] hover:bg-app rounded-lg transition font-medium"
                 >
                   {link.label}
                 </Link>

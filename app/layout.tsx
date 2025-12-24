@@ -23,7 +23,6 @@ export default function RootLayout({
       suppressHydrationWarning
       data-theme="light"
       data-mode="formal"
-      data-legacy-theme="dracula"
     >
       <body className={inter.className}>
         <Providers>{children}</Providers>

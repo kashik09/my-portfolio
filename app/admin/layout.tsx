@@ -40,34 +40,34 @@ export default function AdminLayout({
   return (
     <SessionProvider>
       <ToastProvider>
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-app text-app">
         <AdminHeader />
 
         <div className="flex">
           {/* Sidebar */}
-          <aside className="w-64 min-h-[calc(100vh-73px)] bg-card border-r border-border sticky top-[73px] h-[calc(100vh-73px)] overflow-y-auto">
-            <div className="p-6">
-              <h2 className="text-lg font-bold text-foreground mb-6">Navigation</h2>
+          <aside className="w-64 min-h-[calc(100vh-65px)] surface-app border-r border-app sticky top-[65px] h-[calc(100vh-65px)] overflow-y-auto backdrop-blur-sm">
+            <div className="p-5">
+              <h2 className="text-xs font-bold text-muted-app uppercase tracking-wider mb-4 px-3">Navigation</h2>
 
-              <nav className="space-y-2">
+              <nav className="space-y-1">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-app opacity-80 hover:opacity-100 hover:bg-app hover:text-[color:rgb(var(--primary))] transition-all group"
                   >
-                    <item.icon size={20} />
+                    <item.icon size={18} className="text-muted-app group-hover:text-[color:rgb(var(--primary))] transition-colors" />
                     <span>{item.label}</span>
                   </Link>
                 ))}
               </nav>
 
-              <div className="mt-8 pt-8 border-t border-border">
+              <div className="mt-6 pt-6 border-t border-app">
                 <Link
                   href="/"
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-foreground hover:bg-primary/10 hover:text-primary transition-colors"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-app opacity-80 hover:opacity-100 hover:bg-app hover:text-[color:rgb(var(--primary))] transition-all group"
                 >
-                  <LogOut size={20} />
+                  <LogOut size={18} className="text-muted-app group-hover:text-[color:rgb(var(--primary))] transition-colors" />
                   <span>Back to Site</span>
                 </Link>
               </div>
@@ -75,8 +75,8 @@ export default function AdminLayout({
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 p-8 bg-background">
-            <div className="pointer-events-auto">
+          <main className="flex-1 p-6 bg-app max-w-[1600px]">
+            <div className="pointer-events-auto space-y-6">
               {children}
             </div>
           </main>
@@ -86,10 +86,10 @@ export default function AdminLayout({
         {showScrollButton && (
           <button
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 p-4 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-all hover:scale-110 active:scale-95 z-50"
+            className="fixed bottom-6 right-6 w-11 h-11 bg-primary text-primary-foreground rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 z-50 flex items-center justify-center"
             aria-label="Scroll to top"
           >
-            <ArrowUp size={24} />
+            <ArrowUp size={20} />
           </button>
         )}
       </div>

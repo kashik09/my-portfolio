@@ -1,15 +1,11 @@
 # Kashi Kweyu Portfolio
 
-A modern, full-stack portfolio website built with Next.js 14, featuring a JSON-based CMS for content management, VS Code-inspired themes, and a complete admin dashboard.
+A modern, full-stack portfolio website built with Next.js 14, featuring a JSON-based CMS for content management, preference-driven theming, and a complete admin dashboard.
 
 ## Features
 
 ### Core Features
-- **VS Code Theme System**: 4 professionally designed themes inspired by popular VS Code color schemes
-  - One Dark Pro (Default) 🌙
-  - Tokyo Night 🌃
-  - Monokai Pro 🎨
-  - GitHub Light ☀️
+- **Preferences Theming**: Formal or vibey modes with system, light, and dark theme support
 - **Automated Screenshot Capture**: Capture project screenshots automatically using Playwright
   - Auto-capture screenshots from live URLs at 1920x1080 @2x resolution
   - Full page screenshot option for entire scrollable content
@@ -18,7 +14,7 @@ A modern, full-stack portfolio website built with Next.js 14, featuring a JSON-b
 - **JSON-based CMS**: Simple file-based content management without database overhead
 - **Admin Content Editor**: Edit About, Services, and Request Form content via intuitive UI
 - **Responsive Design**: Fully responsive across all devices with mobile-first approach
-- **Theme Persistence**: Automatic theme saving with localStorage
+- **Preference Persistence**: Automatic saving with localStorage
 - **Modern UI**: Clean, accessible interface with Lucide icons
 - **Type-Safe**: Full TypeScript implementation with strict mode
 
@@ -36,9 +32,8 @@ A modern, full-stack portfolio website built with Next.js 14, featuring a JSON-b
 - **Button**: Enhanced with icon support, loading states, and 4 variants (primary, secondary, outline, ghost)
 - **Input**: Form input with label support and theme integration
 - **Card**: Flexible card component with hover effects
-- **Header**: Navigation with VS Code theme switcher and mobile menu
+- **Header**: Navigation with a responsive mobile menu
 - **Footer**: Site footer with social links (GitHub, LinkedIn, Instagram, WhatsApp)
-- **ThemeSelector**: Dropdown theme picker with icons
 
 ## Tech Stack
 
@@ -120,7 +115,7 @@ my-portfolio/
 │   ├── api/                      # API routes
 │   │   └── content/              # Content API
 │   │       └── about/            # About content endpoint
-│   ├── layout.tsx                # Root layout with ThemeProvider
+│   ├── layout.tsx                # Root layout with Providers
 │   ├── page.tsx                  # Home page
 │   ├── icon.tsx                  # Custom favicon generator
 │   └── globals.css               # Global styles & theme definitions
@@ -130,10 +125,7 @@ my-portfolio/
 │   │   └── Input.tsx             # Input component
 │   ├── Header.tsx                # Site header with navigation
 │   ├── Footer.tsx                # Site footer with social links
-│   └── ThemeSelector.tsx         # Theme switcher dropdown
 ├── lib/                          # Utilities & helpers
-│   ├── themes.ts                 # Theme definitions & types
-│   └── ThemeContext.tsx          # React context for theme state
 ├── public/                       # Static assets
 │   └── content/                  # JSON CMS files
 │       ├── about.json            # About page content
@@ -144,67 +136,9 @@ my-portfolio/
 └── package.json                  # Dependencies
 ```
 
-## Theme System
+## Preferences and Theming
 
-The portfolio features 4 VS Code-inspired themes with instant switching and persistence:
-
-### Available Themes
-
-1. **One Dark Pro** (Default) 🌙
-   - Dark theme with professional appearance
-   - Primary: Blue (`#61afef`)
-   - Accent: Green (`#98c379`)
-
-2. **Tokyo Night** 🌃
-   - Modern dark theme with vibrant colors
-   - Primary: Purple-blue (`#7aa2f7`)
-   - Accent: Green (`#9ece6a`)
-
-3. **Monokai Pro** 🎨
-   - Classic dark theme with high contrast
-   - Primary: Pink-red (`#ff6188`)
-   - Accent: Green (`#a9dc76`)
-
-4. **GitHub Light** ☀️
-   - Clean light theme for daytime coding
-   - Primary: Blue (`#0969da`)
-   - Accent: Green (`#1a7f37`)
-
-### Theme Architecture
-
-Themes use CSS custom properties for dynamic switching:
-
-```css
-/* Theme definition in globals.css */
-[data-theme='onedark'] {
-  --color-background: 40 44 52;
-  --color-foreground: 171 178 191;
-  --color-primary: 97 175 239;
-  --color-secondary: 198 120 221;
-  --color-accent: 152 195 121;
-  --color-border: 59 64 74;
-  /* ... more color variables */
-}
-```
-
-Tailwind integration with alpha channel support:
-
-```typescript
-// tailwind.config.ts
-colors: {
-  background: 'rgb(var(--color-background) / <alpha-value>)',
-  foreground: 'rgb(var(--color-foreground) / <alpha-value>)',
-  primary: 'rgb(var(--color-primary) / <alpha-value>)',
-  // ... more colors
-}
-```
-
-### Theme Persistence
-
-- **Storage**: localStorage
-- **Key**: `theme`
-- **Hydration**: `suppressHydrationWarning` prevents flash
-- **Context**: React Context API for global state
+The UI uses a preference-driven theming model with formal or vibey modes and a system, light, or dark theme. See `docs/preferences.md` for the data attributes and token variables used by the theme system.
 
 ## JSON-Based CMS
 

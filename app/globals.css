@@ -3,211 +3,91 @@
 @tailwind utilities;
 
 @layer base {
-  /* ============================================
-     MIDNIGHT PURPLE (Default)
-     ============================================ */
-  :root,
-  [data-legacy-theme='dracula'] {
-    --color-primary: 189 147 249;        /* Purple */
-    --color-primary-foreground: 40 42 54;
-    --color-secondary: 255 121 198;      /* Pink */
-    --color-secondary-foreground: 40 42 54;
-    --color-accent: 80 250 123;          /* Green */
-    --color-accent-secondary: 241 250 140; /* Yellow */
-    --color-accent-foreground: 40 42 54;
-
-    --color-background: 40 42 54;        /* #282A36 */
-    --color-background-secondary: 33 34 44;
-    --color-foreground: 248 248 242;
-    --color-foreground-muted: 152 166 173;
-
-    --color-border: 68 71 90;
-    --color-border-light: 98 114 164;
-    --color-card: 33 34 44;
-    --color-card-hover: 68 71 90;
-    --color-muted: 68 71 90;
-
-    --color-destructive: 255 85 85;
-    --color-success: 80 250 123;
-    --color-warning: 241 250 140;
-    --color-info: 139 233 253;
-  }
-
-  /* ============================================
-     DESERT DAWN
-     ============================================ */
-  [data-legacy-theme='ayulight'] {
-    --color-primary: 65 137 223;         /* Blue */
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 250 116 34;       /* Orange */
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 134 182 91;          /* Green */
-    --color-accent-secondary: 228 181 89; /* Yellow */
-    --color-accent-foreground: 255 255 255;
-
-    --color-background: 250 251 252;     /* #FAFBFC */
-    --color-background-secondary: 242 243 245;
-    --color-foreground: 90 98 114;
-    --color-foreground-muted: 142 152 170;
-
-    --color-border: 207 214 224;
-    --color-border-light: 230 234 239;
-    --color-card: 255 255 255;
-    --color-card-hover: 242 243 245;
-    --color-muted: 230 234 239;
-
-    --color-destructive: 242 88 93;
-    --color-success: 134 182 91;
-    --color-warning: 228 181 89;
-    --color-info: 65 137 223;
-  }
-
-  /* ============================================
-     CLEAN SLATE
-     ============================================ */
-  [data-legacy-theme='quietlight'] {
-    --color-primary: 0 119 170;          /* Blue */
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 166 38 164;       /* Purple */
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 0 128 0;             /* Green */
-    --color-accent-secondary: 152 104 1;  /* Brown */
-    --color-accent-foreground: 255 255 255;
-
-    --color-background: 246 246 246;     /* #F6F6F6 - Soft gray */
-    --color-background-secondary: 237 237 237;
-    --color-foreground: 51 51 51;
-    --color-foreground-muted: 102 102 102;
-
-    --color-border: 212 212 212;
-    --color-border-light: 227 227 227;
-    --color-card: 255 255 255;
-    --color-card-hover: 237 237 237;
-    --color-muted: 227 227 227;
-
-    --color-destructive: 164 0 0;
-    --color-success: 0 128 0;
-    --color-warning: 152 104 1;
-    --color-info: 0 119 170;
-  }
-
-  /* ============================================
-     OCEAN DEEP
-     ============================================ */
-  [data-legacy-theme='material'] {
-    --color-primary: 130 170 255;        /* Blue */
-    --color-primary-foreground: 255 255 255;
-    --color-secondary: 199 146 234;      /* Purple */
-    --color-secondary-foreground: 255 255 255;
-    --color-accent: 195 232 141;         /* Green */
-    --color-accent-secondary: 255 203 107; /* Yellow */
-    --color-accent-foreground: 38 50 56;
-
-    --color-background: 38 50 56;        /* #263238 - Ocean blue */
-    --color-background-secondary: 30 39 46;
-    --color-foreground: 236 239 244;
-    --color-foreground-muted: 144 164 174;
-
-    --color-border: 55 71 79;
-    --color-border-light: 84 110 122;
-    --color-card: 30 39 46;
-    --color-card-hover: 55 71 79;
-    --color-muted: 55 71 79;
-
-    --color-destructive: 255 83 112;
-    --color-success: 195 232 141;
-    --color-warning: 255 203 107;
-    --color-info: 137 221 255;
-  }
-
-  /* ============================================
-     PREFERENCES TOKENS (FORMAL + VIBEY)
-     ============================================ */
   :root {
-    --bg: rgb(var(--color-background));
-    --surface: rgb(var(--color-card));
-    --border: rgb(var(--color-border));
-    --text: rgb(var(--color-foreground));
-    --muted: rgb(var(--color-foreground-muted));
-    --primary: rgb(var(--color-primary));
-    --primary2: rgb(var(--color-secondary));
-    --ring: rgb(var(--color-primary));
+    --bg: 250 250 250;
+    --surface: 255 255 255;
+    --border: 228 228 231;
+    --text: 24 24 27;
+    --muted: 70 70 78;
+    --primary: 37 99 235;
+    --primary2: 71 85 105;
+    --ring: var(--primary);
   }
 
   [data-theme='light'] {
-    --bg: theme('colors.zinc.50');
-    --surface: theme('colors.white');
-    --border: theme('colors.zinc.200');
-    --text: theme('colors.zinc.900');
-    --muted: theme('colors.zinc.600');
+    --bg: 250 250 250;
+    --surface: 255 255 255;
+    --border: 228 228 231;
+    --text: 24 24 27;
+    --muted: 70 70 78;
   }
 
   [data-theme='dark'] {
-    --bg: theme('colors.zinc.950');
-    --surface: theme('colors.zinc.900');
-    --border: theme('colors.zinc.800');
-    --text: theme('colors.zinc.50');
-    --muted: theme('colors.zinc.300');
+    --bg: 9 9 11;
+    --surface: 24 24 27;
+    --border: 39 39 42;
+    --text: 250 250 250;
+    --muted: 161 161 170;
   }
 
   [data-mode='formal'][data-theme='light'] {
-    --primary: theme('colors.blue.600');
-    --primary2: theme('colors.slate.600');
-    --ring: theme('colors.blue.600');
+    --primary: 37 99 235;
+    --primary2: 71 85 105;
+    --ring: var(--primary);
   }
 
   [data-mode='formal'][data-theme='dark'] {
-    --primary: theme('colors.blue.400');
-    --primary2: theme('colors.slate.400');
-    --ring: theme('colors.blue.400');
+    --primary: 96 165 250;
+    --primary2: 148 163 184;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='grape'][data-theme='light'] {
-    --primary: theme('colors.violet.600');
-    --primary2: theme('colors.fuchsia.500');
-    --ring: theme('colors.violet.600');
+    --primary: 124 58 237;
+    --primary2: 217 70 239;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='grape'][data-theme='dark'] {
-    --primary: theme('colors.violet.400');
-    --primary2: theme('colors.fuchsia.400');
-    --ring: theme('colors.violet.400');
+    --primary: 167 139 250;
+    --primary2: 232 121 249;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='ocean'][data-theme='light'] {
-    --primary: theme('colors.cyan.600');
-    --primary2: theme('colors.teal.500');
-    --ring: theme('colors.cyan.600');
+    --primary: 8 145 178;
+    --primary2: 20 184 166;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='ocean'][data-theme='dark'] {
-    --primary: theme('colors.cyan.400');
-    --primary2: theme('colors.teal.400');
-    --ring: theme('colors.cyan.400');
+    --primary: 34 211 238;
+    --primary2: 45 212 191;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='peach'][data-theme='light'] {
-    --primary: theme('colors.orange.400');
-    --primary2: theme('colors.purple.500');
-    --ring: theme('colors.orange.400');
+    --primary: 251 146 60;
+    --primary2: 168 85 247;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='peach'][data-theme='dark'] {
-    --primary: theme('colors.orange.300');
-    --primary2: theme('colors.purple.400');
-    --ring: theme('colors.orange.300');
+    --primary: 253 186 116;
+    --primary2: 192 132 252;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='neon'][data-theme='light'] {
-    --primary: theme('colors.lime.500');
-    --primary2: theme('colors.emerald.500');
-    --ring: theme('colors.lime.500');
+    --primary: 132 204 22;
+    --primary2: 16 185 129;
+    --ring: var(--primary);
   }
 
   [data-mode='vibey'][data-vibey='neon'][data-theme='dark'] {
-    --primary: theme('colors.lime.400');
-    --primary2: theme('colors.emerald.400');
-    --ring: theme('colors.lime.400');
+    --primary: 163 230 53;
+    --primary2: 52 211 153;
+    --ring: var(--primary);
   }
 
   /* ============================================
@@ -219,9 +99,14 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-color: var(--bg, rgb(var(--color-background)));
-    color: var(--text, rgb(var(--color-foreground)));
-    caret-color: var(--primary, rgb(var(--color-primary)));
+    background-color: rgb(var(--bg));
+    color: rgb(var(--text));
+    caret-color: rgb(var(--primary));
+    transition: background-color 220ms ease, color 220ms ease;
+  }
+
+  html {
+    transition: background-color 220ms ease, color 220ms ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -233,7 +118,118 @@
   }
 
   a {
-    @apply text-primary hover:underline transition-colors;
+    color: rgb(var(--primary));
+    @apply hover:underline transition-colors;
+  }
+
+  a:hover {
+    color: rgb(var(--primary2));
+  }
+
+  button,
+  a {
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .surface-app,
+  .bg-app,
+  .bg-card,
+  .bg-background,
+  .bg-muted,
+  .bg-background-secondary {
+    transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  .border-app,
+  .border-border {
+    transition: border-color 200ms ease;
+  }
+
+  .vibey-zone {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .vibey-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .vibey-backdrop,
+  .vibey-noise {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 0;
+  }
+
+  [data-mode='vibey'] .vibey-zone .vibey-backdrop {
+    opacity: 0.5;
+    background:
+      radial-gradient(620px 460px at 12% 8%, color-mix(in srgb, rgb(var(--primary2)) 18%, transparent) 0%, transparent 70%),
+      radial-gradient(520px 380px at 85% 12%, color-mix(in srgb, rgb(var(--primary)) 14%, transparent) 0%, transparent 70%),
+      radial-gradient(760px 560px at 35% 92%, color-mix(in srgb, rgb(var(--primary2)) 10%, transparent) 0%, transparent 75%);
+  }
+
+  [data-mode='vibey'] .vibey-zone .vibey-noise {
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    mix-blend-mode: soft-light;
+  }
+
+  [data-mode='vibey'] .vibey-zone .hero-title {
+    font-size: clamp(2.8rem, 5vw + 1rem, 4.5rem);
+    font-weight: 800;
+  }
+
+  @media (min-width: 768px) {
+    [data-mode='vibey'] .vibey-zone .hero-title {
+      font-size: clamp(3.6rem, 4vw + 1.5rem, 5.5rem);
+    }
+  }
+
+  [data-mode='vibey'] .vibey-zone .vibey-card {
+    transition: transform 200ms ease, filter 200ms ease, border-color 200ms ease;
+  }
+
+  [data-mode='vibey'] .vibey-zone .vibey-card:hover {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 16px 28px rgb(var(--primary2) / 0.18));
+    border-color: rgb(var(--primary2));
+  }
+
+  [data-mode='vibey'] .vibey-zone main a:not(.no-underline) {
+    text-decoration: none;
+    background-image: linear-gradient(transparent, transparent), linear-gradient(rgb(var(--primary)), rgb(var(--primary)));
+    background-size: 100% 0.12em, 0% 0.12em;
+    background-position: 0 100%, 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 200ms ease, color 200ms ease;
+  }
+
+  [data-mode='vibey'] .vibey-zone main a:not(.no-underline):hover,
+  [data-mode='vibey'] .vibey-zone main a:not(.no-underline):focus-visible {
+    text-decoration: none;
+    background-size: 100% 0.12em, 100% 0.12em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html,
+    body,
+    button,
+    a,
+    .surface-app,
+    .bg-app,
+    .bg-card,
+    .bg-background,
+    .bg-muted,
+    .bg-background-secondary,
+    .border-app,
+    .border-border,
+    .vibey-card {
+      transition: none !important;
+    }
   }
 
   code {
@@ -280,46 +276,58 @@
   }
 
   .bg-app {
-    background-color: var(--bg);
+    background-color: rgb(var(--bg) / 1);
   }
 
   .surface-app {
-    background-color: var(--surface);
+    background-color: rgb(var(--surface) / 1);
   }
 
   .border-app {
-    border-color: var(--border);
+    border-color: rgb(var(--border) / 1);
   }
 
   .text-app {
-    color: var(--text);
+    color: rgb(var(--text) / 1);
+  }
+
+  .text-muted {
+    color: rgb(var(--muted) / 1);
   }
 
   .text-muted-app {
-    color: var(--muted);
+    color: rgb(var(--muted) / 1);
   }
 
   .accent {
-    color: var(--primary);
+    color: rgb(var(--primary) / 1);
   }
 
   .accent-2 {
-    color: var(--primary2);
+    color: rgb(var(--primary2) / 1);
   }
 
   .bg-accent {
-    background-color: var(--primary);
+    background-color: rgb(var(--primary) / 1);
   }
 
   .bg-accent-soft {
-    background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+    background-color: color-mix(in srgb, rgb(var(--primary)) 15%, transparent);
   }
 
   .border-accent {
-    border-color: var(--primary);
+    border-color: rgb(var(--primary) / 1);
+  }
+
+  .border-accent-2 {
+    border-color: rgb(var(--primary2) / 1);
   }
 
   .ring-app {
-    --tw-ring-color: var(--ring);
+    --tw-ring-color: rgb(var(--ring) / 0.35);
+  }
+
+  .ring-offset-app {
+    --tw-ring-offset-color: rgb(var(--bg) / 1);
   }
 }

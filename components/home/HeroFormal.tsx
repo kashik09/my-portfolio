@@ -28,19 +28,19 @@ export function HeroFormal({
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-app">
             Available for new projects
           </p>
-          <h1 className="text-4xl md:text-6xl font-bold text-app leading-tight">
+          <h1 className="hero-title text-4xl md:text-6xl font-bold text-app leading-tight">
             {title} <span className="accent">{highlight}</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-app max-w-xl">
             {subtitle}
           </p>
           <div className="flex flex-wrap gap-4">
-            <Link href={primaryCtaHref}>
+            <Link href={primaryCtaHref} className="no-underline">
               <Button variant="primary" size="lg" icon={<ArrowRight size={20} />} iconPosition="right">
                 {primaryCtaLabel}
               </Button>
             </Link>
-            <Link href={secondaryCtaHref}>
+            <Link href={secondaryCtaHref} className="no-underline">
               <Button variant="outline" size="lg">
                 {secondaryCtaLabel}
               </Button>
