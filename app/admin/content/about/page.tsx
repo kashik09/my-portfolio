@@ -1,3 +1,15 @@
+/*
+ * TODO: About page CMS needs restructuring
+ *
+ * The /about page has been rewritten to be mindset-focused and hardcoded.
+ * This CMS still manages the old structure (hero, skills, timeline).
+ *
+ * Options for future work:
+ * 1. Remove this CMS entirely if about stays hardcoded
+ * 2. Simplify to just manage philosophy sections
+ * 3. Create separate CMS for landing page (hero + proof snapshot)
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'

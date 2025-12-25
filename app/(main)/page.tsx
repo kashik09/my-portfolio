@@ -72,19 +72,31 @@ export default async function HomePage() {
 
       {/* 2. PROOF SNAPSHOT */}
       <section className="max-w-6xl mx-auto px-4">
-        <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">
-            this site is fully custom-built (no templates)
-          </p>
-          <p className="text-sm text-muted-foreground">
-            mode-based theming system with 5+ variants
-          </p>
-          <p className="text-sm text-muted-foreground">
-            cms-driven content + full e-commerce
-          </p>
-          <p className="text-sm text-muted-foreground">
-            designed + built end-to-end
-          </p>
+        <div className="relative border-l-2 border-primary/30 pl-6 space-y-3">
+          <div className="flex items-start gap-3">
+            <span className="text-primary/50 text-xs font-mono mt-0.5">→</span>
+            <p className="text-sm text-muted-foreground italic">
+              this site is fully custom-built (no templates)
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-primary/50 text-xs font-mono mt-0.5">→</span>
+            <p className="text-sm text-muted-foreground italic">
+              mode-based theming system with 5+ variants
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-primary/50 text-xs font-mono mt-0.5">→</span>
+            <p className="text-sm text-muted-foreground italic">
+              cms-driven content + full e-commerce
+            </p>
+          </div>
+          <div className="flex items-start gap-3">
+            <span className="text-primary/50 text-xs font-mono mt-0.5">→</span>
+            <p className="text-sm text-muted-foreground italic">
+              designed + built end-to-end
+            </p>
+          </div>
         </div>
       </section>
 
