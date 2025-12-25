@@ -96,77 +96,90 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="space-y-20 py-12">
-      {/* Member Dashboard Strip (only shows for logged-in users) */}
-      <MemberHomeTop />
+    <div style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-section)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-section)' }}>
+        {/* Member Dashboard Strip */}
+        <MemberHomeTop />
 
-      {/* 1. HERO (VIBEY ONLY) */}
-      <HeroSwitch
-        title={hero.title}
-        highlight={hero.highlight}
-        subtitle={hero.subtitle}
-        primaryCtaLabel={hero.primaryCtaLabel}
-        primaryCtaHref={hero.primaryCtaHref}
-        secondaryCtaLabel={hero.secondaryCtaLabel}
-        secondaryCtaHref={hero.secondaryCtaHref}
-      />
-
-      {/* Optional personalized ad below hero */}
-      <section className="max-w-6xl mx-auto px-4">
-        <AdSlot placement="homepage_hero" />
-      </section>
-
-      {/* 2. PROOF SNAPSHOT */}
-      <section className="max-w-6xl mx-auto px-4">
-        <div className="relative border-l-2 border-primary/30 pl-6 space-y-3">
-          {proofSnapshot.map((item: any) => (
-            <div key={item.id} className="flex items-start gap-3">
-              <span className="text-primary/50 text-xs font-mono mt-0.5">→</span>
-              <p className="text-sm text-muted-foreground italic">
-                {item.text}
-              </p>
-            </div>
-          ))}
+        {/* 1. HERO */}
+        <div className="container-lg">
+          <HeroSwitch
+            title={hero.title}
+            highlight={hero.highlight}
+            subtitle={hero.subtitle}
+            primaryCtaLabel={hero.primaryCtaLabel}
+            primaryCtaHref={hero.primaryCtaHref}
+            secondaryCtaLabel={hero.secondaryCtaLabel}
+            secondaryCtaHref={hero.secondaryCtaHref}
+          />
         </div>
-      </section>
 
-      {/* 3. FEATURED PROJECTS (FLOW, NOT GRID) */}
-      {featuredProjects.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4">
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">work that proves capability</h2>
-              <p className="text-muted-foreground">each project answers: what it is, why it exists, what it proves</p>
-            </div>
-            <FeaturedProjectsList projects={featuredProjects} />
-          </div>
-        </section>
-      )}
+        {/* Ad slot */}
+        <div className="container-lg">
+          <AdSlot placement="homepage_hero" />
+        </div>
 
-      {/* 4. HOW I THINK / BUILD */}
-      <section className="max-w-6xl mx-auto px-4">
-        <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-foreground">how i work</h2>
-          <div className="space-y-4">
-            {philosophy.map((item: any) => (
-              <div key={item.id}>
-                <h3 className="text-lg font-semibold text-foreground mb-1">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+        {/* 2. PROOF SNAPSHOT */}
+        <section className="container-md">
+          <div className="relative border-l-2 border-primary/20 pl-4 sm:pl-6 space-y-2">
+            {proofSnapshot.map((item: any) => (
+              <div key={item.id} className="flex items-start gap-2">
+                <span className="text-primary/40 text-xs font-mono mt-0.5 select-none">→</span>
+                <p className="text-sm sm:text-base text-muted-foreground/90 leading-relaxed">
+                  {item.text}
+                </p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 5. QUIET CTA */}
-      <section className="max-w-6xl mx-auto px-4">
-        <div className="border-t border-border pt-12 text-center">
-          <Link href={cta.href} className="inline-flex items-center gap-2 text-foreground hover:text-primary transition group">
-            <span>{cta.text}</span>
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
+        {/* 3. FEATURED PROJECTS */}
+        {featuredProjects.length > 0 && (
+          <section className="container-lg">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-block)' }}>
+              <div>
+                <h2 className="text-h2 font-bold text-foreground mb-2">selected work</h2>
+                <p className="text-body text-muted-foreground">
+                  what it is • why it exists • what it proves
+                </p>
+              </div>
+              <FeaturedProjectsList projects={featuredProjects} />
+            </div>
+          </section>
+        )}
+
+        {/* 4. HOW I WORK */}
+        <section className="container-md">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-item)' }}>
+            <h2 className="text-h2 font-bold text-foreground">how i work</h2>
+            <div className="grid gap-4 sm:gap-6">
+              {philosophy.map((item: any) => (
+                <div key={item.id} className="group">
+                  <h3 className="text-h3 font-semibold text-foreground mb-1.5 group-hover:text-primary transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-body text-muted-foreground/90 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 5. CTA */}
+        <section className="container-lg">
+          <div className="border-t border-border/50 pt-8 sm:pt-12 text-center">
+            <Link
+              href={cta.href}
+              className="inline-flex items-center gap-2 text-foreground/80 hover:text-primary transition-all group text-sm sm:text-base"
+            >
+              <span>{cta.text}</span>
+              <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        </section>
+      </div>
     </div>
   )
 }

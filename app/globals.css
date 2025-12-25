@@ -91,6 +91,89 @@
   }
 
   /* ============================================
+     SPACING & RHYTHM SYSTEM
+     ============================================ */
+  :root {
+    --space-section: clamp(4rem, 8vw, 6rem);
+    --space-block: clamp(2rem, 4vw, 3rem);
+    --space-item: clamp(1rem, 2vw, 1.5rem);
+    --container-sm: 42rem;
+    --container-md: 56rem;
+    --container-lg: 72rem;
+  }
+
+  /* ============================================
+     TYPOGRAPHY SCALE (mobile-first)
+     ============================================ */
+  .text-display {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .text-h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .text-h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    line-height: 1.3;
+  }
+
+  .text-h3 {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    line-height: 1.4;
+  }
+
+  .text-body-lg {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.6;
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* ============================================
+     CONTAINER UTILITIES
+     ============================================ */
+  .container-sm {
+    max-width: var(--container-sm);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .container-md {
+    max-width: var(--container-md);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .container-lg {
+    max-width: var(--container-lg);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-sm,
+    .container-md,
+    .container-lg {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* ============================================
      BASE STYLES
      ============================================ */
   * {
