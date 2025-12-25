@@ -1,3 +1,13 @@
+/*
+ * DEPRECATED: This CMS is no longer actively used
+ *
+ * This was the original About page editor with full resume structure.
+ * The /about page has been rewritten as a hardcoded, mindset-focused page.
+ *
+ * For editing landing page content, use /admin/content/landing instead.
+ * This page is kept for backward compatibility with existing API endpoints.
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -249,10 +259,19 @@ export default function ContentEditorPage() {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-8">
+      {/* Deprecation Warning */}
+      <div className="p-5 bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-400 dark:border-yellow-600 rounded-xl">
+        <h3 className="text-lg font-bold text-yellow-900 dark:text-yellow-200 mb-2">⚠️ Deprecated CMS</h3>
+        <p className="text-sm text-yellow-800 dark:text-yellow-300 leading-relaxed">
+          This About page editor is no longer actively used. The /about page is now hardcoded with a mindset-focused approach.
+          For editing landing page content, use <strong>/admin/content/landing</strong> instead.
+        </p>
+      </div>
+
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Content Editor</h1>
-          <p className="text-foreground/70 mt-1">Edit your About page content</p>
+          <h1 className="text-3xl font-bold text-foreground">Content Editor (Deprecated)</h1>
+          <p className="text-foreground/70 mt-1">Edit your About page content (legacy)</p>
         </div>
         <div className="flex gap-3">
           <button

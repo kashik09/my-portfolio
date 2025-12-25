@@ -1,3 +1,11 @@
+/*
+ * DEPRECATED: This CMS is no longer actively used
+ *
+ * The /services page has been removed and now redirects to /products.
+ * This editor is kept for backward compatibility with existing API endpoints.
+ * Consider removing if the services API endpoint is no longer needed.
+ */
+
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -204,11 +212,19 @@ export default function ServicesEditorPage() {
 
   return (
     <div className="space-y-8">
+      {/* Deprecation Warning */}
+      <div className="p-5 bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-400 dark:border-yellow-600 rounded-xl">
+        <h3 className="text-lg font-bold text-yellow-900 dark:text-yellow-200 mb-2">⚠️ Deprecated CMS</h3>
+        <p className="text-sm text-yellow-800 dark:text-yellow-300 leading-relaxed">
+          The /services page has been removed and now redirects to /products. This editor is kept for backward compatibility only.
+        </p>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Edit Services</h1>
-          <p className="text-foreground-muted mt-1">Manage your services page content</p>
+          <h1 className="text-3xl font-bold text-foreground">Edit Services (Deprecated)</h1>
+          <p className="text-foreground-muted mt-1">Manage your services page content (legacy)</p>
         </div>
         <Button onClick={handleSave} disabled={saving} icon={<Save size={20} />}>
           {saving ? 'Saving...' : 'Save Changes'}
