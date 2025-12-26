@@ -67,21 +67,16 @@ export default async function HomePage() {
   }))
 
   const featuredWorkStories = featuredProjects.map((project) => {
-    const whyLine =
-      project.category ||
-      (project.technologies?.length ? project.technologies.slice(0, 1).join('') : 'featured work')
-    const provesLine =
-      project.technologies?.length
-        ? project.technologies.slice(0, 3).join(' / ')
-        : 'featured + published'
+    const detail =
+      project.technologies?.length ? project.technologies.slice(0, 2).join(' / ') : project.category
+    const description = project.description ? truncate(project.description, 120) : 'featured build'
+    const summary = detail ? `${description} · ${detail}` : description
 
     return {
       id: project.id,
       title: project.title,
       href: `/projects/${project.slug}`,
-      what: project.description ? truncate(project.description, 140) : 'featured build',
-      why: whyLine,
-      proves: provesLine,
+      summary,
       thumbnailUrl: normalizePublicPath(project.image)
     }
   })

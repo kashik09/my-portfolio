@@ -8,9 +8,7 @@ export interface FeaturedWorkStoryItem {
   id: string
   title: string
   href: string
-  what: string
-  why?: string
-  proves?: string
+  summary: string
   thumbnailUrl?: string | null
 }
 
@@ -96,117 +94,80 @@ export function FeaturedWorkStory({ projects }: FeaturedWorkStoryProps) {
 
   return (
     <section id="work" className="py-0">
-      <div className="space-y-6">
-        <div className="mx-auto w-full max-w-[64rem] px-4 pb-4 pt-8 sm:px-6 md:pt-10">
-          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
-            featured work
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
-            a scroll story of featured builds
-          </h2>
-          <p className="mt-3 max-w-prose text-base leading-relaxed text-muted-foreground">
-            each scene is one project. scroll to melt between them.
-          </p>
-        </div>
-
-        <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
-          <div
-            ref={trackRef}
-            className="relative"
-            style={{ height: `${scenes.length * 100}dvh` }}
-          >
-            <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
-              {[activeIndex, nextIndex]
-                .filter((value, index, array) => array.indexOf(value) === index)
-                .map((index) => {
-                  const project = scenes[index]
-                  const isActive = index === activeIndex
-                  const isNext = index === nextIndex
-                  const opacity = reduceMotion
-                    ? isActive
-                      ? 1
-                      : 0
-                    : isActive
-                      ? 1 - localT
-                      : localT
-                  const scale = reduceMotion
+      <h2 className="sr-only">Featured work</h2>
+      <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
+        <div
+          ref={trackRef}
+          className="relative"
+          style={{ height: `${scenes.length * 100}dvh` }}
+        >
+          <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
+            {[activeIndex, nextIndex]
+              .filter((value, index, array) => array.indexOf(value) === index)
+              .map((index) => {
+                const project = scenes[index]
+                const isActive = index === activeIndex
+                const isNext = index === nextIndex
+                const opacity = reduceMotion
+                  ? isActive
                     ? 1
-                    : isActive
-                      ? 1 - localT * 0.02
-                      : 1.02 - localT * 0.02
-                  const blur = reduceMotion ? 0 : isActive ? localT * 2 : (1 - localT) * 2
+                    : 0
+                  : isActive
+                    ? 1 - localT
+                    : localT
+                const scale = reduceMotion
+                  ? 1
+                  : isActive
+                    ? 1 - localT * 0.02
+                    : 1.02 - localT * 0.02
+                const blur = reduceMotion ? 0 : isActive ? localT * 2 : (1 - localT) * 2
 
-                  const detailRows = [
-                    { label: 'what', value: project.what },
-                    { label: 'why', value: project.why },
-                    { label: 'proves', value: project.proves }
-                  ]
-
-                  return (
+                return (
+                  <div
+                    key={project.id}
+                    className="absolute inset-0 will-change-transform"
+                    style={{
+                      opacity,
+                      transform: `scale(${scale})`,
+                      filter: `blur(${blur}px)`,
+                      zIndex: isNext ? 2 : 1
+                    }}
+                  >
                     <div
-                      key={project.id}
-                      className="absolute inset-0 will-change-transform"
-                      style={{
-                        opacity,
-                        transform: `scale(${scale})`,
-                        filter: `blur(${blur}px)`,
-                        zIndex: isNext ? 2 : 1
-                      }}
-                    >
-                      <div
-                        className={`absolute inset-0 bg-cover bg-center ${
-                          project.thumbnailUrl
-                            ? ''
-                            : 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800'
-                        }`}
-                        style={
-                          project.thumbnailUrl
-                            ? { backgroundImage: `url(${project.thumbnailUrl})` }
-                            : undefined
-                        }
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.12)_1px,transparent_0)] opacity-30 [background-size:3px_3px]" />
+                      className={`absolute inset-0 bg-cover bg-center ${
+                        project.thumbnailUrl
+                          ? ''
+                          : 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800'
+                      }`}
+                      style={
+                        project.thumbnailUrl
+                          ? { backgroundImage: `url(${project.thumbnailUrl})` }
+                          : undefined
+                      }
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.12)_1px,transparent_0)] opacity-30 [background-size:3px_3px]" />
 
-                      <div className="absolute inset-x-4 bottom-12 z-10 sm:left-10 sm:right-auto sm:bottom-16">
-                        <div className="w-full max-w-[28rem] space-y-4 rounded-2xl border border-white/10 bg-black/45 p-5 text-white backdrop-blur-lg">
-                          <div className="space-y-1">
-                            <p className="text-xs uppercase tracking-[0.3em] text-white/60">
-                              scene {index + 1}
-                            </p>
-                            <h3 className="text-2xl font-semibold sm:text-3xl">
-                              {project.title}
-                            </h3>
-                          </div>
-
-                          <div className="space-y-3">
-                            {detailRows
-                              .filter((row) => row.value)
-                              .map((row) => (
-                                <div key={row.label} className="grid gap-1">
-                                  <span className="text-[0.65rem] uppercase tracking-[0.25em] text-white/60">
-                                    {row.label}
-                                  </span>
-                                  <span className="text-sm leading-relaxed text-white/90 sm:text-base">
-                                    {row.value}
-                                  </span>
-                                </div>
-                              ))}
-                          </div>
-
-                          <Link
-                            href={project.href}
-                            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:text-white"
-                          >
-                            open project
-                            <ArrowRight size={12} />
-                          </Link>
-                        </div>
+                    <div className="absolute inset-x-4 bottom-10 z-10 sm:left-10 sm:right-auto sm:bottom-14">
+                      <div className="w-full max-w-[26rem] space-y-3 rounded-2xl border border-white/10 bg-black/45 p-4 text-white backdrop-blur-lg sm:p-5">
+                        <h3 className="text-2xl font-semibold sm:text-3xl">
+                          {project.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-white/85 sm:text-base">
+                          {project.summary}
+                        </p>
+                        <Link
+                          href={project.href}
+                          className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/80 transition hover:text-white"
+                        >
+                          open →
+                          <ArrowRight size={12} />
+                        </Link>
                       </div>
                     </div>
-                  )
-                })}
-            </div>
+                  </div>
+                )
+              })}
           </div>
         </div>
       </div>

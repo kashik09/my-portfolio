@@ -11,13 +11,13 @@ const proofItems = [
 
 export function ProofSnapshot() {
   return (
-    <Section id="proof" className="py-6 md:py-8">
+    <Section id="proof" className="py-4 md:py-6">
       <Container>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {proofItems.map((item) => (
             <span
               key={item}
-              className="rounded-full border border-border/60 bg-card/50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
+              className="inline-flex items-center rounded-full border border-border/60 bg-card/50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground"
             >
               {item}
             </span>
