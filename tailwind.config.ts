@@ -81,6 +81,7 @@ const config: Config = {
   daisyui: {
     themes: [
       'forest',
+      'dracula',
       'synthwave',
       'night',
       'cyberpunk',

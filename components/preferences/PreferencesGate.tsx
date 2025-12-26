@@ -11,7 +11,7 @@ const getSystemAppearance = (media: MediaQueryList): ResolvedAppearance =>
 
 const DARK_THEME_MAP: Record<ThemeKey, string> = {
   forest: 'forest',
-  obsidian: 'black',
+  obsidian: 'dracula',
   synthwave: 'synthwave',
   night: 'night',
   cyberpunk: 'cyberpunk',
