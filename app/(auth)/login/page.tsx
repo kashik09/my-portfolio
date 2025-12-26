@@ -6,8 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { FcGoogle } from 'react-icons/fc'
-import { FaGithub } from 'react-icons/fa'
+import { Github } from 'lucide-react'
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
@@ -87,7 +86,6 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border text-foreground rounded-lg hover:bg-muted transition disabled:opacity-50"
           >
-            <FcGoogle size={20} />
             <span>Continue with Google</span>
           </button>
 
@@ -97,7 +95,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border text-foreground rounded-lg hover:bg-muted transition disabled:opacity-50"
           >
-            <FaGithub size={20} />
+            <Github size={20} />
             <span>Continue with GitHub</span>
           </button>
         </div>
