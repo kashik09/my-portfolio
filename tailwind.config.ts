@@ -52,10 +52,27 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'translateX(-24px)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
+        'sticker-in': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(24px) translateX(-18px) rotate(-4deg)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0) translateX(0) rotate(0deg)',
+          },
+        },
+        float: {
+          '0%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6px)' },
+          '100%': { transform: 'translateY(0)' },
+        },
       },
       animation: {
         'slide-fade':
           'slide-fade 300ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards',
+        'sticker-in': 'sticker-in 500ms cubic-bezier(0.2, 0.8, 0.2, 1) backwards',
+        float: 'float 6s ease-in-out infinite',
       },
     },
   },

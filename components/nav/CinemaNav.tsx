@@ -138,11 +138,8 @@ export function CinemaNav({ enabled, active }: CinemaNavProps) {
 
   if (!enabled || !active) return null
 
-  const buttonClass = reduceMotion
-    ? 'opacity-100'
-    : isVisible || isOpen
-      ? 'opacity-90'
-      : 'opacity-0 pointer-events-none'
+  const shouldShow = isVisible || isOpen
+  const buttonClass = shouldShow ? 'opacity-90' : 'opacity-0 pointer-events-none'
 
   return (
     <>
