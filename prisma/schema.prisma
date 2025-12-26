@@ -895,6 +895,7 @@ model SiteSettings {
   smtpUsername         String?
   smtpPassword         String?
   smtpSecure           Boolean @default(false)
+  avatarUrl            String?
 
   updatedAt DateTime @updatedAt
 

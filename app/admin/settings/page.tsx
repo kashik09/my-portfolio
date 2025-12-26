@@ -8,6 +8,7 @@ import ConfirmModal from '@/components/ui/ConfirmModal'
 interface AdminSiteSettings {
   maintenanceMode: boolean
   availableForBusiness: boolean
+  avatarUrl: string
 }
 
 interface AdminAdsSettings {
@@ -82,7 +83,8 @@ export default function AdminSettingsPage() {
 
   const [siteSettings, setSiteSettings] = useState<AdminSiteSettings>({
     maintenanceMode: false,
-    availableForBusiness: true
+    availableForBusiness: true,
+    avatarUrl: ''
   })
 
   const [adsSettings, setAdsSettings] = useState<AdminAdsSettings>({
@@ -126,6 +128,7 @@ export default function AdminSettingsPage() {
         const data = json.data as {
           maintenanceMode: boolean
           availableForBusiness: boolean
+          avatarUrl?: string | null
           adsEnabled: boolean
           adsProvider: string
           adsClientId: string | null
@@ -140,6 +143,7 @@ export default function AdminSettingsPage() {
         setSiteSettings({
           maintenanceMode: data.maintenanceMode,
           availableForBusiness: data.availableForBusiness,
+          avatarUrl: data.avatarUrl || '',
         })
 
         setAdsSettings(prev => ({
@@ -247,6 +251,7 @@ export default function AdminSettingsPage() {
         body: JSON.stringify({
           maintenanceMode: siteSettings.maintenanceMode,
           availableForBusiness: siteSettings.availableForBusiness,
+          avatarUrl: siteSettings.avatarUrl.trim() || null,
         }),
       })
 
@@ -360,7 +365,8 @@ export default function AdminSettingsPage() {
     showToast('Settings reset to defaults', 'success')
     setSiteSettings({
       maintenanceMode: false,
-      availableForBusiness: true
+      availableForBusiness: true,
+      avatarUrl: ''
     })
   }
 
@@ -440,6 +446,28 @@ export default function AdminSettingsPage() {
               className="w-5 h-5 rounded border-border"
             />
           </label>
+
+          <div className="space-y-2 rounded-lg border border-border bg-muted p-4">
+            <label className="text-sm font-medium text-foreground" htmlFor="avatarUrl">
+              Avatar URL
+            </label>
+            <input
+              id="avatarUrl"
+              type="url"
+              value={siteSettings.avatarUrl}
+              onChange={(e) =>
+                setSiteSettings({
+                  ...siteSettings,
+                  avatarUrl: e.target.value,
+                })
+              }
+              placeholder="https://example.com/avatar.png"
+              className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground"
+            />
+            <p className="text-xs text-muted-foreground">
+              Used on the home intro. Leave blank to fall back to /public/avatar.png.
+            </p>
+          </div>
         </div>
 
         <button

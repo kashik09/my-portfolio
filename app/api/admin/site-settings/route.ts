@@ -77,6 +77,10 @@ export async function PATCH(request: NextRequest) {
       data.adsProvider = body.adsProvider
     }
 
+    if (body.avatarUrl === null || typeof body.avatarUrl === 'string') {
+      data.avatarUrl = body.avatarUrl
+    }
+
     if (body.adsClientId !== undefined) {
       data.adsClientId = body.adsClientId
     }
@@ -106,4 +110,3 @@ export async function PATCH(request: NextRequest) {
     )
   }
 }
-
