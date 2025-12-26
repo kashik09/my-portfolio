@@ -5,7 +5,6 @@ import { ArrowRight } from 'lucide-react'
 import { AdSlot } from '@/components/AdSlot'
 import { ProjectCardData } from '@/components/ProjectCard'
 import { prisma } from '@/lib/prisma'
-import { MemberHomeTop } from '@/components/home/MemberHomeTop'
 import { ProofSnapshot } from '@/components/home/ProofSnapshot'
 import { FeaturedWorkStory } from '@/components/home/FeaturedWorkStory'
 import { HowIThink } from '@/components/home/HowIThink'
@@ -116,9 +115,6 @@ export default async function HomePage() {
 
   return (
     <div style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-section)' }}>
-      {/* Member Dashboard Strip */}
-      <MemberHomeTop />
-
       {/* 1. HERO */}
       <Section className="pt-16 md:pt-20">
         <Container>
