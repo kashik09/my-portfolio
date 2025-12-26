@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { usePreferences } from '@/lib/preferences/PreferencesContext'
-import type { ThemePref } from '@/lib/preferences/types'
+import type { Appearance } from '@/lib/preferences/types'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 import ConfirmModal from '@/components/ui/ConfirmModal'
@@ -48,14 +48,14 @@ interface NotificationsResponse {
   }
 }
 
-function mapUserThemeToPref(theme: UserThemePreference): ThemePref {
+function mapUserThemeToAppearance(theme: UserThemePreference): Appearance {
   if (theme === 'LIGHT') return 'light'
   if (theme === 'DARK') return 'dark'
   return 'system'
 }
 
 export default function SettingsPage() {
-  const { preferences, setTheme: setThemePref } = usePreferences()
+  const { preferences, setAppearance } = usePreferences()
   const { showToast } = useToast()
   const { update: updateSession } = useSession()
 
@@ -110,9 +110,9 @@ export default function SettingsPage() {
             setEmailNotifications(Boolean(data.emailNotifications))
             setHasPassword(Boolean(data.hasPassword))
 
-            const preferredTheme = mapUserThemeToPref(data.theme || 'SYSTEM')
-            if (preferences.theme !== preferredTheme) {
-              setThemePref(preferredTheme)
+            const preferredAppearance = mapUserThemeToAppearance(data.theme || 'SYSTEM')
+            if (preferences.appearance !== preferredAppearance) {
+              setAppearance(preferredAppearance)
             }
           }
         } else {
@@ -142,7 +142,7 @@ export default function SettingsPage() {
     return () => {
       cancelled = true
     }
-  }, [preferences.theme, setThemePref, showToast])
+  }, [preferences.appearance, setAppearance, showToast])
 
   useEffect(() => {
     return () => {
@@ -240,9 +240,9 @@ export default function SettingsPage() {
         return
       }
 
-      const preferredTheme = mapUserThemeToPref(themePreference)
-      if (preferences.theme !== preferredTheme) {
-        setThemePref(preferredTheme)
+      const preferredAppearance = mapUserThemeToAppearance(themePreference)
+      if (preferences.appearance !== preferredAppearance) {
+        setAppearance(preferredAppearance)
       }
 
       // Refresh NextAuth session so Header shows new avatar/name immediately
@@ -621,13 +621,13 @@ export default function SettingsPage() {
           <div>
             <h2 className="text-xl font-bold text-foreground">Preferences</h2>
             <p className="text-sm text-muted-foreground">
-              Theme, notifications, and personalized ads.
+              Appearance, notifications, and personalized ads.
             </p>
           </div>
         </div>
 
         <div className="space-y-2">
-          <p className="text-sm font-medium text-foreground">Theme preference</p>
+          <p className="text-sm font-medium text-foreground">Appearance preference</p>
           <p className="text-sm text-muted-foreground mb-2">
             Choose how the dashboard should look across devices.
           </p>

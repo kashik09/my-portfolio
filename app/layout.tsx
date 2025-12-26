@@ -21,8 +21,8 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      data-theme="light"
-      data-mode="formal"
+      data-appearance="light"
+      data-theme="forest"
     >
       <body className={inter.className}>
         <Providers>{children}</Providers>

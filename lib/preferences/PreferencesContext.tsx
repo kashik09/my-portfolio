@@ -2,15 +2,14 @@
 
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { DEFAULT_PREFERENCES, Mode, Preferences, ThemePref, VibeyTheme } from './types'
+import { Appearance, DEFAULT_PREFERENCES, Preferences, ThemeKey } from './types'
 import { loadPreferences, savePreferences } from './storage'
 
 interface PreferencesContextValue {
   preferences: Preferences
   setPreferences: Dispatch<SetStateAction<Preferences>>
-  setMode: (mode: Mode) => void
-  setTheme: (theme: ThemePref) => void
-  setVibeyTheme: (vibeyTheme: VibeyTheme) => void
+  setAppearance: (appearance: Appearance) => void
+  setTheme: (theme: ThemeKey) => void
 }
 
 const PreferencesContext = createContext<PreferencesContextValue | undefined>(undefined)
@@ -33,9 +32,8 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     () => ({
       preferences,
       setPreferences,
-      setMode: (mode) => setPreferences((prev) => ({ ...prev, mode })),
+      setAppearance: (appearance) => setPreferences((prev) => ({ ...prev, appearance })),
       setTheme: (theme) => setPreferences((prev) => ({ ...prev, theme })),
-      setVibeyTheme: (vibeyTheme) => setPreferences((prev) => ({ ...prev, vibeyTheme })),
     }),
     [preferences]
   )

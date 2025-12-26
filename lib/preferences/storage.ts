@@ -1,30 +1,29 @@
-import { DEFAULT_PREFERENCES, Preferences, Mode, ThemePref, VibeyTheme } from './types'
+import { Appearance, DEFAULT_PREFERENCES, Preferences, ThemeKey } from './types'
 
-const STORAGE_KEY = 'site-preferences-v1'
-
-const MODES: Mode[] = ['formal', 'vibey']
-const THEME_PREFS: ThemePref[] = ['system', 'light', 'dark']
-const VIBEY_THEMES: VibeyTheme[] = ['grape', 'ocean', 'peach', 'neon']
+const APPEARANCE_KEY = 'appearance'
+const THEME_KEY = 'theme'
+const APPEARANCES: Appearance[] = ['system', 'light', 'dark']
+const THEMES: ThemeKey[] = ['forest', 'obsidian', 'synthwave', 'night', 'cyberpunk', 'black']
 
 const isBrowser = () => typeof window !== 'undefined'
 
-const isMode = (value: unknown): value is Mode => MODES.includes(value as Mode)
-const isThemePref = (value: unknown): value is ThemePref => THEME_PREFS.includes(value as ThemePref)
-const isVibeyTheme = (value: unknown): value is VibeyTheme => VIBEY_THEMES.includes(value as VibeyTheme)
+const isAppearance = (value: unknown): value is Appearance =>
+  APPEARANCES.includes(value as Appearance)
+const isThemeKey = (value: unknown): value is ThemeKey =>
+  THEMES.includes(value as ThemeKey)
 
 export function loadPreferences(): Preferences {
   if (!isBrowser()) return DEFAULT_PREFERENCES
 
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return DEFAULT_PREFERENCES
-
-    const parsed = JSON.parse(raw) as Partial<Preferences>
+    const storedAppearance = window.localStorage.getItem(APPEARANCE_KEY)
+    const storedTheme = window.localStorage.getItem(THEME_KEY)
 
     return {
-      mode: isMode(parsed.mode) ? parsed.mode : DEFAULT_PREFERENCES.mode,
-      theme: isThemePref(parsed.theme) ? parsed.theme : DEFAULT_PREFERENCES.theme,
-      vibeyTheme: isVibeyTheme(parsed.vibeyTheme) ? parsed.vibeyTheme : DEFAULT_PREFERENCES.vibeyTheme,
+      appearance: isAppearance(storedAppearance)
+        ? storedAppearance
+        : DEFAULT_PREFERENCES.appearance,
+      theme: isThemeKey(storedTheme) ? storedTheme : DEFAULT_PREFERENCES.theme,
     }
   } catch {
     return DEFAULT_PREFERENCES
@@ -35,8 +34,9 @@ export function savePreferences(prefs: Preferences): void {
   if (!isBrowser()) return
 
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs))
+    window.localStorage.setItem(APPEARANCE_KEY, prefs.appearance)
+    window.localStorage.setItem(THEME_KEY, prefs.theme)
   } catch {
-    // Ignore storage errors (private mode, quota, etc).
+    // Ignore storage errors (private browsing, quota, etc).
   }
 }

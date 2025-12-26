@@ -4,18 +4,13 @@ import Link from 'next/link'
 import { Home, LogOut, Sparkles } from 'lucide-react'
 import { useSession, signOut } from 'next-auth/react'
 import { usePreferences } from '@/lib/preferences/PreferencesContext'
-import type { VibeyTheme } from '@/lib/preferences/types'
-
-const vibeyOptions: { value: VibeyTheme; label: string }[] = [
-  { value: 'grape', label: 'Grape' },
-  { value: 'ocean', label: 'Ocean' },
-  { value: 'peach', label: 'Peach' },
-  { value: 'neon', label: 'Neon' },
-]
+import { getThemeLabel, THEME_KEYS } from '@/lib/preferences/themes'
+import { useResolvedAppearance } from '@/lib/preferences/useResolvedAppearance'
 
 export default function AdminHeader() {
   const { data: session } = useSession()
-  const { preferences, setVibeyTheme } = usePreferences()
+  const { preferences, setTheme } = usePreferences()
+  const resolvedAppearance = useResolvedAppearance()
 
   const getInitials = (name?: string | null) => {
     if (!name) return 'A'
@@ -28,7 +23,9 @@ export default function AdminHeader() {
   }
 
   // Calculate active pill position for sliding background
-  const activeIndex = vibeyOptions.findIndex(opt => opt.value === preferences.vibeyTheme)
+  const activeIndex = THEME_KEYS.findIndex((key) => key === preferences.theme)
+  const safeIndex = activeIndex < 0 ? 0 : activeIndex
+  const pillWidth = 80
 
   return (
     <header className="sticky top-0 z-50 border-b border-app backdrop-blur-xl surface-app shadow-sm">
@@ -52,30 +49,30 @@ export default function AdminHeader() {
 
           {/* Right: Actions */}
           <div className="flex items-center gap-2.5">
-            {/* Vibey Theme Pills with Sliding Background */}
+            {/* Theme Pills */}
             <div className="hidden md:flex items-center relative rounded-full border border-app surface-app p-1">
               {/* Sliding background indicator */}
               <div
                 className="absolute top-1 bottom-1 rounded-full bg-accent shadow-lg shadow-accent/30 transition-all duration-300 ease-out"
                 style={{
-                  width: '56px',
-                  left: `calc(4px + ${activeIndex * 56}px)`
+                  width: `${pillWidth}px`,
+                  left: `calc(4px + ${safeIndex * pillWidth}px)`
                 }}
               />
 
-              {vibeyOptions.map((option) => (
+              {THEME_KEYS.map((key) => (
                 <button
-                  key={option.value}
+                  key={key}
                   type="button"
-                  onClick={() => setVibeyTheme(option.value)}
-                  className={`relative z-10 w-14 rounded-full py-1.5 text-[11px] font-bold transition-colors duration-200 ${
-                    preferences.vibeyTheme === option.value
+                  onClick={() => setTheme(key)}
+                  className={`relative z-10 w-20 rounded-full py-1.5 text-[11px] font-bold transition-colors duration-200 ${
+                    preferences.theme === key
                       ? 'text-white'
                       : 'text-app hover:text-app/80'
                   } focus-visible:outline-none focus-visible:ring-2 ring-accent ring-offset-2 ring-offset-app`}
-                  aria-pressed={preferences.vibeyTheme === option.value}
+                  aria-pressed={preferences.theme === key}
                 >
-                  {option.label}
+                  {getThemeLabel(resolvedAppearance, key)}
                 </button>
               ))}
             </div>

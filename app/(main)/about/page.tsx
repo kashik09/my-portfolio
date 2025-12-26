@@ -68,7 +68,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Current mode */}
+        {/* Current focus */}
         <section className="space-y-3">
           <h2 className="text-h2 font-bold text-foreground">where i'm at now</h2>
           <p className="text-body text-muted-foreground/90 leading-relaxed">

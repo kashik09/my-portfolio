@@ -1,15 +1,13 @@
-export type Mode = 'formal' | 'vibey'
-export type ThemePref = 'system' | 'light' | 'dark'
-export type VibeyTheme = 'grape' | 'ocean' | 'peach' | 'neon'
+export type Appearance = 'system' | 'light' | 'dark'
+export type ResolvedAppearance = Exclude<Appearance, 'system'>
+export type ThemeKey = 'forest' | 'obsidian' | 'synthwave' | 'night' | 'cyberpunk' | 'black'
 
 export interface Preferences {
-  mode: Mode
-  theme: ThemePref
-  vibeyTheme: VibeyTheme
+  appearance: Appearance
+  theme: ThemeKey
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
-  mode: 'formal',
-  theme: 'system',
-  vibeyTheme: 'grape',
+  appearance: 'system',
+  theme: 'forest',
 }

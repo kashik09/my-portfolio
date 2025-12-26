@@ -66,7 +66,7 @@ export default function LandingContentEditor() {
         },
         proofSnapshot: [
           { id: '1', text: 'this site is fully custom-built (no templates)' },
-          { id: '2', text: 'mode-based theming system with 5+ variants' },
+          { id: '2', text: 'theme palette system with 6 variants' },
           { id: '3', text: 'cms-driven content + full e-commerce' },
           { id: '4', text: 'designed + built end-to-end' }
         ],

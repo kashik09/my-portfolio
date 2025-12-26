@@ -3,20 +3,20 @@
 import { useEffect, useState } from 'react'
 import { usePreferences } from '@/lib/preferences/PreferencesContext'
 
-type ResolvedTheme = 'light' | 'dark'
+type ResolvedAppearance = 'light' | 'dark'
 
-const getSystemTheme = (media: MediaQueryList): ResolvedTheme =>
+const getSystemAppearance = (media: MediaQueryList): ResolvedAppearance =>
   media.matches ? 'dark' : 'light'
 
 export function PreferencesGate() {
   const { preferences } = usePreferences()
-  const [systemTheme, setSystemTheme] = useState<ResolvedTheme>('light')
+  const [systemAppearance, setSystemAppearance] = useState<ResolvedAppearance>('light')
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const update = () => setSystemTheme(getSystemTheme(media))
+    const update = () => setSystemAppearance(getSystemAppearance(media))
 
     update()
 
@@ -32,19 +32,13 @@ export function PreferencesGate() {
   useEffect(() => {
     if (typeof document === 'undefined') return
 
-    const resolvedTheme =
-      preferences.theme === 'system' ? systemTheme : preferences.theme
-
     const root = document.documentElement
-    root.setAttribute('data-mode', preferences.mode)
-    root.setAttribute('data-theme', resolvedTheme)
+    const resolvedAppearance =
+      preferences.appearance === 'system' ? systemAppearance : preferences.appearance
 
-    if (preferences.mode === 'vibey') {
-      root.setAttribute('data-vibey', preferences.vibeyTheme)
-    } else {
-      root.removeAttribute('data-vibey')
-    }
-  }, [preferences.mode, preferences.theme, preferences.vibeyTheme, systemTheme])
+    root.setAttribute('data-appearance', resolvedAppearance)
+    root.setAttribute('data-theme', preferences.theme)
+  }, [preferences.appearance, preferences.theme, systemAppearance])
 
   return null
 }
