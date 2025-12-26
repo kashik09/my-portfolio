@@ -428,53 +428,6 @@ export function HomeCanvas({
   }, [reduceMotion])
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas || reduceMotion) {
-      if (canvas) {
-        canvas.style.setProperty('--cursor-x', '0')
-        canvas.style.setProperty('--cursor-y', '0')
-      }
-      return
-    }
-
-    let rafId: number | null = null
-    let nextX = 0
-    let nextY = 0
-
-    const updateCursor = () => {
-      canvas.style.setProperty('--cursor-x', nextX.toFixed(4))
-      canvas.style.setProperty('--cursor-y', nextY.toFixed(4))
-    }
-
-    const onMove = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      if (!rect.width || !rect.height) return
-      nextX = clamp((event.clientX - rect.left) / rect.width - 0.5, -0.5, 0.5) * 2
-      nextY = clamp((event.clientY - rect.top) / rect.height - 0.5, -0.5, 0.5) * 2
-      if (rafId) return
-      rafId = window.requestAnimationFrame(() => {
-        rafId = null
-        updateCursor()
-      })
-    }
-
-    const onLeave = () => {
-      nextX = 0
-      nextY = 0
-      updateCursor()
-    }
-
-    canvas.addEventListener('pointermove', onMove, { passive: true })
-    canvas.addEventListener('pointerleave', onLeave)
-
-    return () => {
-      if (rafId) window.cancelAnimationFrame(rafId)
-      canvas.removeEventListener('pointermove', onMove)
-      canvas.removeEventListener('pointerleave', onLeave)
-    }
-  }, [reduceMotion])
-
-  useEffect(() => {
     if (!menuOpen) return
 
     const previousOverflow = document.body.style.overflow
@@ -718,7 +671,7 @@ export function HomeCanvas({
         <div className="relative z-20 mx-auto flex h-full w-full max-w-6xl items-center px-6 sm:px-10">
           <div className="canvas-anchor max-w-xl space-y-6 text-white">
             <div className="flex items-center gap-4">
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/10 text-lg font-semibold">
+              <div className="relative flex size-12 sm:size-14 lg:size-16 items-center justify-center rounded-full border border-white/15 bg-white/10 text-lg font-semibold">
                 {avatarSrc && hasAvatar ? (
                   <img
                     src={avatarSrc}
@@ -729,7 +682,7 @@ export function HomeCanvas({
                 ) : (
                   <span className="text-white">K</span>
                 )}
-                <div className="absolute inset-0 rounded-full ring-2 ring-primary/50 ring-offset-2 ring-offset-black/40" />
+                <div className="absolute inset-0 rounded-full ring-2 ring-base-300/60 ring-offset-2 ring-offset-black/40" />
               </div>
               <p className="text-xs uppercase tracking-[0.4em] text-white/70">
                 hey, i&apos;m kashi
@@ -916,15 +869,13 @@ export function HomeCanvas({
             --loop: 0;
             --energy: 1;
             --calm: 0;
-            --cursor-x: 0;
-            --cursor-y: 0;
           }
 
           .canvas-item {
             position: absolute;
             transform: translate3d(
-                calc(var(--drift-x) * var(--loop) * var(--energy) * 1px + var(--cursor-x) * var(--parallax) * 1px),
-                calc(var(--drift-y) * var(--loop) * var(--energy) * 1px + var(--cursor-y) * var(--parallax) * 1px),
+                calc(var(--drift-x) * var(--loop) * var(--energy) * 1px),
+                calc(var(--drift-y) * var(--loop) * var(--energy) * 1px),
                 0
               )
               rotate(var(--rotate))
@@ -963,11 +914,7 @@ export function HomeCanvas({
           }
 
           .canvas-anchor {
-            transform: translate3d(
-              calc(var(--cursor-x) * 6px),
-              calc(var(--cursor-y) * 4px),
-              0
-            );
+            transform: translate3d(0, 0, 0);
             transition: transform 800ms ease;
           }
 
