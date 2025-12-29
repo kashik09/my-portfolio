@@ -1,0 +1,223 @@
+Theme Audit Report
+===================
+Total violations: 187
+
+Top offending files:
+    59  app/admin/analytics/page.tsx
+    33  lib/email/order-emails.ts
+    25  app/globals.css
+    18  app/admin/settings/page.tsx
+    16  lib/email.ts
+     8  app/admin/page.tsx
+     6  app/admin/requests/page.tsx
+     4  app/(user)/dashboard/orders/page.tsx
+     3  app/(user)/dashboard/page.tsx
+     3  app/admin/orders/page.tsx
+     2  app/icon.tsx
+     1  app/admin/content/page.tsx
+     1  app/admin/projects/[slug]/edit/page.tsx
+     1  app/admin/projects/new/page.tsx
+     1  app/admin/setup-2fa/page.tsx
+     1  app/admin/tags/page.tsx
+     1  app/api/send-notification/route.ts
+     1  components/AdminHeader.tsx
+     1  components/ImageUploadCrop.tsx
+     1  components/ui/YearPicker.tsx
+
+Violations by rule:
+   155  INLINE_STYLE_COLOR
+    17  TW_TEXT_BLACK_WHITE
+     5  TW_TEXT_GRAY
+     4  TW_BG_BLACK_WHITE
+     3  TW_BG_GRAY
+     2  TW_BORDER_GRAY
+     1  TW_SHADOW_BLACK
+
+Detailed violations:
+app/(user)/dashboard/orders/page.tsx:57:44 | TW_TEXT_GRAY | text-gray-600 |         return <Package className="w-5 h-5 text-gray-600" />
+app/(user)/dashboard/orders/page.tsx:72:17 | TW_BG_GRAY | bg-gray-100 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/(user)/dashboard/orders/page.tsx:72:29 | TW_TEXT_GRAY | text-gray-800 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/(user)/dashboard/orders/page.tsx:72:43 | TW_BORDER_GRAY | border-gray-200 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/(user)/dashboard/page.tsx:279:95 | TW_TEXT_BLACK_WHITE | text-white |           className="bg-gradient-to-br from-primary via-primary to-primary/80 rounded-2xl p-8 text-white hover:shadow-xl transition-shadow group"
+app/(user)/dashboard/page.tsx:283:25 | TW_TEXT_BLACK_WHITE | text-white |           <p className="text-white mb-4">
+app/(user)/dashboard/page.tsx:286:59 | TW_TEXT_BLACK_WHITE | text-white |           <span className="inline-flex items-center gap-2 text-white font-medium group-hover:gap-3 transition-all">
+app/admin/analytics/page.tsx:39:47 | INLINE_STYLE_COLOR | color: |     <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:39:73 | INLINE_STYLE_COLOR | color: |     <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:41:51 | INLINE_STYLE_COLOR | color: |         <div className="rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]">
+app/admin/analytics/page.tsx:41:77 | INLINE_STYLE_COLOR | color: |         <div className="rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]">
+app/admin/analytics/page.tsx:41:109 | INLINE_STYLE_COLOR | color: |         <div className="rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]">
+app/admin/analytics/page.tsx:45:41 | INLINE_STYLE_COLOR | color: |           <div className="text-sm text-[color:hsl(var(--bc)/0.7)]">{label}</div>
+app/admin/analytics/page.tsx:46:56 | INLINE_STYLE_COLOR | color: |           <div className="text-2xl font-semibold text-[color:hsl(var(--bc))]">{value}</div>
+app/admin/analytics/page.tsx:47:48 | INLINE_STYLE_COLOR | color: |           {sub ? <div className="text-xs text-[color:hsl(var(--bc)/0.7)]">{sub}</div> : null}
+app/admin/analytics/page.tsx:67:25 | INLINE_STYLE_COLOR | color: |         'border border-[color:hsl(var(--b3))]',
+app/admin/analytics/page.tsx:69:18 | INLINE_STYLE_COLOR | color: |           ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'
+app/admin/analytics/page.tsx:69:39 | TW_TEXT_BLACK_WHITE | text-white |           ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'
+app/admin/analytics/page.tsx:69:58 | INLINE_STYLE_COLOR | color: |           ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'
+app/admin/analytics/page.tsx:70:18 | INLINE_STYLE_COLOR | color: |           : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',
+app/admin/analytics/page.tsx:70:46 | INLINE_STYLE_COLOR | color: |           : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',
+app/admin/analytics/page.tsx:70:78 | INLINE_STYLE_COLOR | color: |           : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',
+app/admin/analytics/page.tsx:148:128 | INLINE_STYLE_COLOR | color: |       <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-4 rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-6">
+app/admin/analytics/page.tsx:148:154 | INLINE_STYLE_COLOR | color: |       <div className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-4 rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-6">
+app/admin/analytics/page.tsx:149:63 | INLINE_STYLE_COLOR | color: |         <p className="text-center text-lg font-semibold text-[color:hsl(var(--bc))]">Analytics failed to load</p>
+app/admin/analytics/page.tsx:150:49 | INLINE_STYLE_COLOR | color: |         <p className="text-center text-sm text-[color:hsl(var(--bc)/0.7)]">{error}</p>
+app/admin/analytics/page.tsx:153:39 | INLINE_STYLE_COLOR | color: |           className="rounded-full bg-[color:hsl(var(--p))] px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+app/admin/analytics/page.tsx:153:92 | TW_TEXT_BLACK_WHITE | text-white |           className="rounded-full bg-[color:hsl(var(--p))] px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+app/admin/analytics/page.tsx:164:29 | INLINE_STYLE_COLOR | color: |         <p className="text-[color:hsl(var(--bc)/0.7)]">No analytics data available</p>
+app/admin/analytics/page.tsx:172:51 | INLINE_STYLE_COLOR | color: |           <h1 className="text-3xl font-bold text-[color:hsl(var(--bc))]">Analytics</h1>
+app/admin/analytics/page.tsx:173:39 | INLINE_STYLE_COLOR | color: |           <p className="text-sm text-[color:hsl(var(--bc)/0.7)]">Range: {rangeLabel}</p>
+app/admin/analytics/page.tsx:190:51 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:190:77 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:191:62 | INLINE_STYLE_COLOR | color: |           <div className="mb-3 flex items-center gap-2 text-[color:hsl(var(--bc))]">
+app/admin/analytics/page.tsx:192:51 | INLINE_STYLE_COLOR | color: |             <BarChart3 size={18} className="text-[color:hsl(var(--p))]" />
+app/admin/analytics/page.tsx:199:88 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:199:114 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:201:56 | INLINE_STYLE_COLOR | color: |                 <div className="truncate text-sm text-[color:hsl(var(--bc))]">{p.page}</div>
+app/admin/analytics/page.tsx:202:61 | INLINE_STYLE_COLOR | color: |                 <div className="text-sm font-semibold text-[color:hsl(var(--bc))]">{p.views}</div>
+app/admin/analytics/page.tsx:206:43 | INLINE_STYLE_COLOR | color: |               <p className="text-sm text-[color:hsl(var(--bc)/0.7)]">No page data.</p>
+app/admin/analytics/page.tsx:210:51 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:210:77 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:211:62 | INLINE_STYLE_COLOR | color: |           <div className="mb-3 flex items-center gap-2 text-[color:hsl(var(--bc))]">
+app/admin/analytics/page.tsx:212:54 | INLINE_STYLE_COLOR | color: |             <MousePointer size={18} className="text-[color:hsl(var(--p))]" />
+app/admin/analytics/page.tsx:219:88 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:219:114 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:221:71 | INLINE_STYLE_COLOR | color: |                 <div className="flex items-center gap-2 text-sm text-[color:hsl(var(--bc))]">
+app/admin/analytics/page.tsx:222:42 | INLINE_STYLE_COLOR | color: |                   <span className="text-[color:hsl(var(--p))]">{deviceIcon(d.type)}</span>
+app/admin/analytics/page.tsx:225:61 | INLINE_STYLE_COLOR | color: |                 <div className="text-sm font-semibold text-[color:hsl(var(--bc))]">{d.count}</div>
+app/admin/analytics/page.tsx:229:43 | INLINE_STYLE_COLOR | color: |               <p className="text-sm text-[color:hsl(var(--bc)/0.7)]">No device data.</p>
+app/admin/analytics/page.tsx:235:51 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:235:77 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:236:59 | INLINE_STYLE_COLOR | color: |           <h2 className="mb-3 text-lg font-semibold text-[color:hsl(var(--bc))]">Popular projects</h2>
+app/admin/analytics/page.tsx:241:88 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:241:114 | INLINE_STYLE_COLOR | color: |                 className="flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:243:56 | INLINE_STYLE_COLOR | color: |                 <div className="truncate text-sm text-[color:hsl(var(--bc))]">{p.title}</div>
+app/admin/analytics/page.tsx:244:61 | INLINE_STYLE_COLOR | color: |                 <div className="text-sm font-semibold text-[color:hsl(var(--bc))]">{p.views}</div>
+app/admin/analytics/page.tsx:248:43 | INLINE_STYLE_COLOR | color: |               <p className="text-sm text-[color:hsl(var(--bc)/0.7)]">No project data.</p>
+app/admin/analytics/page.tsx:252:51 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:252:77 | INLINE_STYLE_COLOR | color: |         <div className="rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4">
+app/admin/analytics/page.tsx:253:59 | INLINE_STYLE_COLOR | color: |           <h2 className="mb-3 text-lg font-semibold text-[color:hsl(var(--bc))]">Recent events</h2>
+app/admin/analytics/page.tsx:258:54 | INLINE_STYLE_COLOR | color: |                 className="rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:258:80 | INLINE_STYLE_COLOR | color: |                 className="rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2"
+app/admin/analytics/page.tsx:261:70 | INLINE_STYLE_COLOR | color: |                   <div className="truncate text-sm font-medium text-[color:hsl(var(--bc))]">{e.action}</div>
+app/admin/analytics/page.tsx:262:58 | INLINE_STYLE_COLOR | color: |                   <div className="shrink-0 text-xs text-[color:hsl(var(--bc)/0.7)]">{e.timestamp}</div>
+app/admin/analytics/page.tsx:267:43 | INLINE_STYLE_COLOR | color: |               <p className="text-sm text-[color:hsl(var(--bc)/0.7)]">No recent events.</p>
+app/admin/content/page.tsx:341:222 | TW_TEXT_BLACK_WHITE | text-white |                     className="flex-1 px-4 py-2 bg-background border border-border rounded-lg text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50"
+app/admin/orders/page.tsx:67:17 | TW_BG_GRAY | bg-gray-100 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/admin/orders/page.tsx:67:29 | TW_TEXT_GRAY | text-gray-800 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/admin/orders/page.tsx:67:43 | TW_BORDER_GRAY | border-gray-200 |         return 'bg-gray-100 text-gray-800 border-gray-200'
+app/admin/page.tsx:14:7 | INLINE_STYLE_COLOR | color: |       color: 'text-primary',
+app/admin/page.tsx:22:7 | INLINE_STYLE_COLOR | color: |       color: 'text-success',
+app/admin/page.tsx:30:7 | INLINE_STYLE_COLOR | color: |       color: 'text-secondary',
+app/admin/page.tsx:38:7 | INLINE_STYLE_COLOR | color: |       color: 'text-warning',
+app/admin/page.tsx:76:45 | TW_TEXT_BLACK_WHITE | text-white |             className="px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm"
+app/admin/page.tsx:82:45 | TW_TEXT_BLACK_WHITE | text-white |             className="px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm"
+app/admin/page.tsx:88:45 | TW_TEXT_BLACK_WHITE | text-white |             className="px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm"
+app/admin/page.tsx:101:45 | TW_TEXT_BLACK_WHITE | text-white |             className="px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm"
+app/admin/projects/[slug]/edit/page.tsx:432:68 | TW_TEXT_BLACK_WHITE | text-white |                   className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+app/admin/projects/new/page.tsx:376:68 | TW_TEXT_BLACK_WHITE | text-white |                   className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+app/admin/requests/page.tsx:164:19 | TW_BG_GRAY | bg-gray-500 |       CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'
+app/admin/requests/page.tsx:164:34 | TW_TEXT_GRAY | text-gray-700 |       CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'
+app/admin/requests/page.tsx:164:53 | TW_TEXT_GRAY | text-gray-300 |       CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'
+app/admin/requests/page.tsx:362:39 | TW_BG_BLACK_WHITE | bg-black |         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setShowModal(false)}>
+app/admin/requests/page.tsx:433:54 | TW_TEXT_BLACK_WHITE | text-white |                     className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+app/admin/requests/page.tsx:442:53 | TW_TEXT_BLACK_WHITE | text-white |                     className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+app/admin/settings/page.tsx:549:35 | INLINE_STYLE_COLOR | color: |           <div className="p-2 bg-[color:hsl(var(--p)/0.12)] rounded-lg">
+app/admin/settings/page.tsx:550:36 | INLINE_STYLE_COLOR | color: |             <Mail className="text-[color:hsl(var(--p))]" size={20} />
+app/admin/settings/page.tsx:569:34 | TW_TEXT_BLACK_WHITE | text-white |                     ? 'bg-accent text-white border-accent shadow-sm'
+app/admin/settings/page.tsx:607:120 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:607:161 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:607:211 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:631:120 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:631:161 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:631:211 | INLINE_STYLE_COLOR | color: |               className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${
+app/admin/settings/page.tsx:649:119 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:649:160 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:649:210 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:666:119 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:666:160 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:666:210 | INLINE_STYLE_COLOR | color: |               className="w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition"
+app/admin/settings/page.tsx:688:61 | INLINE_STYLE_COLOR | color: |                 className="h-4 w-4 rounded border-app text-[color:hsl(var(--p))] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)]"
+app/admin/settings/page.tsx:688:107 | INLINE_STYLE_COLOR | color: |                 className="h-4 w-4 rounded border-app text-[color:hsl(var(--p))] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)]"
+app/admin/settings/page.tsx:697:68 | TW_TEXT_BLACK_WHITE | text-white |             className="flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg hover:opacity-90 transition disabled:opacity-50"
+app/admin/setup-2fa/page.tsx:132:48 | TW_BG_BLACK_WHITE | bg-white |               <div className="inline-block p-4 bg-white rounded-lg">
+app/admin/tags/page.tsx:184:39 | TW_BG_BLACK_WHITE | bg-black |         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+app/api/send-notification/route.ts:39:23 | INLINE_STYLE_COLOR | color: |             <p style="color: #666; font-size: 12px;">
+app/globals.css:99:16 | INLINE_STYLE_COLOR | color: |     background-color: oklch(var(--b1));
+app/globals.css:100:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--bc));
+app/globals.css:101:11 | INLINE_STYLE_COLOR | color: |     caret-color: oklch(var(--p));
+app/globals.css:109:15 | INLINE_STYLE_COLOR | color: |     scrollbar-color: oklch(var(--p) / 0.6) oklch(var(--b2));
+app/globals.css:121:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--p));
+app/globals.css:126:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--s));
+app/globals.css:169:5 | INLINE_STYLE_COLOR | background: |     background:
+app/globals.css:199:12 | INLINE_STYLE_COLOR | color: |     border-color: oklch(var(--b3));
+app/globals.css:247:5 | INLINE_STYLE_COLOR | background: |     background: oklch(var(--b2));
+app/globals.css:251:5 | INLINE_STYLE_COLOR | background: |     background: oklch(var(--p) / 0.6);
+app/globals.css:257:5 | INLINE_STYLE_COLOR | background: |     background: oklch(var(--p) / 0.85);
+app/globals.css:285:16 | INLINE_STYLE_COLOR | color: |     background-color: oklch(var(--b1) / 1);
+app/globals.css:289:16 | INLINE_STYLE_COLOR | color: |     background-color: oklch(var(--b2) / 1);
+app/globals.css:293:12 | INLINE_STYLE_COLOR | color: |     border-color: oklch(var(--b3) / 1);
+app/globals.css:297:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--bc) / 1);
+app/globals.css:301:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--bc) / 0.7);
+app/globals.css:305:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--bc) / 0.7);
+app/globals.css:309:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--p) / 1);
+app/globals.css:313:5 | INLINE_STYLE_COLOR | color: |     color: oklch(var(--s) / 1);
+app/globals.css:317:16 | INLINE_STYLE_COLOR | color: |     background-color: oklch(var(--p) / 1);
+app/globals.css:321:16 | INLINE_STYLE_COLOR | color: |     background-color: color-mix(in srgb, oklch(var(--p)) 15%, transparent);
+app/globals.css:325:12 | INLINE_STYLE_COLOR | color: |     border-color: oklch(var(--p) / 1);
+app/globals.css:329:12 | INLINE_STYLE_COLOR | color: |     border-color: oklch(var(--s) / 1);
+app/globals.css:333:15 | INLINE_STYLE_COLOR | color: |     --tw-ring-color: oklch(var(--p) / 0.35);
+app/globals.css:337:22 | INLINE_STYLE_COLOR | color: |     --tw-ring-offset-color: oklch(var(--b1) / 1);
+app/icon.tsx:15:11 | INLINE_STYLE_COLOR | background: |           background: '#BD93F9',
+app/icon.tsx:21:11 | INLINE_STYLE_COLOR | color: |           color: 'white',
+components/AdminHeader.tsx:70:26 | TW_TEXT_BLACK_WHITE | text-white |                       ? 'text-white'
+components/ImageUploadCrop.tsx:204:81 | TW_BG_BLACK_WHITE | bg-black |         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+components/ui/YearPicker.tsx:125:102 | TW_SHADOW_BLACK | shadow-black/20 |         <div className="absolute z-50 mt-2 w-full bg-card border border-border rounded-xl shadow-2xl shadow-black/20 p-4 space-y-4">
+lib/email.ts:215:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #333;">Test Email</h1>
+lib/email.ts:217:21 | INLINE_STYLE_COLOR | color: |           <p style="color: #666; font-size: 14px;">Sent at: ${new Date().toLocaleString()}</p>
+lib/email.ts:225:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #10b981;">Request Accepted!</h1>
+lib/email.ts:238:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #ef4444;">Request Update</h1>
+lib/email.ts:251:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #10b981;">License Issued</h1>
+lib/email.ts:253:23 | INLINE_STYLE_COLOR | background: |           <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+lib/email.ts:255:43 | INLINE_STYLE_COLOR | color: |             <code style="font-size: 16px; color: #1f2937;">${data?.licenseKey}</code>
+lib/email.ts:267:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #ef4444;">License Revoked</h1>
+lib/email.ts:280:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #f59e0b;">License Suspended</h1>
+lib/email.ts:294:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #ef4444;">Abuse Detected</h1>
+lib/email.ts:296:23 | INLINE_STYLE_COLOR | background: |           <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
+lib/email.ts:297:34 | INLINE_STYLE_COLOR | color: |             <p style="margin: 0; color: #991b1b;"><strong>Detected Issue:</strong> ${data?.abuseReason}</p>
+lib/email.ts:309:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #10b981;">License Seat Assigned</h1>
+lib/email.ts:321:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #ef4444;">License Seat Revoked</h1>
+lib/email.ts:332:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #10b981;">Download Reset Approved</h1>
+lib/email.ts:344:22 | INLINE_STYLE_COLOR | color: |           <h1 style="color: #ef4444;">Download Reset Rejected</h1>
+lib/email/order-emails.ts:47:20 | INLINE_STYLE_COLOR | color: |         <h1 style="color: #10b981;">Order Confirmed!</h1>
+lib/email/order-emails.ts:51:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;">
+lib/email/order-emails.ts:52:49 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; font-size: 14px; color: #6b7280;">Order Number</p>
+lib/email/order-emails.ts:53:76 | INLINE_STYLE_COLOR | color: |           <p style="margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: #1f2937;">${order.orderNumber}</p>
+lib/email/order-emails.ts:56:20 | INLINE_STYLE_COLOR | color: |         <h2 style="color: #1f2937; font-size: 18px;">Order Details</h2>
+lib/email/order-emails.ts:59:24 | INLINE_STYLE_COLOR | background: |             <tr style="background: #f9fafb;">
+lib/email/order-emails.ts:77:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
+lib/email/order-emails.ts:78:32 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; color: #92400e;"><strong>Payment Required:</strong> Your order is pending payment. Please follow the payment instructions sent separately.</p>
+lib/email/order-emails.ts:82:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0;">
+lib/email/order-emails.ts:83:32 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; color: #065f46;"><strong>Paid with Credits:</strong> Your order has been paid with ${order.creditsUsed} credits and your licenses are being issued now!</p>
+lib/email/order-emails.ts:88:177 | INLINE_STYLE_COLOR | color: |         <p>You can view your order status and download your products from your <a href="${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard/orders/${order.orderNumber}" style="color: #3b82f6;">dashboard</a>.</p>
+lib/email/order-emails.ts:147:20 | INLINE_STYLE_COLOR | color: |         <h1 style="color: #3b82f6;">Payment Instructions</h1>
+lib/email/order-emails.ts:151:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
+lib/email/order-emails.ts:152:37 | INLINE_STYLE_COLOR | color: |           <h2 style="margin-top: 0; color: #1f2937;">Payment Details</h2>
+lib/email/order-emails.ts:157:20 | INLINE_STYLE_COLOR | color: |         <h2 style="color: #1f2937;">Steps to Complete Payment:</h2>
+lib/email/order-emails.ts:165:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #dbeafe; padding: 15px; border-radius: 8px; margin: 20px 0;">
+lib/email/order-emails.ts:166:51 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; font-weight: bold; color: #1e40af;">Contact Information:</p>
+lib/email/order-emails.ts:230:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #f9fafb; padding: 15px; border-radius: 8px; margin: 10px 0;">
+lib/email/order-emails.ts:231:51 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; font-weight: bold; color: #1f2937;">${item.productName}</p>
+lib/email/order-emails.ts:232:36 | INLINE_STYLE_COLOR | color: |           <p style="margin: 5px 0; color: #6b7280;">License Type: ${item.licenseType}</p>
+lib/email/order-emails.ts:233:23 | INLINE_STYLE_COLOR | background: |           <div style="background: #fff; padding: 10px; border-radius: 4px; margin-top: 10px;">
+lib/email/order-emails.ts:234:51 | INLINE_STYLE_COLOR | color: |             <p style="margin: 0; font-size: 12px; color: #6b7280;">License Key:</p>
+lib/email/order-emails.ts:235:43 | INLINE_STYLE_COLOR | color: |             <code style="font-size: 14px; color: #1f2937; font-weight: bold;">${item.license?.licenseKey}</code>
+lib/email/order-emails.ts:238:81 | INLINE_STYLE_COLOR | background: |              style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px;">
+lib/email/order-emails.ts:238:102 | INLINE_STYLE_COLOR | color: |              style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px;">
+lib/email/order-emails.ts:248:20 | INLINE_STYLE_COLOR | color: |         <h1 style="color: #10b981;">Your Licenses Are Ready!</h1>
+lib/email/order-emails.ts:252:20 | INLINE_STYLE_COLOR | color: |         <h2 style="color: #1f2937; font-size: 18px;">Your Licenses:</h2>
+lib/email/order-emails.ts:255:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #dbeafe; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+lib/email/order-emails.ts:256:32 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; color: #1e3a8a;">
+lib/email/order-emails.ts:258:92 | INLINE_STYLE_COLOR | color: |             <a href="${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard/downloads" style="color: #3b82f6;">dashboard</a>.
+lib/email/order-emails.ts:313:20 | INLINE_STYLE_COLOR | color: |         <h1 style="color: #ef4444;">Order Cancelled</h1>
+lib/email/order-emails.ts:317:21 | INLINE_STYLE_COLOR | background: |         <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
+lib/email/order-emails.ts:318:32 | INLINE_STYLE_COLOR | color: |           <p style="margin: 0; color: #991b1b;"><strong>Reason:</strong> ${reason}</p>
+tailwind.config.ts:18:9 | INLINE_STYLE_COLOR | background: |         background: 'oklch(var(--b1) / <alpha-value>)',

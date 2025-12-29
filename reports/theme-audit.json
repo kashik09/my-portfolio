@@ -1,0 +1,1533 @@
+{
+  "total": 187,
+  "by_rule": {
+    "TW_TEXT_GRAY": 5,
+    "TW_BG_GRAY": 3,
+    "TW_BORDER_GRAY": 2,
+    "TW_TEXT_BLACK_WHITE": 17,
+    "INLINE_STYLE_COLOR": 155,
+    "TW_BG_BLACK_WHITE": 4,
+    "TW_SHADOW_BLACK": 1
+  },
+  "by_file": {
+    "app/(user)/dashboard/orders/page.tsx": 4,
+    "app/(user)/dashboard/page.tsx": 3,
+    "app/admin/analytics/page.tsx": 59,
+    "app/admin/content/page.tsx": 1,
+    "app/admin/orders/page.tsx": 3,
+    "app/admin/page.tsx": 8,
+    "app/admin/projects/[slug]/edit/page.tsx": 1,
+    "app/admin/projects/new/page.tsx": 1,
+    "app/admin/requests/page.tsx": 6,
+    "app/admin/settings/page.tsx": 18,
+    "app/admin/setup-2fa/page.tsx": 1,
+    "app/admin/tags/page.tsx": 1,
+    "app/api/send-notification/route.ts": 1,
+    "app/globals.css": 25,
+    "app/icon.tsx": 2,
+    "components/AdminHeader.tsx": 1,
+    "components/ImageUploadCrop.tsx": 1,
+    "components/ui/YearPicker.tsx": 1,
+    "lib/email.ts": 16,
+    "lib/email/order-emails.ts": 33,
+    "tailwind.config.ts": 1
+  },
+  "violations": [
+    {
+      "file": "app/(user)/dashboard/orders/page.tsx",
+      "line": 57,
+      "column": 44,
+      "rule": "TW_TEXT_GRAY",
+      "match": "text-gray-600",
+      "context": "        return <Package className=\"w-5 h-5 text-gray-600\" />"
+    },
+    {
+      "file": "app/(user)/dashboard/orders/page.tsx",
+      "line": 72,
+      "column": 17,
+      "rule": "TW_BG_GRAY",
+      "match": "bg-gray-100",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/(user)/dashboard/orders/page.tsx",
+      "line": 72,
+      "column": 29,
+      "rule": "TW_TEXT_GRAY",
+      "match": "text-gray-800",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/(user)/dashboard/orders/page.tsx",
+      "line": 72,
+      "column": 43,
+      "rule": "TW_BORDER_GRAY",
+      "match": "border-gray-200",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/(user)/dashboard/page.tsx",
+      "line": 279,
+      "column": 95,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "          className=\"bg-gradient-to-br from-primary via-primary to-primary/80 rounded-2xl p-8 text-white hover:shadow-xl transition-shadow group\""
+    },
+    {
+      "file": "app/(user)/dashboard/page.tsx",
+      "line": 283,
+      "column": 25,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "          <p className=\"text-white mb-4\">"
+    },
+    {
+      "file": "app/(user)/dashboard/page.tsx",
+      "line": 286,
+      "column": 59,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "          <span className=\"inline-flex items-center gap-2 text-white font-medium group-hover:gap-3 transition-all\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 39,
+      "column": 47,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 39,
+      "column": 73,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 41,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 41,
+      "column": 77,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 41,
+      "column": 109,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] p-2 text-[color:hsl(var(--p))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 45,
+      "column": 41,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <div className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">{label}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 46,
+      "column": 56,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <div className=\"text-2xl font-semibold text-[color:hsl(var(--bc))]\">{value}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 47,
+      "column": 48,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          {sub ? <div className=\"text-xs text-[color:hsl(var(--bc)/0.7)]\">{sub}</div> : null}"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 67,
+      "column": 25,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        'border border-[color:hsl(var(--b3))]',"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 69,
+      "column": 18,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 69,
+      "column": 39,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "          ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 69,
+      "column": 58,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          ? 'bg-[color:hsl(var(--p))] text-white border-[color:hsl(var(--p))]'"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 70,
+      "column": 18,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 70,
+      "column": 46,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 70,
+      "column": 78,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          : 'bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] hover:bg-[color:hsl(var(--b1))]',"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 148,
+      "column": 128,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      <div className=\"mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-4 rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-6\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 148,
+      "column": 154,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      <div className=\"mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center gap-4 rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-6\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 149,
+      "column": 63,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <p className=\"text-center text-lg font-semibold text-[color:hsl(var(--bc))]\">Analytics failed to load</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 150,
+      "column": 49,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <p className=\"text-center text-sm text-[color:hsl(var(--bc)/0.7)]\">{error}</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 153,
+      "column": 39,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          className=\"rounded-full bg-[color:hsl(var(--p))] px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 153,
+      "column": 92,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "          className=\"rounded-full bg-[color:hsl(var(--p))] px-5 py-2 text-sm font-semibold text-white transition hover:opacity-90\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 164,
+      "column": 29,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <p className=\"text-[color:hsl(var(--bc)/0.7)]\">No analytics data available</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 172,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 className=\"text-3xl font-bold text-[color:hsl(var(--bc))]\">Analytics</h1>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 173,
+      "column": 39,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">Range: {rangeLabel}</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 190,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 190,
+      "column": 77,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 191,
+      "column": 62,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <div className=\"mb-3 flex items-center gap-2 text-[color:hsl(var(--bc))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 192,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <BarChart3 size={18} className=\"text-[color:hsl(var(--p))]\" />"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 199,
+      "column": 88,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 199,
+      "column": 114,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 201,
+      "column": 56,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"truncate text-sm text-[color:hsl(var(--bc))]\">{p.page}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 202,
+      "column": 61,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"text-sm font-semibold text-[color:hsl(var(--bc))]\">{p.views}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 206,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              <p className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">No page data.</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 210,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 210,
+      "column": 77,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 211,
+      "column": 62,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <div className=\"mb-3 flex items-center gap-2 text-[color:hsl(var(--bc))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 212,
+      "column": 54,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <MousePointer size={18} className=\"text-[color:hsl(var(--p))]\" />"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 219,
+      "column": 88,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 219,
+      "column": 114,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 221,
+      "column": 71,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"flex items-center gap-2 text-sm text-[color:hsl(var(--bc))]\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 222,
+      "column": 42,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                  <span className=\"text-[color:hsl(var(--p))]\">{deviceIcon(d.type)}</span>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 225,
+      "column": 61,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"text-sm font-semibold text-[color:hsl(var(--bc))]\">{d.count}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 229,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              <p className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">No device data.</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 235,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 235,
+      "column": 77,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 236,
+      "column": 59,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h2 className=\"mb-3 text-lg font-semibold text-[color:hsl(var(--bc))]\">Popular projects</h2>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 241,
+      "column": 88,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 241,
+      "column": 114,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"flex items-center justify-between rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 243,
+      "column": 56,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"truncate text-sm text-[color:hsl(var(--bc))]\">{p.title}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 244,
+      "column": 61,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                <div className=\"text-sm font-semibold text-[color:hsl(var(--bc))]\">{p.views}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 248,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              <p className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">No project data.</p>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 252,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 252,
+      "column": 77,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <div className=\"rounded-xl border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b2))] p-4\">"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 253,
+      "column": 59,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h2 className=\"mb-3 text-lg font-semibold text-[color:hsl(var(--bc))]\">Recent events</h2>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 258,
+      "column": 54,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 258,
+      "column": 80,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"rounded-lg border border-[color:hsl(var(--b3))] bg-[color:hsl(var(--b1))] px-3 py-2\""
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 261,
+      "column": 70,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                  <div className=\"truncate text-sm font-medium text-[color:hsl(var(--bc))]\">{e.action}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 262,
+      "column": 58,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                  <div className=\"shrink-0 text-xs text-[color:hsl(var(--bc)/0.7)]\">{e.timestamp}</div>"
+    },
+    {
+      "file": "app/admin/analytics/page.tsx",
+      "line": 267,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              <p className=\"text-sm text-[color:hsl(var(--bc)/0.7)]\">No recent events.</p>"
+    },
+    {
+      "file": "app/admin/content/page.tsx",
+      "line": 341,
+      "column": 222,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                    className=\"flex-1 px-4 py-2 bg-background border border-border rounded-lg text-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50\""
+    },
+    {
+      "file": "app/admin/orders/page.tsx",
+      "line": 67,
+      "column": 17,
+      "rule": "TW_BG_GRAY",
+      "match": "bg-gray-100",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/admin/orders/page.tsx",
+      "line": 67,
+      "column": 29,
+      "rule": "TW_TEXT_GRAY",
+      "match": "text-gray-800",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/admin/orders/page.tsx",
+      "line": 67,
+      "column": 43,
+      "rule": "TW_BORDER_GRAY",
+      "match": "border-gray-200",
+      "context": "        return 'bg-gray-100 text-gray-800 border-gray-200'"
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 14,
+      "column": 7,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      color: 'text-primary',"
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 22,
+      "column": 7,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      color: 'text-success',"
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 30,
+      "column": 7,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      color: 'text-secondary',"
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 38,
+      "column": 7,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "      color: 'text-warning',"
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 76,
+      "column": 45,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "            className=\"px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm\""
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 82,
+      "column": 45,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "            className=\"px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm\""
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 88,
+      "column": 45,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "            className=\"px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm\""
+    },
+    {
+      "file": "app/admin/page.tsx",
+      "line": 101,
+      "column": 45,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "            className=\"px-6 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition text-center font-medium shadow-sm\""
+    },
+    {
+      "file": "app/admin/projects/[slug]/edit/page.tsx",
+      "line": 432,
+      "column": 68,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                  className=\"absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition\""
+    },
+    {
+      "file": "app/admin/projects/new/page.tsx",
+      "line": 376,
+      "column": 68,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                  className=\"absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition\""
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 164,
+      "column": 19,
+      "rule": "TW_BG_GRAY",
+      "match": "bg-gray-500",
+      "context": "      CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'"
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 164,
+      "column": 34,
+      "rule": "TW_TEXT_GRAY",
+      "match": "text-gray-700",
+      "context": "      CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'"
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 164,
+      "column": 53,
+      "rule": "TW_TEXT_GRAY",
+      "match": "text-gray-300",
+      "context": "      CANCELLED: 'bg-gray-500/20 text-gray-700 dark:text-gray-300'"
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 362,
+      "column": 39,
+      "rule": "TW_BG_BLACK_WHITE",
+      "match": "bg-black",
+      "context": "        <div className=\"fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50\" onClick={() => setShowModal(false)}>"
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 433,
+      "column": 54,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                    className=\"px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition\""
+    },
+    {
+      "file": "app/admin/requests/page.tsx",
+      "line": 442,
+      "column": 53,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                    className=\"px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 549,
+      "column": 35,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <div className=\"p-2 bg-[color:hsl(var(--p)/0.12)] rounded-lg\">"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 550,
+      "column": 36,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <Mail className=\"text-[color:hsl(var(--p))]\" size={20} />"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 569,
+      "column": 34,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                    ? 'bg-accent text-white border-accent shadow-sm'"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 607,
+      "column": 120,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 607,
+      "column": 161,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 607,
+      "column": 211,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 631,
+      "column": 120,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 631,
+      "column": 161,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 631,
+      "column": 211,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className={`w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition ${"
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 649,
+      "column": 119,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 649,
+      "column": 160,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 649,
+      "column": 210,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 666,
+      "column": 119,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 666,
+      "column": 160,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 666,
+      "column": 210,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "              className=\"w-full px-4 py-2 surface-app border border-app rounded-lg text-sm text-app placeholder:text-[color:hsl(var(--bc)/0.65)] focus:border-[color:hsl(var(--p)/0.6)] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] outline-none transition\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 688,
+      "column": 61,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"h-4 w-4 rounded border-app text-[color:hsl(var(--p))] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)]\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 688,
+      "column": 107,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "                className=\"h-4 w-4 rounded border-app text-[color:hsl(var(--p))] focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)]\""
+    },
+    {
+      "file": "app/admin/settings/page.tsx",
+      "line": 697,
+      "column": 68,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "            className=\"flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg hover:opacity-90 transition disabled:opacity-50\""
+    },
+    {
+      "file": "app/admin/setup-2fa/page.tsx",
+      "line": 132,
+      "column": 48,
+      "rule": "TW_BG_BLACK_WHITE",
+      "match": "bg-white",
+      "context": "              <div className=\"inline-block p-4 bg-white rounded-lg\">"
+    },
+    {
+      "file": "app/admin/tags/page.tsx",
+      "line": 184,
+      "column": 39,
+      "rule": "TW_BG_BLACK_WHITE",
+      "match": "bg-black",
+      "context": "        <div className=\"fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4\">"
+    },
+    {
+      "file": "app/api/send-notification/route.ts",
+      "line": 39,
+      "column": 23,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <p style=\"color: #666; font-size: 12px;\">"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 99,
+      "column": 16,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    background-color: oklch(var(--b1));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 100,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--bc));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 101,
+      "column": 11,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    caret-color: oklch(var(--p));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 109,
+      "column": 15,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    scrollbar-color: oklch(var(--p) / 0.6) oklch(var(--b2));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 121,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--p));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 126,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--s));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 169,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "    background:"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 199,
+      "column": 12,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    border-color: oklch(var(--b3));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 247,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "    background: oklch(var(--b2));"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 251,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "    background: oklch(var(--p) / 0.6);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 257,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "    background: oklch(var(--p) / 0.85);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 285,
+      "column": 16,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    background-color: oklch(var(--b1) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 289,
+      "column": 16,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    background-color: oklch(var(--b2) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 293,
+      "column": 12,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    border-color: oklch(var(--b3) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 297,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--bc) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 301,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--bc) / 0.7);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 305,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--bc) / 0.7);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 309,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--p) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 313,
+      "column": 5,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    color: oklch(var(--s) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 317,
+      "column": 16,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    background-color: oklch(var(--p) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 321,
+      "column": 16,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    background-color: color-mix(in srgb, oklch(var(--p)) 15%, transparent);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 325,
+      "column": 12,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    border-color: oklch(var(--p) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 329,
+      "column": 12,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    border-color: oklch(var(--s) / 1);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 333,
+      "column": 15,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    --tw-ring-color: oklch(var(--p) / 0.35);"
+    },
+    {
+      "file": "app/globals.css",
+      "line": 337,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "    --tw-ring-offset-color: oklch(var(--b1) / 1);"
+    },
+    {
+      "file": "app/icon.tsx",
+      "line": 15,
+      "column": 11,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "          background: '#BD93F9',"
+    },
+    {
+      "file": "app/icon.tsx",
+      "line": 21,
+      "column": 11,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          color: 'white',"
+    },
+    {
+      "file": "components/AdminHeader.tsx",
+      "line": 70,
+      "column": 26,
+      "rule": "TW_TEXT_BLACK_WHITE",
+      "match": "text-white",
+      "context": "                      ? 'text-white'"
+    },
+    {
+      "file": "components/ImageUploadCrop.tsx",
+      "line": 204,
+      "column": 81,
+      "rule": "TW_BG_BLACK_WHITE",
+      "match": "bg-black",
+      "context": "        <div className=\"fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm\">"
+    },
+    {
+      "file": "components/ui/YearPicker.tsx",
+      "line": 125,
+      "column": 102,
+      "rule": "TW_SHADOW_BLACK",
+      "match": "shadow-black/20",
+      "context": "        <div className=\"absolute z-50 mt-2 w-full bg-card border border-border rounded-xl shadow-2xl shadow-black/20 p-4 space-y-4\">"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 215,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #333;\">Test Email</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 217,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"color: #666; font-size: 14px;\">Sent at: ${new Date().toLocaleString()}</p>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 225,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #10b981;\">Request Accepted!</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 238,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #ef4444;\">Request Update</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 251,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #10b981;\">License Issued</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 253,
+      "column": 23,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "          <div style=\"background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 255,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <code style=\"font-size: 16px; color: #1f2937;\">${data?.licenseKey}</code>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 267,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #ef4444;\">License Revoked</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 280,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #f59e0b;\">License Suspended</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 294,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #ef4444;\">Abuse Detected</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 296,
+      "column": 23,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "          <div style=\"background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 297,
+      "column": 34,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <p style=\"margin: 0; color: #991b1b;\"><strong>Detected Issue:</strong> ${data?.abuseReason}</p>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 309,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #10b981;\">License Seat Assigned</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 321,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #ef4444;\">License Seat Revoked</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 332,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #10b981;\">Download Reset Approved</h1>"
+    },
+    {
+      "file": "lib/email.ts",
+      "line": 344,
+      "column": 22,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h1 style=\"color: #ef4444;\">Download Reset Rejected</h1>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 47,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h1 style=\"color: #10b981;\">Order Confirmed!</h1>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 51,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #f3f4f6; padding: 15px; border-radius: 8px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 52,
+      "column": 49,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; font-size: 14px; color: #6b7280;\">Order Number</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 53,
+      "column": 76,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: #1f2937;\">${order.orderNumber}</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 56,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h2 style=\"color: #1f2937; font-size: 18px;\">Order Details</h2>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 59,
+      "column": 24,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "            <tr style=\"background: #f9fafb;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 77,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 78,
+      "column": 32,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; color: #92400e;\"><strong>Payment Required:</strong> Your order is pending payment. Please follow the payment instructions sent separately.</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 82,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #d1fae5; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 83,
+      "column": 32,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; color: #065f46;\"><strong>Paid with Credits:</strong> Your order has been paid with ${order.creditsUsed} credits and your licenses are being issued now!</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 88,
+      "column": 177,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <p>You can view your order status and download your products from your <a href=\"${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard/orders/${order.orderNumber}\" style=\"color: #3b82f6;\">dashboard</a>.</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 147,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h1 style=\"color: #3b82f6;\">Payment Instructions</h1>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 151,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 152,
+      "column": 37,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <h2 style=\"margin-top: 0; color: #1f2937;\">Payment Details</h2>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 157,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h2 style=\"color: #1f2937;\">Steps to Complete Payment:</h2>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 165,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #dbeafe; padding: 15px; border-radius: 8px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 166,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; font-weight: bold; color: #1e40af;\">Contact Information:</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 230,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #f9fafb; padding: 15px; border-radius: 8px; margin: 10px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 231,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; font-weight: bold; color: #1f2937;\">${item.productName}</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 232,
+      "column": 36,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 5px 0; color: #6b7280;\">License Type: ${item.licenseType}</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 233,
+      "column": 23,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "          <div style=\"background: #fff; padding: 10px; border-radius: 4px; margin-top: 10px;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 234,
+      "column": 51,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <p style=\"margin: 0; font-size: 12px; color: #6b7280;\">License Key:</p>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 235,
+      "column": 43,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <code style=\"font-size: 14px; color: #1f2937; font-weight: bold;\">${item.license?.licenseKey}</code>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 238,
+      "column": 81,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "             style=\"display: inline-block; margin-top: 10px; padding: 8px 16px; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 238,
+      "column": 102,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "             style=\"display: inline-block; margin-top: 10px; padding: 8px 16px; background: #3b82f6; color: #fff; text-decoration: none; border-radius: 6px; font-size: 14px;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 248,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h1 style=\"color: #10b981;\">Your Licenses Are Ready!</h1>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 252,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h2 style=\"color: #1f2937; font-size: 18px;\">Your Licenses:</h2>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 255,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #dbeafe; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 256,
+      "column": 32,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; color: #1e3a8a;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 258,
+      "column": 92,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "            <a href=\"${process.env.NEXT_PUBLIC_SITE_URL || ''}/dashboard/downloads\" style=\"color: #3b82f6;\">dashboard</a>."
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 313,
+      "column": 20,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "        <h1 style=\"color: #ef4444;\">Order Cancelled</h1>"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 317,
+      "column": 21,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        <div style=\"background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;\">"
+    },
+    {
+      "file": "lib/email/order-emails.ts",
+      "line": 318,
+      "column": 32,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "color:",
+      "context": "          <p style=\"margin: 0; color: #991b1b;\"><strong>Reason:</strong> ${reason}</p>"
+    },
+    {
+      "file": "tailwind.config.ts",
+      "line": 18,
+      "column": 9,
+      "rule": "INLINE_STYLE_COLOR",
+      "match": "background:",
+      "context": "        background: 'oklch(var(--b1) / <alpha-value>)',"
+    }
+  ]
+}
