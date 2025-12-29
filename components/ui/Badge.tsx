@@ -17,11 +17,11 @@ export function Badge({
 
   const variants: Record<BadgeVariant, string> = {
     default:
-      "bg-[color:hsl(var(--p)/0.12)] text-[color:hsl(var(--bc))] border-[color:hsl(var(--p)/0.25)]",
+      "bg-primary/10 text-primary border-primary/20",
     secondary:
-      "bg-[color:hsl(var(--b2))] text-[color:hsl(var(--bc))] border-[color:hsl(var(--b3))]",
+      "bg-base-200 text-base-content border-base-300",
     outline:
-      "bg-transparent text-[color:hsl(var(--bc))] border-[color:hsl(var(--b3))]",
+      "bg-transparent text-base-content border-base-300",
   };
 
   return <span className={`${base} ${variants[variant]} ${className}`}>{children}</span>;

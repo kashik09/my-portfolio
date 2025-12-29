@@ -30,34 +30,34 @@ export default function ConfirmModal({
 
   const styles = {
     danger: {
-      iconBg: 'bg-red-500/10 dark:bg-red-500/20',
-      iconColor: 'text-red-600 dark:text-red-400',
+      iconBg: 'bg-error/10',
+      iconColor: 'text-error',
       icon: <AlertTriangle size={24} />,
-      button: 'bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600'
+      button: 'bg-error text-error-content hover:bg-error/90'
     },
     warning: {
-      iconBg: 'bg-yellow-500/10 dark:bg-yellow-500/20',
-      iconColor: 'text-yellow-600 dark:text-yellow-400',
+      iconBg: 'bg-warning/10',
+      iconColor: 'text-warning',
       icon: <AlertTriangle size={24} />,
-      button: 'bg-yellow-600 text-white hover:bg-yellow-700 dark:bg-yellow-500 dark:hover:bg-yellow-600'
+      button: 'bg-warning text-warning-content hover:bg-warning/90'
     },
     info: {
-      iconBg: 'bg-blue-500/10 dark:bg-blue-500/20',
-      iconColor: 'text-blue-600 dark:text-blue-400',
+      iconBg: 'bg-info/10',
+      iconColor: 'text-info',
       icon: <Info size={24} />,
-      button: 'bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
+      button: 'bg-info text-info-content hover:bg-info/90'
     },
     question: {
       iconBg: 'bg-primary/10',
       iconColor: 'text-primary',
       icon: <HelpCircle size={24} />,
-      button: 'bg-primary text-primary-foreground hover:bg-primary/90'
+      button: 'bg-primary text-primary-content hover:bg-primary/90'
     },
     primary: {
       iconBg: 'bg-primary/10',
       iconColor: 'text-primary',
       icon: <Info size={24} />,
-      button: 'bg-primary text-primary-foreground hover:bg-primary/90'
+      button: 'bg-primary text-primary-content hover:bg-primary/90'
     }
   }
 
@@ -65,7 +65,7 @@ export default function ConfirmModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 bg-base-content/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div

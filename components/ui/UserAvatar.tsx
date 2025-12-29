@@ -39,7 +39,7 @@ export function UserAvatar({
   return (
     <div
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-base-200 text-base-content/70",
         className
       )}
       style={{ width: size, height: size }}
@@ -59,7 +59,7 @@ export function UserAvatar({
       )}
 
       {showBadgeInitials && showImage && (
-        <span className="absolute -bottom-0.5 -right-0.5 rounded-full bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+        <span className="absolute -bottom-0.5 -right-0.5 rounded-full bg-base-content/70 px-1.5 py-0.5 text-[10px] font-semibold text-base-100">
           {initials}
         </span>
       )}

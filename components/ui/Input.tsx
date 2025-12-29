@@ -16,8 +16,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         )}
         <input
           ref={ref}
-          className={`w-full h-10 px-4 surface-app border border-app rounded-lg text-sm text-app focus:outline-none focus:ring-2 focus:ring-[color:hsl(var(--p)/0.35)] transition placeholder:text-[color:hsl(var(--bc)/0.65)] ${
-            error ? 'border-destructive focus:border-destructive' : 'focus:border-[color:hsl(var(--p)/0.6)]'
+          className={`w-full h-10 px-4 surface-app border border-app rounded-lg text-sm text-app focus:outline-none focus:ring-2 focus:ring-primary/35 transition placeholder:text-muted-foreground ${
+            error ? 'border-destructive focus:border-destructive' : 'focus:border-primary/60'
           } ${className}`}
           {...props}
         />
