@@ -55,13 +55,19 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      profile(profile) {
+      async profile(profile) {
+        // Fetch user role from database instead of hardcoding
+        const existingUser = await prisma.user.findUnique({
+          where: { email: profile.email },
+          select: { role: true }
+        })
+
         return {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
-          image: profile.picture, // Explicitly get the Google profile picture
-          role: "USER",
+          image: profile.picture,
+          role: existingUser?.role || "USER",
         }
       },
     }),
@@ -69,13 +75,19 @@ export const authOptions: NextAuthOptions = {
     GitHubProvider({
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
-      profile(profile) {
+      async profile(profile) {
+        // Fetch user role from database instead of hardcoding
+        const existingUser = await prisma.user.findUnique({
+          where: { email: profile.email },
+          select: { role: true }
+        })
+
         return {
           id: profile.id.toString(),
           name: profile.name || profile.login,
           email: profile.email,
-          image: profile.avatar_url, // Explicitly get the GitHub profile picture
-          role: "USER",
+          image: profile.avatar_url,
+          role: existingUser?.role || "USER",
         }
       },
     }),

@@ -2,18 +2,21 @@
 
 import { useEffect, useState } from 'react'
 import { usePreferences } from '@/lib/preferences/PreferencesContext'
-import type { ThemeKey } from '@/lib/preferences/types'
+import type { Appearance, ThemeKey } from '@/lib/preferences/types'
 
 type ResolvedAppearance = 'light' | 'dark'
 
 const getSystemAppearance = (media: MediaQueryList): ResolvedAppearance =>
   media.matches ? 'dark' : 'light'
 
+const DEFAULT_THEME: ThemeKey = 'forest'
+const APPEARANCES: Appearance[] = ['system', 'light', 'dark']
+
 // Theme pairs map app theme keys to actual DaisyUI theme names
 export const THEME_PAIRS = {
-  forest:   { dark: 'forest',   light: 'moss' },
-  night:    { dark: 'night',    light: 'skyline' },
-  charcoal: { dark: 'obsidian', light: 'pearl' }, // Map to existing themes (charcoal/linen don't exist)
+  forest: { dark: 'forest', light: 'moss' },
+  night: { dark: 'night', light: 'skyline' },
+  charcoal: { dark: 'obsidian', light: 'pearl' },
 } as const
 
 const DARK_THEME_MAP: Record<ThemeKey, string> = {
@@ -27,6 +30,12 @@ const LIGHT_THEME_MAP: Record<ThemeKey, string> = {
   night: THEME_PAIRS.night.light,
   charcoal: THEME_PAIRS.charcoal.light,
 }
+
+const isThemeKey = (value: string): value is ThemeKey =>
+  Object.prototype.hasOwnProperty.call(THEME_PAIRS, value)
+
+const isAppearance = (value: string): value is Appearance =>
+  APPEARANCES.includes(value as Appearance)
 
 export function PreferencesGate() {
   const { preferences } = usePreferences()
@@ -53,16 +62,41 @@ export function PreferencesGate() {
     if (typeof document === 'undefined') return
 
     const root = document.documentElement
+    const safeTheme = isThemeKey(preferences.theme) ? preferences.theme : DEFAULT_THEME
+    const safeAppearance = isAppearance(preferences.appearance)
+      ? preferences.appearance
+      : 'system'
     const resolvedAppearance =
-      preferences.appearance === 'system' ? systemAppearance : preferences.appearance
+      safeAppearance === 'system' ? systemAppearance : safeAppearance
     const resolvedTheme =
       resolvedAppearance === 'dark'
-        ? DARK_THEME_MAP[preferences.theme]
-        : LIGHT_THEME_MAP[preferences.theme]
+        ? DARK_THEME_MAP[safeTheme]
+        : LIGHT_THEME_MAP[safeTheme]
+    const fallbackTheme =
+      resolvedAppearance === 'dark'
+        ? THEME_PAIRS[DEFAULT_THEME].dark
+        : THEME_PAIRS[DEFAULT_THEME].light
+    const themeToApply = resolvedTheme || fallbackTheme
 
     root.setAttribute('data-appearance', resolvedAppearance)
-    root.setAttribute('data-theme', resolvedTheme)
+    root.setAttribute('data-theme', themeToApply)
   }, [preferences.appearance, preferences.theme, systemAppearance])
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return
+
+    const root = document.documentElement
+    const existingTheme = root.getAttribute('data-theme')
+
+    if (!existingTheme || existingTheme === 'null' || existingTheme === 'undefined') {
+      const fallbackTheme =
+        systemAppearance === 'dark'
+          ? THEME_PAIRS[DEFAULT_THEME].dark
+          : THEME_PAIRS[DEFAULT_THEME].light
+      root.setAttribute('data-appearance', systemAppearance)
+      root.setAttribute('data-theme', fallbackTheme)
+    }
+  }, [systemAppearance])
 
   return null
 }
