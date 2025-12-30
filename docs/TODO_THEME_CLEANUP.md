@@ -43,7 +43,9 @@
 
 ---
 
-## 🔨 Step 3: Replace Inline Colors in Admin Analytics (59 violations)
+## ✅ Step 3: Replace Inline Colors in Admin Analytics (59 violations)
+
+**Status:** ✅ DONE
 
 **File:** `app/admin/analytics/page.tsx`
 **Violations:** 59 instances of `[color:hsl(var(--X))]` syntax
@@ -145,7 +147,9 @@ Expected result: `0` (down from 29)
 
 ---
 
-## 🔨 Step 4: Exclude Email Templates from Future Audits
+## ✅ Step 4: Exclude Email Templates from Future Audits
+
+**Status:** ✅ DONE (.auditignore created)
 
 **Rationale:** Email templates (49 violations) need hardcoded hex colors for email client compatibility. These are false positives.
 
@@ -311,8 +315,8 @@ const total = addDecimals(product.usdPrice, 10)
 |------|--------|-------------------|---------------|
 | 1. Dashboard gray utilities | ✅ Done | 3 | 5 min |
 | 2. Scrollbar CSS variables | ✅ Done | 1 (+ enables theming) | 2 min |
-| 3. Admin analytics inline colors | 🔲 Todo | 59 | 30-45 min |
-| 4. Exclude email templates | 🔲 Todo | 49 (documentation) | 5 min |
+| 3. Admin analytics inline colors | ✅ Done | 59 | 30-45 min |
+| 4. Exclude email templates | ✅ Done | 49 (documentation) | 5 min |
 | 5. Decimal arithmetic guard | 🔲 Todo | 0 (prevention) | 15-20 min |
 
 **Total Violations After Completion:** 187 → 75 (60% reduction)
@@ -352,8 +356,8 @@ If short on time, do in this order:
 
 1. ✅ **Dashboard grays** (done) - 3 violations, 5 min
 2. ✅ **Scrollbar vars** (done) - enables theming, 2 min
-3. 🔲 **Email exclusion** - documents 49 false positives, 5 min
-4. 🔲 **Admin analytics** - 59 violations, 45 min (bulk Find & Replace)
+3. ✅ **Email exclusion** - documents 49 false positives, 5 min
+4. ✅ **Admin analytics** - 59 violations, 45 min (bulk Find & Replace)
 5. 🔲 **Decimal guard** - prevention only, 20 min
 
 **Total cleanup time remaining:** ~70 minutes
