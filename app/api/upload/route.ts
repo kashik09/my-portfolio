@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import path from 'path'
 import fs from 'fs/promises'
-import { generateSmartFilename } from '@/lib/upload-utils'
+import { generateSmartFilename, sanitizeFilename } from '@/lib/upload-utils'
 import { getServerSession } from '@/lib/auth'
 
 const MAX_BYTES = 5 * 1024 * 1024
@@ -54,13 +54,23 @@ export async function POST(req: Request) {
       },
     })
 
+    const safeFilename = sanitizeFilename(filename)
+    if (!safeFilename) {
+      return NextResponse.json({ error: 'Invalid filename' }, { status: 400 })
+    }
+
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'projects')
     await fs.mkdir(uploadDir, { recursive: true })
 
-    const filePath = path.join(uploadDir, filename)
+    const resolvedUploadDir = path.resolve(uploadDir)
+    const filePath = path.resolve(uploadDir, safeFilename)
+    if (!filePath.startsWith(`${resolvedUploadDir}${path.sep}`)) {
+      return NextResponse.json({ error: 'Invalid file path' }, { status: 400 })
+    }
+
     await fs.writeFile(filePath, buffer)
 
-    const url = `/uploads/projects/${filename}`
+    const url = `/uploads/projects/${safeFilename}`
     return NextResponse.json({ url }, { status: 200 })
   } catch (e) {
     console.error(e)

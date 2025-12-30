@@ -24,6 +24,14 @@ export interface SmartFilenameOptions {
   }
 }
 
+export function sanitizeFilename(name: string): string {
+  return name
+    .replace(/[^a-zA-Z0-9._-]/g, '_')
+    .replace(/\.{2,}/g, '')
+    .replace(/^[.]+/, '')
+    .substring(0, 255)
+}
+
 /**
  * Generates a smart filename with context-aware naming
  * Example: project-my-app-2024-12-21-14-30-45.png
@@ -54,5 +62,5 @@ export function generateSmartFilename(options: SmartFilenameOptions): string {
 
   // Join parts and add extension
   const filename = parts.join('-')
-  return `${filename}.${extension}`
+  return sanitizeFilename(`${filename}.${extension}`)
 }
