@@ -93,7 +93,7 @@ export default function ServicesPage() {
         'Team mentoring',
       ],
     },
-  ]
+  ];
 
   if (isLoading) {
     return (
@@ -176,7 +176,7 @@ export default function ServicesPage() {
             <p className="text-muted-foreground mb-8 text-lg">
               {isAvailable
                 ? 'Have a project in mind? Get in touch to discuss your ideas and get a custom quote.'
-                : 'Reach out to discuss your project. I'll notify you when I have availability.'}
+                : 'Reach out to discuss your project. I\'ll notify you when I have availability.'}
             </p>
             <Link
               href="/contact"

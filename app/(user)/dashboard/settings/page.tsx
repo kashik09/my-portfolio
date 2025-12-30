@@ -20,6 +20,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
+import { isLocalImageUrl, normalizePublicPath } from '@/lib/utils'
 type UserThemePreference = 'LIGHT' | 'DARK' | 'SYSTEM'
 interface UserProfileResponse {
   success: boolean
@@ -354,6 +355,11 @@ export default function SettingsPage() {
     )
   }
   const effectivePreview = avatarPreview || avatarUrl
+  const effectivePreviewSrc =
+    effectivePreview && (effectivePreview.startsWith('blob:') || effectivePreview.startsWith('data:'))
+      ? effectivePreview
+      : normalizePublicPath(effectivePreview)
+  const isLocalPreview = isLocalImageUrl(effectivePreviewSrc)
   return (
     <div className="space-y-8">
       <Link
@@ -386,14 +392,23 @@ export default function SettingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-4 items-start">
           <div className="flex flex-col items-center gap-3">
             <div className="w-28 h-28 rounded-full border border-border bg-muted overflow-hidden flex items-center justify-center">
-              {effectivePreview ? (
-                <Image
-                  src={effectivePreview}
-                  alt="Avatar preview"
-                  width={112}
-                  height={112}
-                  className="w-full h-full object-cover"
-                />
+              {effectivePreviewSrc ? (
+                isLocalPreview ? (
+                  <Image
+                    src={effectivePreviewSrc}
+                    alt="Avatar preview"
+                    width={112}
+                    height={112}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={effectivePreviewSrc}
+                    alt="Avatar preview"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                )
               ) : (
                 <ImageIcon className="text-muted-foreground" size={28} />
               )}

@@ -7,7 +7,6 @@ import { Shield, Check, AlertCircle, Download } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Spinner } from '@/components/ui/Spinner'
-import Image from 'next/image'
 export default function SecurityPage() {
   const { data: session } = useSession()
   const [loading, setLoading] = useState(true)
@@ -149,7 +148,13 @@ export default function SecurityPage() {
                 Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.)
               </p>
               <div className="flex justify-center mb-4">
-                <Image src={qrCode} alt="2FA QR Code" width={256} height={256} />
+                <img
+                  src={qrCode}
+                  alt="2FA QR Code"
+                  width={256}
+                  height={256}
+                  className="h-64 w-64"
+                />
               </div>
               <p className="text-sm text-muted-foreground text-center">
                 Or manually enter this secret: <code className="font-mono text-foreground">{secret}</code>
