@@ -1,0 +1,6 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f3f4f6"/>
+  <rect x="50" y="50" width="700" height="500" fill="#e5e7eb" stroke="#d1d5db" stroke-width="2"/>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="32" fill="#6b7280" text-anchor="middle" font-weight="bold">Product Image</text>
+  <text x="400" y="340" font-family="Arial, sans-serif" font-size="20" fill="#9ca3af" text-anchor="middle">Placeholder - Replace with actual product image</text>
+</svg>
