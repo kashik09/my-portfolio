@@ -1,346 +1,33 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Menu, X } from 'lucide-react'
+import { ArrowRight, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { StickerChip } from '@/components/ui/StickerChip'
-import { PreferencesPanel } from '@/components/features/preferences/PreferencesPanel'
-import { normalizePublicPath, truncate } from '@/lib/utils'
+import { isLocalImageUrl, normalizePublicPath, truncate } from '@/lib/utils'
 import type { ProjectCardData } from '@/components/shared/ProjectCard'
+import { HomeCanvasObjects } from './HomeCanvasObjects'
+import { layoutObjects } from './homeCanvasData'
+import type { CanvasCard, LayoutPreset } from './homeCanvasTypes'
 
-type LayoutPreset = 'mobile' | 'tablet' | 'desktop'
-type CanvasMode = 'default' | 'projects' | 'products' | 'contact'
-type Lane = 'anchor' | 'ambient' | 'context'
-
-interface CanvasCard {
-  id: string
-  title: string
-  description: string
-  imageUrl?: string | null
-  href: string
-  meta?: string
-}
-
-interface SceneObject {
-  id: string
-  kind: 'card' | 'chip'
-  top: string
-  left: string
-  rotate: number
-  scale: number
-  lane: Lane
-  size: 'sm' | 'md' | 'lg'
-  variant: 'primary' | 'secondary'
-  label?: string
-  cardIndex?: number
-  group?: string
-  zIndex?: number
-  treatment?: 'solid' | 'outline' | 'glass' | 'easter-egg'
-}
-
-const desktopObjects: SceneObject[] = [
-  {
-    id: 'card-primary',
-    kind: 'card',
-    top: '18%',
-    left: '56%',
-    rotate: 2,
-    scale: 1,
-    lane: 'context',
-    size: 'lg',
-    variant: 'primary',
-    cardIndex: 0,
-    group: 'right',
-    zIndex: 30,
-  },
-  {
-    id: 'card-secondary',
-    kind: 'card',
-    top: '54%',
-    left: '63%',
-    rotate: -3,
-    scale: 0.98,
-    lane: 'context',
-    size: 'md',
-    variant: 'secondary',
-    cardIndex: 1,
-    group: 'right',
-    zIndex: 28,
-  },
-  {
-    id: 'card-tertiary',
-    kind: 'card',
-    top: '32%',
-    left: '74%',
-    rotate: 5,
-    scale: 0.94,
-    lane: 'context',
-    size: 'sm',
-    variant: 'secondary',
-    cardIndex: 2,
-    group: 'right',
-    zIndex: 24,
-  },
-  {
-    id: 'chip-1',
-    kind: 'chip',
-    top: '14%',
-    left: '10%',
-    rotate: -2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: 'calm 😌 is a performance feature 😙😝',
-    group: 'left',
-    zIndex: 18,
-    treatment: 'solid',
-  },
-  {
-    id: 'chip-2',
-    kind: 'chip',
-    top: '56%',
-    left: '12%',
-    rotate: 3,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'secondary',
-    label: 'boring code 🥱, interesting results 💅✨',
-    group: 'left',
-    zIndex: 17,
-    treatment: 'outline',
-  },
-  {
-    id: 'chip-3',
-    kind: 'chip',
-    top: '38%',
-    left: '36%',
-    rotate: -3,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: "if it's confusing 🤔, it's unfinished ✨💅",
-    group: 'center',
-    zIndex: 16,
-    treatment: 'glass',
-  },
-  {
-    id: 'chip-4',
-    kind: 'chip',
-    top: '24%',
-    left: '70%',
-    rotate: 2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'secondary',
-    label: 'i hate fragile systems 😤😒',
-    group: 'right',
-    zIndex: 16,
-    treatment: 'solid',
-  },
-  {
-    id: 'chip-5',
-    kind: 'chip',
-    top: '68%',
-    left: '48%',
-    rotate: -2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: '👀 yes, i ✨ obsessed ✨ over this 😭😭',
-    group: 'center',
-    zIndex: 15,
-    treatment: 'easter-egg',
-  },
-]
-
-const tabletObjects: SceneObject[] = [
-  {
-    id: 'card-primary',
-    kind: 'card',
-    top: '22%',
-    left: '50%',
-    rotate: 2,
-    scale: 1,
-    lane: 'context',
-    size: 'lg',
-    variant: 'primary',
-    cardIndex: 0,
-    group: 'right',
-    zIndex: 28,
-  },
-  {
-    id: 'card-secondary',
-    kind: 'card',
-    top: '58%',
-    left: '56%',
-    rotate: -2,
-    scale: 0.96,
-    lane: 'context',
-    size: 'md',
-    variant: 'secondary',
-    cardIndex: 1,
-    group: 'right',
-    zIndex: 26,
-  },
-  {
-    id: 'chip-1',
-    kind: 'chip',
-    top: '16%',
-    left: '8%',
-    rotate: -3,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: 'calm 😌 is a performance feature 😙😝',
-    group: 'left',
-    zIndex: 16,
-    treatment: 'solid',
-  },
-  {
-    id: 'chip-2',
-    kind: 'chip',
-    top: '68%',
-    left: '10%',
-    rotate: 2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'secondary',
-    label: 'boring code 🥱, interesting results 💅✨',
-    group: 'left',
-    zIndex: 15,
-    treatment: 'outline',
-  },
-  {
-    id: 'chip-3',
-    kind: 'chip',
-    top: '44%',
-    left: '14%',
-    rotate: -2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: "if it's confusing 🤔, it's unfinished ✨💅",
-    group: 'left',
-    zIndex: 14,
-    treatment: 'glass',
-  },
-  {
-    id: 'chip-4',
-    kind: 'chip',
-    top: '32%',
-    left: '72%',
-    rotate: 3,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'secondary',
-    label: 'i hate fragile systems 😤😒',
-    group: 'right',
-    zIndex: 14,
-    treatment: 'solid',
-  },
-  {
-    id: 'chip-5',
-    kind: 'chip',
-    top: '78%',
-    left: '48%',
-    rotate: -2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: '👀 yes, i ✨ obsessed ✨ over this 😭😭',
-    group: 'center',
-    zIndex: 13,
-    treatment: 'easter-egg',
-  },
-]
-
-const mobileObjects: SceneObject[] = [
-  {
-    id: 'card-primary',
-    kind: 'card',
-    top: '52%',
-    left: '8%',
-    rotate: 1,
-    scale: 1,
-    lane: 'context',
-    size: 'lg',
-    variant: 'primary',
-    cardIndex: 0,
-    group: 'center',
-    zIndex: 22,
-  },
-  {
-    id: 'chip-1',
-    kind: 'chip',
-    top: '16%',
-    left: '10%',
-    rotate: -2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: 'calm 😌 is a performance feature 😙😝',
-    group: 'left',
-    zIndex: 14,
-    treatment: 'solid',
-  },
-  {
-    id: 'chip-2',
-    kind: 'chip',
-    top: '76%',
-    left: '12%',
-    rotate: 2,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'secondary',
-    label: 'boring code 🥱, interesting results 💅✨',
-    group: 'left',
-    zIndex: 13,
-    treatment: 'outline',
-  },
-  {
-    id: 'chip-3',
-    kind: 'chip',
-    top: '36%',
-    left: '14%',
-    rotate: -3,
-    scale: 1,
-    lane: 'ambient',
-    size: 'md',
-    variant: 'primary',
-    label: '👀 yes, i ✨ obsessed ✨ over this 😭😭',
-    group: 'left',
-    zIndex: 12,
-    treatment: 'easter-egg',
-  },
-]
-
-const layoutObjects: Record<LayoutPreset, SceneObject[]> = {
-  desktop: desktopObjects,
-  tablet: tabletObjects,
-  mobile: mobileObjects,
-}
-
-const overlayLinks = [
-  { href: '/projects', label: 'Projects' },
-  { href: '/products', label: 'Products' },
-  { href: '/about', label: 'About' },
-]
+const HomeCanvasMenuOverlay = dynamic(
+  () =>
+    import('./HomeCanvasMenuOverlay').then(
+      (mod) => mod.HomeCanvasMenuOverlay
+    ),
+  { ssr: false }
+)
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max)
+
+type CanvasMode = 'default' | 'projects' | 'products' | 'contact'
+
+const avatarSizes =
+  '(min-width: 1024px) 96px, (min-width: 640px) 80px, 72px'
+const remoteImageLoader = ({ src }: { src: string }) => src
 
 export function HomeCanvas({
   projects,
@@ -355,13 +42,11 @@ export function HomeCanvas({
   const canvasRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<LayoutPreset>('desktop')
   const [reduceMotion, setReduceMotion] = useState(false)
-  const [mode, setMode] = useState<CanvasMode>('default')
+  const [mode] = useState<CanvasMode>('default')
   const [menuOpen, setMenuOpen] = useState(false)
-  const [showPreferences, setShowPreferences] = useState(false)
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const [hasAvatar, setHasAvatar] = useState(true)
   const menuButtonRef = useRef<HTMLButtonElement | null>(null)
-  const overlayRef = useRef<HTMLDivElement | null>(null)
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
   const contactHref = whatsappNumber
@@ -470,67 +155,6 @@ export function HomeCanvas({
     }
   }, [reduceMotion])
 
-  useEffect(() => {
-    if (!menuOpen) return
-
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    const focusFirst = () => {
-      const overlay = overlayRef.current
-      if (!overlay) return
-      const focusable = overlay.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
-      focusable[0]?.focus()
-    }
-
-    focusFirst()
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        setMenuOpen(false)
-        return
-      }
-
-      if (event.key !== 'Tab') return
-
-      const overlay = overlayRef.current
-      if (!overlay) return
-
-      const focusable = Array.from(
-        overlay.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )
-      )
-
-      if (focusable.length === 0) return
-
-      const first = focusable[0]
-      const last = focusable[focusable.length - 1]
-      const isShift = event.shiftKey
-
-      if (!isShift && document.activeElement === last) {
-        event.preventDefault()
-        first.focus()
-      }
-
-      if (isShift && document.activeElement === first) {
-        event.preventDefault()
-        last.focus()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = previousOverflow
-      document.removeEventListener('keydown', handleKeyDown)
-      menuButtonRef.current?.focus()
-    }
-  }, [menuOpen])
-
   const projectCards = useMemo<CanvasCard[]>(
     () =>
       projects.slice(0, 3).map((project) => ({
@@ -576,22 +200,7 @@ export function HomeCanvas({
   const showContactPanel = mode === 'contact'
 
   const objects = layoutObjects[layout]
-  const avatarSrc = normalizePublicPath(avatarUrl) || null
-
-  const handleModeLink = (event: React.MouseEvent<HTMLAnchorElement>, nextMode: CanvasMode) => {
-    if (
-      event.defaultPrevented ||
-      event.metaKey ||
-      event.ctrlKey ||
-      event.shiftKey ||
-      event.altKey
-    ) {
-      return
-    }
-
-    event.preventDefault()
-    setMode(nextMode)
-  }
+  const avatarSrc = normalizePublicPath(avatarUrl)
 
   return (
     <div ref={trackRef} className="relative min-h-[360vh]">
@@ -609,125 +218,28 @@ export function HomeCanvas({
           <div className="absolute right-[18%] top-[18%] h-40 w-40 rounded-full bg-base-100/5 blur-[90px]" />
         </div>
 
-        <div className="absolute inset-0">
-          {objects.map((object, index) => {
-            const laneBase = object.lane === 'anchor' ? 4 : object.lane === 'ambient' ? 10 : 16
-            const driftX = (index % 2 === 0 ? 1 : -1) * (laneBase + index * 2)
-            const driftY = (index % 3 - 1) * (laneBase + 4)
-            const parallax = object.lane === 'anchor' ? 4 : object.lane === 'ambient' ? 7 : 12
-            const sizeClass =
-              object.kind === 'card'
-                ? {
-                    sm: 'w-[240px] sm:w-[260px]',
-                    md: 'w-[280px] sm:w-[300px]',
-                    lg: 'w-[min(22rem,calc(100vw-3rem))] sm:w-[320px]',
-                  }[object.size]
-                : {
-                    sm: 'px-3 py-2 text-[0.6rem] tracking-[0.25em] leading-relaxed',
-                    md: 'px-4 py-2.5 text-[0.7rem] tracking-[0.15em] leading-relaxed',
-                    lg: 'px-5 py-3 text-[0.75rem] tracking-[0.2em] leading-relaxed',
-                  }[object.size]
-
-            const isCard = object.kind === 'card'
-            const cardData = isCard
-              ? cardsForMode[object.cardIndex ?? 0] ?? cardsForMode[0]
-              : null
-            const isHovered = isCard && hoveredCard === cardData?.id
-            const dimmedByHover = hoveredCard && !isHovered && object.kind !== 'card'
-            const dimmedCard =
-              hoveredCard && isCard && hoveredCard !== cardData?.id
-            const style = {
-              top: object.top,
-              left: object.left,
-              zIndex: object.zIndex ?? 10,
-              ['--rotate' as string]: `${object.rotate}deg`,
-              ['--scale' as string]: object.scale.toString(),
-              ['--hover-scale' as string]: isHovered ? '1.02' : '1',
-              ['--drift-x' as string]: driftX.toString(),
-              ['--drift-y' as string]: driftY.toString(),
-              ['--parallax' as string]: parallax.toString(),
-              ['--opacity' as string]: object.kind === 'card' ? '0.96' : '0.9',
-            } as React.CSSProperties
-
-            return (
-              <div
-                key={object.id}
-                className={`canvas-item ${sizeClass} ${dimmedByHover || dimmedCard ? 'is-dimmed' : ''} ${
-                  isHovered ? 'is-hovered' : ''
-                }`}
-                data-kind={object.kind}
-                data-variant={object.variant}
-                style={style}
-              >
-                {object.kind === 'card' && cardData ? (
-                  <Link
-                    href={cardData.href}
-                    className="pointer-events-auto block rounded-3xl border border-base-300 bg-base-200/50 p-4 shadow-xl shadow-base-300/30 backdrop-blur-xl transition focus:outline-none focus:ring-2 focus:ring-primary/60"
-                    onMouseEnter={() => setHoveredCard(cardData.id)}
-                    onMouseLeave={() => setHoveredCard(null)}
-                    onFocus={() => setHoveredCard(cardData.id)}
-                    onBlur={() => setHoveredCard(null)}
-                  >
-                    <div
-                      className="h-36 w-full rounded-2xl bg-base-100/5 bg-cover bg-center"
-                      style={
-                        cardData.imageUrl
-                          ? { backgroundImage: `url('${cardData.imageUrl}')` }
-                          : undefined
-                      }
-                    >
-                      {!cardData.imageUrl && (
-                        <div className="flex h-full items-center justify-center text-sm font-semibold text-base-content/70">
-                          {cardData.title.slice(0, 1)}
-                        </div>
-                      )}
-                    </div>
-                    <div className="mt-3 space-y-2 text-base-content">
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="text-sm font-semibold uppercase tracking-wide">
-                          {cardData.title}
-                        </h3>
-                        {cardData.meta && (
-                          <span className="text-[0.6rem] uppercase tracking-[0.25em] text-base-content/60">
-                            {cardData.meta}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-base-content/70">
-                        {truncate(cardData.description, 90)}
-                      </p>
-                      <div className="text-[0.6rem] uppercase tracking-[0.3em] text-base-content/70">
-                        open →
-                      </div>
-                    </div>
-                  </Link>
-                ) : (
-                  <StickerChip
-                    label={object.label || ''}
-                    treatment={
-                      object.treatment === 'easter-egg'
-                        ? 'egg'
-                        : (object.treatment as 'solid' | 'outline' | 'glass' | undefined)
-                    }
-                    tone={object.variant as 'primary' | 'secondary'}
-                    size={object.size === 'lg' ? 'md' : 'sm'}
-                  />
-                )}
-              </div>
-            )
-          })}
-        </div>
+        <HomeCanvasObjects
+          objects={objects}
+          cards={cardsForMode}
+          hoveredCard={hoveredCard}
+          setHoveredCard={setHoveredCard}
+        />
 
         <div className="relative z-20 mx-auto flex h-full w-full max-w-6xl items-center px-6 sm:px-10">
           <div className="canvas-anchor max-w-xl space-y-6 text-base-content">
             <div className="flex items-center gap-4">
               <div className="relative flex size-18 sm:size-20 lg:size-24 items-center justify-center rounded-full border border-base-300 bg-base-100/10 text-lg font-semibold">
                 {avatarSrc && hasAvatar ? (
-                  <img
+                  <Image
                     src={avatarSrc}
                     alt="Kashi avatar"
+                    width={96}
+                    height={96}
+                    sizes={avatarSizes}
                     className="h-full w-full rounded-full object-cover"
                     onError={() => setHasAvatar(false)}
+                    unoptimized={!isLocalImageUrl(avatarSrc)}
+                    loader={isLocalImageUrl(avatarSrc) ? undefined : remoteImageLoader}
                   />
                 ) : (
                   <span className="text-base-content">K</span>
@@ -824,10 +336,7 @@ export function HomeCanvas({
         <button
           ref={menuButtonRef}
           type="button"
-          onClick={() => {
-            setMenuOpen(true)
-            setShowPreferences(false)
-          }}
+          onClick={() => setMenuOpen(true)}
           className="fixed bottom-6 right-6 z-[60] flex items-center gap-2 rounded-full border border-base-300 bg-base-200/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-base-content backdrop-blur-md transition"
           aria-haspopup="dialog"
           aria-expanded={menuOpen}
@@ -838,77 +347,11 @@ export function HomeCanvas({
         </button>
 
         {menuOpen && (
-          <div
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-base-200/70 backdrop-blur-lg"
-            role="dialog"
-            aria-modal="true"
-            id="cinema-menu"
-            onClick={() => setMenuOpen(false)}
-          >
-            <div
-              ref={overlayRef}
-              className="relative w-full max-w-xl rounded-3xl border border-base-300 bg-base-200/70 px-8 py-10 text-base-content shadow-2xl"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={() => setMenuOpen(false)}
-                className="absolute right-5 top-5 rounded-full border border-base-300 p-2 text-base-content hover:bg-base-100/10"
-                aria-label="Close menu"
-              >
-                <X size={16} />
-              </button>
-
-              <nav className="space-y-6 text-center">
-                {overlayLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                {contactHref.startsWith('http') ? (
-                  <a
-                    href={contactHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
-                  >
-                    Contact
-                  </a>
-                ) : (
-                  <Link
-                    href={contactHref}
-                    className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    Contact
-                  </Link>
-                )}
-                <button
-                  type="button"
-                  className="block w-full text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
-                  onClick={() => setShowPreferences((prev) => !prev)}
-                >
-                  Preferences
-                </button>
-              </nav>
-
-              {showPreferences && (
-                <div className="mt-8 rounded-2xl border border-base-300 bg-base-100/5 p-5 text-left">
-                  <p className="text-xs uppercase tracking-[0.3em] text-base-content/60">
-                    Preferences
-                  </p>
-                  <div className="mt-4">
-                    <PreferencesPanel />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          <HomeCanvasMenuOverlay
+            contactHref={contactHref}
+            onClose={() => setMenuOpen(false)}
+            menuButtonRef={menuButtonRef}
+          />
         )}
 
         <style jsx>{`
