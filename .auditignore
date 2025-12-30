@@ -1,0 +1,6 @@
+# Email templates need static colors for email clients
+lib/email.ts
+lib/email/order-emails.ts
+
+# Icon generation uses specific colors
+app/icon.tsx
