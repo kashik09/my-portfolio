@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input'
 import { Spinner } from '@/components/ui/Spinner'
 import { useToast } from '@/components/ui/Toast'
 import Image from 'next/image'
+import { isLocalImageUrl, normalizePublicPath } from '@/lib/utils'
 
 interface ScreenshotCaptureProps {
   projectUrl?: string
@@ -154,12 +155,27 @@ export function ScreenshotCapture({
 
           <div className="space-y-4">
             <div className="relative aspect-video w-full overflow-hidden rounded-lg border border-border bg-muted">
-              <Image
-                src={capturedImage.url}
-                alt="Captured screenshot"
-                fill
-                className="object-contain"
-              />
+              {(() => {
+                const imageSrc = normalizePublicPath(capturedImage.url)
+                if (!imageSrc) return null
+
+                return isLocalImageUrl(imageSrc) ? (
+                  <Image
+                    src={imageSrc}
+                    alt="Captured screenshot"
+                    fill
+                    sizes="(min-width: 1024px) 640px, 100vw"
+                    className="object-contain"
+                  />
+                ) : (
+                  <img
+                    src={imageSrc}
+                    alt="Captured screenshot"
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
+                )
+              })()}
             </div>
 
             <div className="space-y-2 rounded-lg bg-muted p-4 text-sm">

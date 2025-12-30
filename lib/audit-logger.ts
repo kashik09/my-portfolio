@@ -22,7 +22,7 @@ export async function createAuditLog(data: AuditLogData) {
         action: data.action,
         resource: data.resource,
         resourceId: data.resourceId,
-        details: data.details || null,
+        details: data.details || undefined,
         ipHash: data.ipHash,
         userAgent: data.userAgent,
       },

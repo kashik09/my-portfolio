@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client'
 import { prisma } from '../lib/prisma'
 
 async function main() {
@@ -58,10 +59,10 @@ async function main() {
       description: 'A fully-featured portfolio template built with Next.js 14, featuring JSON-based CMS, admin dashboard, theme switching, and automated screenshot capture. Perfect for developers who want a professional portfolio without the hassle.',
       category: 'TEMPLATE',
       tags: ['nextjs', 'portfolio', 'cms', 'typescript', 'tailwind'],
-      price: "49.00",
+      price: new Prisma.Decimal("49.00"),
       currency: 'USD',
-      usdPrice: "49.00",
-      ugxPrice: "180000.00",
+      usdPrice: new Prisma.Decimal("49.00"),
+      ugxPrice: new Prisma.Decimal("180000.00"),
       fileUrl: '/downloads/products/nextjs-portfolio-starter.zip',
       fileSize: 25000000, // 25MB
       fileType: 'zip',
@@ -95,10 +96,10 @@ async function main() {
       description: 'Complete e-commerce solution with product management, cart system, checkout flow, and payment integration. Includes multi-currency support and license-based products.',
       category: 'TEMPLATE',
       tags: ['ecommerce', 'nextjs', 'stripe', 'shop', 'cart'],
-      price: "79.00",
+      price: new Prisma.Decimal("79.00"),
       currency: 'USD',
-      usdPrice: "79.00",
-      ugxPrice: "290000.00",
+      usdPrice: new Prisma.Decimal("79.00"),
+      ugxPrice: new Prisma.Decimal("290000.00"),
       fileUrl: '/downloads/products/ecommerce-starter-kit.zip',
       fileSize: 35000000, // 35MB
       fileType: 'zip',
@@ -129,10 +130,10 @@ async function main() {
       description: 'Drop-in authentication system with NextAuth.js, role-based access control, and user management. Includes social login, email/password auth, and protected routes.',
       category: 'CODE_SNIPPET',
       tags: ['auth', 'nextauth', 'security', 'rbac', 'typescript'],
-      price: "39.00",
+      price: new Prisma.Decimal("39.00"),
       currency: 'USD',
-      usdPrice: "39.00",
-      ugxPrice: "140000.00",
+      usdPrice: new Prisma.Decimal("39.00"),
+      ugxPrice: new Prisma.Decimal("140000.00"),
       fileUrl: '/downloads/products/auth-boilerplate.zip',
       fileSize: 5000000, // 5MB
       fileType: 'zip',
@@ -160,10 +161,10 @@ async function main() {
       description: 'File-based content management system with API routes, content editors, and version control. No database required - perfect for JAMstack projects.',
       category: 'CODE_SNIPPET',
       tags: ['cms', 'json', 'jamstack', 'content', 'typescript'],
-      price: "29.00",
+      price: new Prisma.Decimal("29.00"),
       currency: 'USD',
-      usdPrice: "29.00",
-      ugxPrice: "105000.00",
+      usdPrice: new Prisma.Decimal("29.00"),
+      ugxPrice: new Prisma.Decimal("105000.00"),
       fileUrl: '/downloads/products/json-cms-kit.zip',
       fileSize: 3000000, // 3MB
       fileType: 'zip',
@@ -191,10 +192,10 @@ async function main() {
       description: 'A comprehensive collection of 50+ production-ready UI components built with Tailwind CSS. Includes buttons, forms, modals, cards, and more.',
       category: 'UI_KIT',
       tags: ['tailwind', 'ui', 'components', 'react', 'typescript'],
-      price: "35.00",
+      price: new Prisma.Decimal("35.00"),
       currency: 'USD',
-      usdPrice: "35.00",
-      ugxPrice: "130000.00",
+      usdPrice: new Prisma.Decimal("35.00"),
+      ugxPrice: new Prisma.Decimal("130000.00"),
       fileUrl: '/downloads/products/tailwind-ui-library.zip',
       fileSize: 8000000, // 8MB
       fileType: 'zip',
