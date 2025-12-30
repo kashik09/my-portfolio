@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
@@ -20,12 +20,7 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  // Fetch projects from API
-  useEffect(() => {
-    fetchProjects()
-  }, [filter, searchQuery])
-
-  const fetchProjects = async () => {
+  const fetchProjects = React.useCallback(async () => {
     setLoading(true)
     setError('')
 
@@ -70,7 +65,12 @@ export default function ProjectsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filter, searchQuery, trackEvent])
+
+  // Fetch projects from API
+  useEffect(() => {
+    fetchProjects()
+  }, [fetchProjects])
 
   const handleFilterChange = (newFilter: 'ALL' | 'PERSONAL' | 'CLASS') => {
     setFilter(newFilter)

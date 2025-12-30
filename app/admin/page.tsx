@@ -50,19 +50,40 @@ export default function AdminDashboardPage() {
   }, [])
 
   async function fetchStats() {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
     try {
       setIsLoading(true)
-      const response = await fetch('/api/admin/dashboard/stats')
+      setError(null)
+
+      const response = await fetch('/api/admin/dashboard/stats', {
+        signal: controller.signal
+      })
+
+      clearTimeout(timeout)
+
       const data = await response.json()
 
       if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to fetch stats')
+        const errorMsg = data.error || 'Failed to fetch stats'
+        if (response.status === 403) {
+          throw new Error(`Access denied. Log out and log back in to refresh your session.`)
+        }
+        throw new Error(errorMsg)
       }
 
       setStats(data.data)
+      setError(null)
     } catch (err: any) {
+      clearTimeout(timeout)
       console.error('Error fetching dashboard stats:', err)
-      setError(err.message)
+
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please check your connection and try again.')
+      } else {
+        setError(err.message || 'Failed to load dashboard')
+      }
     } finally {
       setIsLoading(false)
     }
