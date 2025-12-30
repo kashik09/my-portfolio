@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // PATCH /api/admin/requests/[id] - Update request status (accept/reject)
 export async function PATCH(
@@ -79,8 +81,34 @@ export async function DELETE(
       )
     }
 
+    const requestRecord = await prisma.projectRequest.findUnique({
+      where: { id: params.id }
+    })
+
+    if (!requestRecord) {
+      return NextResponse.json(
+        { success: false, error: 'Request not found' },
+        { status: 404 }
+      )
+    }
+
     await prisma.projectRequest.delete({
       where: { id: params.id }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.ACCOUNT_LOCKED,
+      resource: 'ProjectRequest',
+      resourceId: requestRecord.id,
+      details: {
+        event: 'REQUEST_DELETED',
+        projectType: requestRecord.projectType,
+        status: requestRecord.status,
+        userId: requestRecord.userId,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

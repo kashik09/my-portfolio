@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/admin/content/[slug] - Get specific content page
 export async function GET(
@@ -61,6 +63,35 @@ export async function PATCH(
     const body = await request.json()
     const { title, content, published } = body
 
+    const existingPage = await prisma.contentPage.findUnique({
+      where: { slug: params.slug }
+    })
+
+    if (!existingPage) {
+      return NextResponse.json(
+        { success: false, error: 'Content page not found' },
+        { status: 404 }
+      )
+    }
+
+    const changes: Record<string, { before: any; after: any }> = {}
+
+    if (title && title !== existingPage.title) {
+      changes.title = { before: existingPage.title, after: title }
+    }
+
+    if (content) {
+      const beforeLength = existingPage.content?.length || 0
+      const afterLength = content?.length || 0
+      if (beforeLength !== afterLength) {
+        changes.contentLength = { before: beforeLength, after: afterLength }
+      }
+    }
+
+    if (published !== undefined && published !== existingPage.published) {
+      changes.published = { before: existingPage.published, after: published }
+    }
+
     const page = await prisma.contentPage.update({
       where: { slug: params.slug },
       data: {
@@ -69,6 +100,23 @@ export async function PATCH(
         ...(published !== undefined && { published })
       }
     })
+
+    if (Object.keys(changes).length > 0) {
+      await createAuditLog({
+        userId: session.user.id,
+        action: AuditAction.SETTINGS_CHANGED,
+        resource: 'ContentPage',
+        resourceId: page.id,
+        details: {
+          event: 'CONTENT_UPDATED',
+          slug: page.slug,
+          type: page.type,
+          changes,
+        },
+        ipHash: getIpHash(request),
+        userAgent: getUserAgent(request),
+      })
+    }
 
     return NextResponse.json({
       success: true,
@@ -98,8 +146,36 @@ export async function DELETE(
       )
     }
 
+    const page = await prisma.contentPage.findUnique({
+      where: { slug: params.slug }
+    })
+
+    if (!page) {
+      return NextResponse.json(
+        { success: false, error: 'Content page not found' },
+        { status: 404 }
+      )
+    }
+
     await prisma.contentPage.delete({
       where: { slug: params.slug }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.ACCOUNT_LOCKED,
+      resource: 'ContentPage',
+      resourceId: page.id,
+      details: {
+        event: 'CONTENT_DELETED',
+        slug: page.slug,
+        title: page.title,
+        type: page.type,
+        published: page.published,
+        contentLength: page.content?.length || 0,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

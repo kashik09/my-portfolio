@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/admin/content - List all content pages
 export async function GET(request: NextRequest) {
@@ -86,6 +88,23 @@ export async function POST(request: NextRequest) {
         content,
         published: published ?? true
       }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.PROJECT_CREATED,
+      resource: 'ContentPage',
+      resourceId: page.id,
+      details: {
+        event: 'CONTENT_CREATED',
+        slug: page.slug,
+        title: page.title,
+        type: page.type,
+        published: page.published,
+        contentLength: page.content?.length || 0,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

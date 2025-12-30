@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/admin/users/[id] - Get single user
 export async function GET(
@@ -83,6 +85,20 @@ export async function PATCH(
     const body = await request.json()
     const { name, email, role, accountStatus } = body
 
+    const existingUser = role !== undefined
+      ? await prisma.user.findUnique({
+          where: { id: params.id },
+          select: { id: true, role: true, email: true, name: true },
+        })
+      : null
+
+    if (role !== undefined && !existingUser) {
+      return NextResponse.json(
+        { success: false, error: 'User not found' },
+        { status: 404 }
+      )
+    }
+
     const updateData: any = {}
 
     if (name !== undefined) updateData.name = name
@@ -108,6 +124,28 @@ export async function PATCH(
         createdAt: true
       }
     })
+
+    if (role !== undefined && existingUser && existingUser.role !== user.role) {
+      await createAuditLog({
+        userId: session.user.id,
+        action: AuditAction.SETTINGS_CHANGED,
+        resource: 'User',
+        resourceId: user.id,
+        details: {
+          event: 'USER_ROLE_CHANGED',
+          changes: {
+            role: { before: existingUser.role, after: user.role },
+          },
+          target: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          },
+        },
+        ipHash: getIpHash(request),
+        userAgent: getUserAgent(request),
+      })
+    }
 
     return NextResponse.json({
       success: true,
@@ -160,6 +198,24 @@ export async function DELETE(
     // Delete user (cascade will handle related records)
     await prisma.user.delete({
       where: { id: params.id }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.ACCOUNT_LOCKED,
+      resource: 'User',
+      resourceId: user.id,
+      details: {
+        event: 'USER_DELETED',
+        target: {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        },
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

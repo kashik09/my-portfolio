@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/admin/digital-products - Fetch all digital products
 export async function GET(request: NextRequest) {
@@ -167,6 +169,24 @@ export async function POST(request: NextRequest) {
         featured: featured ?? false,
         publishedAt: published ? new Date() : null
       }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.PROJECT_CREATED,
+      resource: 'DigitalProduct',
+      resourceId: product.id,
+      details: {
+        event: 'CONTENT_CREATED',
+        name: product.name,
+        slug: product.slug,
+        category: product.category,
+        price: product.price?.toString?.() || product.price,
+        published: product.published,
+        featured: product.featured,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

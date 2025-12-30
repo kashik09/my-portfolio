@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth-options'
 import { prisma } from '@/lib/prisma'
 import { normalizePublicPath } from '@/lib/utils'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/projects - Fetch all projects with optional filtering
 export async function GET(request: NextRequest) {
@@ -155,6 +157,23 @@ export async function POST(request: NextRequest) {
         published: body.published || false,
         publishedAt: body.published ? new Date() : null,
       },
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.PROJECT_CREATED,
+      resource: 'Project',
+      resourceId: project.id,
+      details: {
+        event: 'CONTENT_CREATED',
+        slug: project.slug,
+        title: project.title,
+        category: project.category,
+        featured: project.featured,
+        published: project.published,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({

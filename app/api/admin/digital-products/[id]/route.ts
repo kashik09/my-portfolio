@@ -3,6 +3,8 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { AuditAction } from '@prisma/client'
+import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
 
 // GET /api/admin/digital-products/[id] - Get single product
 export async function GET(
@@ -68,6 +70,17 @@ export async function PATCH(
     }
 
     const body = await request.json()
+    const existingProduct = await prisma.digitalProduct.findUnique({
+      where: { id: params.id }
+    })
+
+    if (!existingProduct) {
+      return NextResponse.json(
+        { success: false, error: 'Product not found' },
+        { status: 404 }
+      )
+    }
+
     const updateData: any = {}
 
     // Handle all possible update fields
@@ -95,11 +108,7 @@ export async function PATCH(
       updateData.published = body.published
       // Set publishedAt timestamp when first published
       if (body.published) {
-        const currentProduct = await prisma.digitalProduct.findUnique({
-          where: { id: params.id },
-          select: { publishedAt: true }
-        })
-        if (!currentProduct?.publishedAt) {
+        if (!existingProduct.publishedAt) {
           updateData.publishedAt = new Date()
         }
       }
@@ -109,6 +118,46 @@ export async function PATCH(
       where: { id: params.id },
       data: updateData
     })
+
+    const summarizeValue = (value: any) => {
+      if (value === null || value === undefined) return value
+      if (Array.isArray(value)) return { count: value.length }
+      if (value instanceof Date) return value.toISOString()
+      if (typeof value === 'string') {
+        if (value.length > 200) return { length: value.length }
+        return value
+      }
+      if (typeof value === 'object') return { keys: Object.keys(value) }
+      return value
+    }
+
+    const changes: Record<string, { before: any; after: any }> = {}
+    const recordChange = (key: string, nextValue: any) => {
+      if (nextValue === undefined) return
+      const before = summarizeValue((existingProduct as any)[key])
+      const after = summarizeValue(nextValue)
+      if (JSON.stringify(before) === JSON.stringify(after)) return
+      changes[key] = { before, after }
+    }
+
+    Object.keys(body || {}).forEach((key) => recordChange(key, body[key]))
+
+    if (Object.keys(changes).length > 0) {
+      await createAuditLog({
+        userId: session.user.id,
+        action: AuditAction.SETTINGS_CHANGED,
+        resource: 'DigitalProduct',
+        resourceId: product.id,
+        details: {
+          event: 'CONTENT_UPDATED',
+          name: product.name,
+          slug: product.slug,
+          changes,
+        },
+        ipHash: getIpHash(request),
+        userAgent: getUserAgent(request),
+      })
+    }
 
     return NextResponse.json({
       success: true,
@@ -168,6 +217,24 @@ export async function DELETE(
     // Delete product (cascade will handle related records)
     await prisma.digitalProduct.delete({
       where: { id: params.id }
+    })
+
+    await createAuditLog({
+      userId: session.user.id,
+      action: AuditAction.ACCOUNT_LOCKED,
+      resource: 'DigitalProduct',
+      resourceId: product.id,
+      details: {
+        event: 'CONTENT_DELETED',
+        name: product.name,
+        slug: product.slug,
+        category: product.category,
+        price: product.price?.toString?.() || product.price,
+        published: product.published,
+        featured: product.featured,
+      },
+      ipHash: getIpHash(request),
+      userAgent: getUserAgent(request),
     })
 
     return NextResponse.json({
