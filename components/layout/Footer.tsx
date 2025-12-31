@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { PreferencesPanel } from '@/components/features/preferences/PreferencesPanel'
+import { Code2 } from 'lucide-react'
 
 export default function Footer({ pathname }: { pathname?: string }) {
   const currentYear = new Date().getFullYear()
@@ -17,7 +18,7 @@ export default function Footer({ pathname }: { pathname?: string }) {
     }`
 
   return (
-    <footer className="relative surface-app border-t border-app mt-auto overflow-hidden">
+    <footer className="footer-texture relative surface-app border-t border-app mt-auto overflow-hidden">
       {/* Animated Background Shapes */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-20 -left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" 
@@ -33,46 +34,11 @@ export default function Footer({ pathname }: { pathname?: string }) {
           {/* Brand */}
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-3 group">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="text-primary transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 3L4 7L8 11"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="animate-pulse"
-                />
-                <path
-                  d="M16 3L20 7L16 11"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="animate-pulse"
-                  style={{ animationDelay: '0.2s' }}
-                />
-                <path
-                  d="M12 21L12 3"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
+                <Code2 size={28} className="accent" />
               <h3 className="text-xl font-bold accent bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                kashi
+                kashi kweyu
               </h3>
             </div>
-            <p className="text-muted text-sm flex items-center gap-2">
-              digital builder 
-              <span className="inline-block animate-bounce">✨</span>
-            </p>
           </div>
 
           {/* Quick Links */}
