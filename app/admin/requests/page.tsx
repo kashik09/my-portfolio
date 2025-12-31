@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Search, Eye, Trash2, Mail, Clock, CheckCircle, XCircle,
   Phone, Building2, Check, X, MessageSquare
@@ -56,10 +56,7 @@ export default function AdminRequestsPage() {
   })
   const [adminNotes, setAdminNotes] = useState('')
   const { showToast } = useToast()
-  useEffect(() => {
-    fetchRequests()
-  }, [searchQuery, filter])
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       const params = new URLSearchParams()
       if (searchQuery) params.append('search', searchQuery)
@@ -78,7 +75,10 @@ export default function AdminRequestsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filter, searchQuery, showToast])
+  useEffect(() => {
+    fetchRequests()
+  }, [fetchRequests])
   const handleAccept = async () => {
     if (!actionModal.requestId) return
     try {

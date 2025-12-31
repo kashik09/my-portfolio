@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Megaphone, Save } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -27,10 +27,7 @@ export default function AdsAdminPage() {
       blog_footer: false
     }
   })
-  useEffect(() => {
-    loadAdsSettings()
-  }, [])
-  const loadAdsSettings = async () => {
+  const loadAdsSettings = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch('/api/admin/site-settings')
@@ -54,7 +51,10 @@ export default function AdsAdminPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast])
+  useEffect(() => {
+    loadAdsSettings()
+  }, [loadAdsSettings])
   const handleSave = async () => {
     try {
       setSaving(true)

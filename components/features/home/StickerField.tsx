@@ -132,19 +132,21 @@ export function StickerField({ projects, notes, isVisible, reduceMotion }: Stick
   }, [reduceMotion])
 
   const stickerItems = useMemo<StickerItem[]>(() => {
-    let projectIndex = 0
-    let noteIndex = 0
-
     return stickerSlots.map((slot, index) => {
+      const projectIndex = stickerSlots
+        .slice(0, index)
+        .filter((item) => item.kind === 'project').length
+      const noteIndex = stickerSlots
+        .slice(0, index)
+        .filter((item) => item.kind === 'note').length
+
       if (slot.kind === 'project' && projects[projectIndex]) {
         const project = projects[projectIndex]
         const projectSlot = slot as StickerSlot & { kind: 'project' }
-        projectIndex += 1
         return buildProjectItem(projectSlot, project, index)
       }
 
-      const note = notes[noteIndex % notes.length]
-      noteIndex += 1
+      const note = notes.length ? notes[noteIndex % notes.length] : ''
       return buildNoteItem(
         { ...slot, kind: 'note' },
         note,

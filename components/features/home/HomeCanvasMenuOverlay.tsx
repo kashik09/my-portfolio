@@ -36,6 +36,7 @@ export function HomeCanvasMenuOverlay({
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
+    const menuButton = menuButtonRef.current
     document.body.style.overflow = 'hidden'
 
     const focusFirst = () => {
@@ -89,7 +90,7 @@ export function HomeCanvasMenuOverlay({
     return () => {
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', handleKeyDown)
-      menuButtonRef.current?.focus()
+      menuButton?.focus()
     }
   }, [menuButtonRef, onClose])
 

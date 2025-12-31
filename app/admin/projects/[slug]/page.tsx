@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ArrowLeft, ExternalLink, Github, Edit, Trash2, Calendar, Eye, Tag, Code } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -30,10 +30,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
   const [project, setProject] = useState<Project | null>(null)
   const [loading, setLoading] = useState(true)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  useEffect(() => {
-    fetchProject()
-  }, [params.slug])
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/projects/${params.slug}`)
       if (!response.ok) throw new Error('Failed to fetch project')
@@ -45,7 +42,10 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.slug, showToast])
+  useEffect(() => {
+    fetchProject()
+  }, [fetchProject])
   const handleDelete = async () => {
     if (!project) return
     try {

@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { Activity, Filter, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Filter, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Spinner } from '@/components/ui/Spinner'
 
 type AuditLog = {
@@ -40,11 +40,7 @@ export default function AuditLogPage() {
     dateTo: searchParams.get('dateTo') || '',
   })
 
-  useEffect(() => {
-    fetchLogs()
-  }, [searchParams])
-
-  async function fetchLogs() {
+  const fetchLogs = useCallback(async () => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams()
@@ -53,10 +49,15 @@ export default function AuditLogPage() {
       params.set('page', page)
       params.set('limit', '50')
 
-      if (filters.action) params.set('action', filters.action)
-      if (filters.resource) params.set('resource', filters.resource)
-      if (filters.dateFrom) params.set('dateFrom', filters.dateFrom)
-      if (filters.dateTo) params.set('dateTo', filters.dateTo)
+      const action = searchParams.get('action') || ''
+      const resource = searchParams.get('resource') || ''
+      const dateFrom = searchParams.get('dateFrom') || ''
+      const dateTo = searchParams.get('dateTo') || ''
+
+      if (action) params.set('action', action)
+      if (resource) params.set('resource', resource)
+      if (dateFrom) params.set('dateFrom', dateFrom)
+      if (dateTo) params.set('dateTo', dateTo)
 
       const response = await fetch(`/api/admin/audit?${params.toString()}`)
       const data = await response.json()
@@ -70,7 +71,11 @@ export default function AuditLogPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [searchParams])
+
+  useEffect(() => {
+    fetchLogs()
+  }, [fetchLogs])
 
   function applyFilters() {
     const params = new URLSearchParams()

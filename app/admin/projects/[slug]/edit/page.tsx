@@ -1,26 +1,13 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
-import { ArrowLeft, Upload, Plus, X, FolderOpen, Camera } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
+import { ArrowLeft, Upload, Plus, X, Camera } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 import { ScreenshotCapture } from '@/components/features/admin/ScreenshotCapture'
-interface Project {
-  id: number
-  title: string
-  slug: string
-  description: string
-  category: string
-  githubUrl: string
-  liveUrl: string
-  tags: string[]
-  techStack: string[]
-  featured: boolean
-  published: boolean
-}
 export default function EditProjectPage({ params }: { params: { slug: string } }) {
   const router = useRouter()
   const { showToast } = useToast()
@@ -54,10 +41,7 @@ export default function EditProjectPage({ params }: { params: { slug: string } }
     'Swift', 'PHP', 'Python', 'Git', 'Vercel', 'Supabase',
     'NextAuth', 'Lucide React'
   ]
-  useEffect(() => {
-    fetchProject()
-  }, [params.slug])
-  const fetchProject = async () => {
+  const fetchProject = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch(`/api/admin/projects/${params.slug}`)
@@ -90,7 +74,10 @@ export default function EditProjectPage({ params }: { params: { slug: string } }
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.slug, router, showToast])
+  useEffect(() => {
+    fetchProject()
+  }, [fetchProject])
   // Auto-generate slug from title
   const generateSlug = (title: string) => {
     return title
@@ -100,17 +87,6 @@ export default function EditProjectPage({ params }: { params: { slug: string } }
   }
   const handleTitleChange = (title: string) => {
     setFormData({ ...formData, title, slug: generateSlug(title) })
-  }
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-      showToast('Image uploaded successfully', 'success')
-    }
   }
   const addTag = (tag?: string) => {
     const tagToAdd = tag || tagInput.trim()

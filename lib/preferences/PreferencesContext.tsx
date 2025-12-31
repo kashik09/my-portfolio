@@ -2,7 +2,7 @@
 
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { Appearance, DEFAULT_PREFERENCES, Preferences, ThemeKey } from './types'
+import { Appearance, Preferences, ThemeKey } from './types'
 import { loadPreferences, savePreferences } from './storage'
 
 interface PreferencesContextValue {
@@ -15,18 +15,11 @@ interface PreferencesContextValue {
 const PreferencesContext = createContext<PreferencesContextValue | undefined>(undefined)
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
-  const [preferences, setPreferences] = useState<Preferences>(DEFAULT_PREFERENCES)
-  const [isHydrated, setIsHydrated] = useState(false)
+  const [preferences, setPreferences] = useState<Preferences>(loadPreferences)
 
   useEffect(() => {
-    setPreferences(loadPreferences())
-    setIsHydrated(true)
-  }, [])
-
-  useEffect(() => {
-    if (!isHydrated) return
     savePreferences(preferences)
-  }, [preferences, isHydrated])
+  }, [preferences])
 
   const value = useMemo<PreferencesContextValue>(
     () => ({

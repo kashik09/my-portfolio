@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { Save, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -23,10 +23,7 @@ export default function EditUserPage() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  useEffect(() => {
-    fetchUser()
-  }, [userId])
-  const fetchUser = async () => {
+  const fetchUser = useCallback(async () => {
     try {
       const response = await fetch(`/api/admin/users/${userId}`)
       const data = await response.json()
@@ -41,7 +38,10 @@ export default function EditUserPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast, userId])
+  useEffect(() => {
+    fetchUser()
+  }, [fetchUser])
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) return

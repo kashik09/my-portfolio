@@ -47,7 +47,7 @@ export default function LoginPage() {
 
       setError('Something went wrong. Please try again.')
       setLoading(false)
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.')
       setLoading(false)
     }
@@ -57,7 +57,7 @@ export default function LoginPage() {
     setLoading(true)
     try {
       await signIn(provider, { callbackUrl })
-    } catch (err) {
+    } catch {
       setError('Failed to sign in with ' + provider)
       setLoading(false)
     }

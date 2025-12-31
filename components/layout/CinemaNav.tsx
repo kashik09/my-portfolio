@@ -42,9 +42,18 @@ export function CinemaNav({ enabled, active }: CinemaNavProps) {
   }, [])
 
   useEffect(() => {
-    if (!enabled || !active) {
+    if (enabled && active) return
+
+    const resetId = window.setTimeout(() => {
       setIsOpen(false)
       setIsVisible(false)
+    }, 0)
+
+    return () => window.clearTimeout(resetId)
+  }, [active, enabled])
+
+  useEffect(() => {
+    if (!enabled || !active) {
       return
     }
 
@@ -82,6 +91,7 @@ export function CinemaNav({ enabled, active }: CinemaNavProps) {
 
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const buttonNode = buttonRef.current
 
     const focusFirst = () => {
       const overlay = overlayRef.current
@@ -132,7 +142,7 @@ export function CinemaNav({ enabled, active }: CinemaNavProps) {
     return () => {
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', handleKeyDown)
-      buttonRef.current?.focus()
+      buttonNode?.focus()
     }
   }, [isOpen])
 

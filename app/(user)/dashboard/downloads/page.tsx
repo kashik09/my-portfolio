@@ -1,9 +1,9 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Download, Package, Search, Filter } from 'lucide-react'
+import { Package, Search } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 interface UserDownload {
@@ -31,10 +31,7 @@ export default function DownloadsPage() {
   const [downloads, setDownloads] = useState<UserDownload[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('all')
-  useEffect(() => {
-    fetchDownloads()
-  }, [])
-  const fetchDownloads = async () => {
+  const fetchDownloads = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch('/api/me/downloads', {
@@ -54,7 +51,10 @@ export default function DownloadsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast])
+  useEffect(() => {
+    fetchDownloads()
+  }, [fetchDownloads])
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B'
     if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB'

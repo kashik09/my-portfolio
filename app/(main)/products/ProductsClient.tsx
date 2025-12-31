@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
@@ -24,15 +24,7 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
   const [currency, setCurrency] = useState('USD')
   const hasMounted = useRef(false)
 
-  useEffect(() => {
-    if (!hasMounted.current) {
-      hasMounted.current = true
-      return
-    }
-    fetchProducts()
-  }, [search, category, sort, currency])
-
-  async function fetchProducts() {
+  const fetchProducts = useCallback(async () => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams()
@@ -55,7 +47,15 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [category, currency, search, showToast, sort])
+
+  useEffect(() => {
+    if (!hasMounted.current) {
+      hasMounted.current = true
+      return
+    }
+    fetchProducts()
+  }, [category, currency, fetchProducts, search, sort])
 
   async function handleAddToCart(productId: string) {
     if (!session) {

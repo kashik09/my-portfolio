@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { cn, isLocalImageUrl, normalizePublicPath } from "@/lib/utils";
 
 function getInitials(name?: string | null, email?: string | null) {
@@ -28,19 +28,14 @@ export function UserAvatar({
   showBadgeInitials?: boolean;
 }) {
   const initials = getInitials(name, email);
-  const [imgError, setImgError] = useState(false);
+  const [errorSrc, setErrorSrc] = useState<string | null>(null);
   const resolvedImageUrl =
     imageUrl && (imageUrl.startsWith("blob:") || imageUrl.startsWith("data:"))
       ? imageUrl
       : normalizePublicPath(imageUrl) ?? "";
   const imageIsLocal = isLocalImageUrl(resolvedImageUrl);
 
-  // Reset error state when imageUrl changes
-  useEffect(() => {
-    setImgError(false);
-  }, [imageUrl]);
-
-  const showImage = Boolean(resolvedImageUrl) && !imgError;
+  const showImage = Boolean(resolvedImageUrl) && errorSrc !== resolvedImageUrl;
 
   return (
     <div
@@ -62,7 +57,7 @@ export function UserAvatar({
             sizes={`${size}px`}
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
-            onError={() => setImgError(true)}
+            onError={() => setErrorSrc(resolvedImageUrl)}
           />
         ) : (
           <img
@@ -70,7 +65,7 @@ export function UserAvatar({
             alt={name ?? "User avatar"}
             className="h-full w-full object-cover"
             referrerPolicy="no-referrer"
-            onError={() => setImgError(true)}
+            onError={() => setErrorSrc(resolvedImageUrl)}
             loading="lazy"
           />
         )

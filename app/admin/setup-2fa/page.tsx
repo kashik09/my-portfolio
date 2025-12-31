@@ -66,7 +66,7 @@ export default function Setup2FAPage() {
       } else {
         setError(data.error || 'Invalid verification code')
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred. Please try again.')
     } finally {
       setLoading(false)

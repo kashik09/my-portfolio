@@ -39,7 +39,9 @@ const sendToDatabase = async (eventData: any) => {
     })
   } catch (error) {
     // Silent fail - don't block UI
-    console.debug('Analytics tracking failed:', error)
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('Analytics tracking failed:', error)
+    }
   }
 }
 

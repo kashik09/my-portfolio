@@ -1,10 +1,9 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Download, Package, ArrowLeft, FileText, Calendar, Shield, Clock, CheckCircle } from 'lucide-react'
+import { Download, Package, ArrowLeft, FileText, Shield, Clock, CheckCircle } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 import { Spinner } from '@/components/ui/Spinner'
@@ -43,15 +42,11 @@ interface MeDownloadDetailResponse {
 }
 export default function DownloadDetailPage({ params }: DownloadDetailPageProps) {
   const { showToast } = useToast()
-  const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [downloading, setDownloading] = useState(false)
   const [product, setProduct] = useState<ProductDownload | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
-  useEffect(() => {
-    fetchProductDetails()
-  }, [params.slug])
-  const fetchProductDetails = async () => {
+  const fetchProductDetails = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch(`/api/me/downloads/${params.slug}`, {
@@ -72,7 +67,10 @@ export default function DownloadDetailPage({ params }: DownloadDetailPageProps) 
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.slug, showToast])
+  useEffect(() => {
+    fetchProductDetails()
+  }, [fetchProductDetails])
   const handleDownload = async () => {
     if (!product) return
     if (product.downloadsUsed >= product.downloadLimit) {

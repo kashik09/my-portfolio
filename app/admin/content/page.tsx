@@ -65,7 +65,7 @@ export default function ContentEditorPage() {
       if (!res.ok) throw new Error('Failed to fetch')
       const data = await res.json()
       setContent(data)
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error loading content' })
     } finally {
       setLoading(false)
@@ -90,7 +90,7 @@ export default function ContentEditorPage() {
       } else {
         setMessage({ type: 'error', text: 'Failed to save content' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error saving content' })
     } finally {
       setSaving(false)
@@ -202,7 +202,7 @@ export default function ContentEditorPage() {
       } else {
         setMessage({ type: 'error', text: response.error || 'Failed to upload image' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error uploading image' })
     } finally {
       setUploading(false)

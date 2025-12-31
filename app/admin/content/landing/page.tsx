@@ -45,7 +45,7 @@ export default function LandingContentEditor() {
       if (!res.ok) throw new Error('Failed to fetch')
       const data = await res.json()
       setContent(data)
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error loading content' })
       // Set default content if fetch fails
       setContent({
@@ -90,7 +90,7 @@ export default function LandingContentEditor() {
       })
       if (!res.ok) throw new Error('Failed to save')
       setMessage({ type: 'success', text: 'Content saved successfully!' })
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Error saving content' })
     } finally {
       setSaving(false)

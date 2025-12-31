@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Download, Mail, ArrowRight } from 'lucide-react'
@@ -14,16 +14,7 @@ export default function CheckoutSuccessPage() {
   const [order, setOrder] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  useEffect(() => {
-    if (!orderNumber) {
-      router.push('/products')
-      return
-    }
-
-    fetchOrder()
-  }, [orderNumber])
-
-  async function fetchOrder() {
+  const fetchOrder = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch(`/api/orders/${orderNumber}`)
@@ -40,7 +31,16 @@ export default function CheckoutSuccessPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [orderNumber, router])
+
+  useEffect(() => {
+    if (!orderNumber) {
+      router.push('/products')
+      return
+    }
+
+    fetchOrder()
+  }, [fetchOrder, orderNumber, router])
 
   if (isLoading) {
     return (

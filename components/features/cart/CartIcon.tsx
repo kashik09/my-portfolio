@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ShoppingCart } from 'lucide-react'
@@ -9,13 +9,7 @@ export function CartIcon() {
   const { data: session } = useSession()
   const [itemCount, setItemCount] = useState(0)
 
-  useEffect(() => {
-    if (session) {
-      fetchCartCount()
-    }
-  }, [session])
-
-  async function fetchCartCount() {
+  const fetchCartCount = useCallback(async () => {
     try {
       const response = await fetch('/api/cart')
       if (!response.ok) return
@@ -25,7 +19,13 @@ export function CartIcon() {
     } catch (error) {
       console.error('Error fetching cart count:', error)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    if (session) {
+      fetchCartCount()
+    }
+  }, [fetchCartCount, session])
 
   if (!session) {
     return null

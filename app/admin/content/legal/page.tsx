@@ -33,7 +33,7 @@ export default function LegalContentEditorPage() {
       const privacyData = await privacyRes.json()
       if (termsData.success) setTermsContent(termsData.data)
       if (privacyData.success) setPrivacyContent(privacyData.data)
-    } catch (err) {
+    } catch {
       setError('Failed to load legal content')
     } finally {
       setLoading(false)

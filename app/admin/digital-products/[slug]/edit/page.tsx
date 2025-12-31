@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { Save, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
@@ -66,10 +66,7 @@ export default function EditDigitalProductPage() {
     changelog: '',
     documentation: ''
   })
-  useEffect(() => {
-    fetchProduct()
-  }, [productSlug])
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     try {
       setLoading(true)
       // First, get all products to find the one with this slug
@@ -116,7 +113,10 @@ export default function EditDigitalProductPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [productSlug, router, showToast])
+  useEffect(() => {
+    fetchProduct()
+  }, [fetchProduct])
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
     if (type === 'checkbox') {

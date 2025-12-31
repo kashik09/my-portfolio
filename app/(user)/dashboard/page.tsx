@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 import { useSession } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Download, FileText, ArrowRight, Package, Clock } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
@@ -66,10 +66,7 @@ export default function DashboardPage() {
   const [recentDownloads, setRecentDownloads] = useState<RecentDownload[]>([])
   const [recentRequests, setRecentRequests] = useState<RecentRequest[]>([])
   const [membership, setMembership] = useState<MembershipSummary | null>(null)
-  useEffect(() => {
-    fetchDashboardData()
-  }, [])
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
@@ -98,7 +95,10 @@ export default function DashboardPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast])
+  useEffect(() => {
+    fetchDashboardData()
+  }, [fetchDashboardData])
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'PENDING':

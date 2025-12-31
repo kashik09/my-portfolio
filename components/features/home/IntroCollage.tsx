@@ -96,6 +96,7 @@ export function IntroCollage({ projects, avatarUrl }: IntroCollageProps) {
     if (!menuOpen) return
 
     const previousOverflow = document.body.style.overflow
+    const menuButton = menuButtonRef.current
     document.body.style.overflow = 'hidden'
 
     const focusFirst = () => {
@@ -149,7 +150,7 @@ export function IntroCollage({ projects, avatarUrl }: IntroCollageProps) {
     return () => {
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', handleKeyDown)
-      menuButtonRef.current?.focus()
+      menuButton?.focus()
     }
   }, [menuOpen])
 

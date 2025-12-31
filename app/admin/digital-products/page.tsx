@@ -1,9 +1,9 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Search, Plus, Package, Download, DollarSign, Eye, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react'
+import { Search, Plus, Package, Download, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 import ConfirmModal from '@/components/ui/ConfirmModal'
@@ -33,10 +33,7 @@ export default function AdminDigitalProductsPage() {
     show: false,
     productId: null
   })
-  useEffect(() => {
-    fetchProducts()
-  }, [])
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     try {
       setLoading(true)
       const response = await fetch('/api/admin/digital-products')
@@ -51,7 +48,10 @@ export default function AdminDigitalProductsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast])
+  useEffect(() => {
+    fetchProducts()
+  }, [fetchProducts])
   const handleDelete = async () => {
     if (!deleteModal.productId) return
     try {

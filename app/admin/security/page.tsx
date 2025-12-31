@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Shield, Check, AlertCircle, Download } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
@@ -18,10 +18,7 @@ export default function SecurityPage() {
   const [error, setError] = useState<string | null>(null)
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  useEffect(() => {
-    checkTwoFactorStatus()
-  }, [])
-  const checkTwoFactorStatus = async () => {
+  const checkTwoFactorStatus = useCallback(async () => {
     try {
       setLoading(true)
       // In a real implementation, we'd fetch the user's 2FA status from an API
@@ -33,7 +30,10 @@ export default function SecurityPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [session?.user])
+  useEffect(() => {
+    checkTwoFactorStatus()
+  }, [checkTwoFactorStatus])
   const handleSetup2FA = async () => {
     try {
       setSubmitting(true)

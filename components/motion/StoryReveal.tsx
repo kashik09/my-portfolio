@@ -16,20 +16,38 @@ export function StoryReveal({
   as = 'div',
   delayMs = 0
 }: StoryRevealProps) {
+  const getPrefersReducedMotion = () => {
+    if (typeof window === 'undefined') return false
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  }
+
   const Component = as as ElementType
   const ref = useRef<HTMLElement | null>(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const [reduceMotion, setReduceMotion] = useState(false)
+  const [reduceMotion, setReduceMotion] = useState(getPrefersReducedMotion)
+  const [isVisible, setIsVisible] = useState(getPrefersReducedMotion)
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const prefersReduced = media.matches
-    setReduceMotion(prefersReduced)
+    if (typeof window === 'undefined') return
 
-    if (prefersReduced) {
-      setIsVisible(true)
-      return
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleChange = (event: MediaQueryListEvent) => {
+      setReduceMotion(event.matches)
+      if (event.matches) {
+        setIsVisible(true)
+      }
     }
+
+    if (media.addEventListener) {
+      media.addEventListener('change', handleChange)
+      return () => media.removeEventListener('change', handleChange)
+    }
+
+    media.addListener(handleChange)
+    return () => media.removeListener(handleChange)
+  }, [])
+
+  useEffect(() => {
+    if (reduceMotion) return
 
     const node = ref.current
     if (!node) return
@@ -49,7 +67,7 @@ export function StoryReveal({
     observer.observe(node)
 
     return () => observer.disconnect()
-  }, [])
+  }, [reduceMotion])
 
   const revealClasses = reduceMotion
     ? 'opacity-100 translate-y-0'

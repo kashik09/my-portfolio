@@ -29,6 +29,19 @@ export default function SignupPage() {
     }
   }, [status, router, callbackUrl])
 
+  // Timeout for stuck session loading
+  useEffect(() => {
+    if (status === 'loading') {
+      const timeout = setTimeout(() => {
+        // If still loading after 5 seconds, force redirect to login
+        if (status === 'loading') {
+          router.replace('/login')
+        }
+      }, 5000)
+      return () => clearTimeout(timeout)
+    }
+  }, [status, router])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
@@ -58,27 +71,27 @@ export default function SignupPage() {
       })
 
       if (result?.error) {
-        setError('Account created, but sign-in failed.')
+        setError('Account created, but sign-in failed. Please try logging in.')
         setLoading(false)
         return
       }
 
-      router.replace(callbackUrl)
-    } catch (err) {
+      if (result?.ok) {
+        // Force full page reload to ensure session is picked up
+        window.location.assign(callbackUrl)
+        return
+      }
+
+      setError('Something went wrong. Please try logging in.')
+      setLoading(false)
+    } catch {
       setError('Something went wrong. Please try again.')
       setLoading(false)
     }
   }
 
-  // Avoid UI flash while session is resolving
-  if (status === 'loading') {
-    return (
-      <div className="w-full max-w-md p-8 bg-card rounded-2xl shadow-2xl border border-border text-center">
-        <p className="text-muted-foreground">Checking session...</p>
-      </div>
-    )
-  }
-
+  // Don't show "Checking session..." - just show the form
+  // If already authenticated, the useEffect will redirect
   return (
     <div className="w-full max-w-md p-8 bg-card rounded-2xl shadow-2xl border border-border">
       <div className="text-center mb-8">

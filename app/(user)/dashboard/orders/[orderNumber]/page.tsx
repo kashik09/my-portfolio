@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Download, Copy, CheckCircle, Clock } from 'lucide-react'
@@ -14,10 +14,7 @@ export default function OrderDetailPage({ params }: { params: { orderNumber: str
   const { showToast } = useToast()
   const [order, setOrder] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
-  useEffect(() => {
-    fetchOrder()
-  }, [params.orderNumber])
-  async function fetchOrder() {
+  const fetchOrder = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch(`/api/orders/${params.orderNumber}`)
@@ -32,7 +29,10 @@ export default function OrderDetailPage({ params }: { params: { orderNumber: str
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [params.orderNumber, router, showToast])
+  useEffect(() => {
+    fetchOrder()
+  }, [fetchOrder])
   function copyToClipboard(text: string) {
     navigator.clipboard.writeText(text)
     showToast('Copied to clipboard!', 'success')

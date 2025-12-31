@@ -95,7 +95,7 @@ export default function NewProjectPage() {
       
       showToast('Project created successfully! 🎉', 'success')
       router.push('/admin/projects')
-    } catch (error) {
+    } catch {
       showToast('Failed to create project', 'error')
     } finally {
       setLoading(false)

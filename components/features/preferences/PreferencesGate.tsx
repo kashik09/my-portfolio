@@ -16,7 +16,7 @@ const APPEARANCES: Appearance[] = ['system', 'light', 'dark']
 export const THEME_PAIRS = {
   forest: { dark: 'forest', light: 'moss' },
   night: { dark: 'night', light: 'skyline' },
-  charcoal: { dark: 'obsidian', light: 'pearl' },
+  charcoal: { dark: 'charcoal', light: 'linen' },
 } as const
 
 const DARK_THEME_MAP: Record<ThemeKey, string> = {

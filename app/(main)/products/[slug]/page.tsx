@@ -65,8 +65,6 @@ export async function generateMetadata({
   const description = product.description || product.name
   const imagePath = normalizePublicPath(product.thumbnailUrl)
   const imageUrl = imagePath && SITE_URL ? `${SITE_URL}${imagePath}` : imagePath
-  const isLocalImage = isLocalImageUrl(imagePath)
-
   return {
     title: `${product.name} | Products`,
     description,

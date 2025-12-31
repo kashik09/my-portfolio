@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Calendar, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 
 interface YearPickerProps {
@@ -37,6 +37,18 @@ export function YearPicker({ value, onChange, label, placeholder = 'Select year 
     }
   }, [value, currentYear])
 
+  const applySelection = useCallback(() => {
+    if (selectedStart) {
+      if (selectedEnd && selectedEnd !== selectedStart) {
+        const endDisplay = selectedEnd === currentYear ? 'Present' : selectedEnd
+        onChange(`${selectedStart} - ${endDisplay}`)
+      } else {
+        onChange(selectedStart.toString())
+      }
+    }
+    setIsOpen(false)
+  }, [currentYear, onChange, selectedEnd, selectedStart])
+
   // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -49,7 +61,7 @@ export function YearPicker({ value, onChange, label, placeholder = 'Select year 
       document.addEventListener('mousedown', handleClickOutside)
       return () => document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isOpen, selectedStart, selectedEnd])
+  }, [applySelection, isOpen])
 
   const handleYearClick = (year: number) => {
     if (!allowRange) {
@@ -73,18 +85,6 @@ export function YearPicker({ value, onChange, label, placeholder = 'Select year 
         setSelectedStart(year)
       }
     }
-  }
-
-  const applySelection = () => {
-    if (selectedStart) {
-      if (selectedEnd && selectedEnd !== selectedStart) {
-        const endDisplay = selectedEnd === currentYear ? 'Present' : selectedEnd
-        onChange(`${selectedStart} - ${endDisplay}`)
-      } else {
-        onChange(selectedStart.toString())
-      }
-    }
-    setIsOpen(false)
   }
 
   const isYearSelected = (year: number) => {

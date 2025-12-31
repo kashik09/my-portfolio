@@ -39,7 +39,7 @@ export default function PricingEditorPage() {
       if (!res.ok) throw new Error('Failed to fetch')
       const json = await res.json()
       setData(json)
-    } catch (err) {
+    } catch {
       setError('Failed to load pricing data')
     } finally {
       setLoading(false)
@@ -61,7 +61,7 @@ export default function PricingEditorPage() {
       setData(result.data)
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
-    } catch (err) {
+    } catch {
       setError('Failed to save changes')
     } finally {
       setSaving(false)

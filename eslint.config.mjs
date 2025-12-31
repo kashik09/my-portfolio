@@ -56,7 +56,7 @@ const patchedTypescriptConfig = {
   },
 }
 
-export default [
+const eslintConfig = [
   {
     ignores: ['**/.next/**', '**/node_modules/**'],
   },
@@ -73,4 +73,18 @@ export default [
       'local/no-decimal-arithmetic': 'error',
     },
   },
+  {
+    files: [
+      'lib/email.ts',
+      'lib/logger.ts',
+      'prisma/**/*.{js,ts,tsx}',
+      'scripts/**/*.{js,ts,tsx}',
+      'sh-files/**/*.{js,ts,tsx,mjs}',
+    ],
+    rules: {
+      'no-console': 'off',
+    },
+  },
 ]
+
+export default eslintConfig

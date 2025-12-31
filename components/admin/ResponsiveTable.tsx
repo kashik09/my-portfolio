@@ -27,16 +27,12 @@ export default function ResponsiveTable<T>({
   storageKey,
   emptyState,
 }: ResponsiveTableProps<T>) {
-  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards')
-  const [isMobile, setIsMobile] = useState(false)
-
-  // Load preference from localStorage
-  useEffect(() => {
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>(() => {
+    if (typeof window === 'undefined') return 'cards'
     const saved = localStorage.getItem(storageKey)
-    if (saved === 'cards' || saved === 'table') {
-      setViewMode(saved)
-    }
-  }, [storageKey])
+    return saved === 'cards' || saved === 'table' ? saved : 'cards'
+  })
+  const [isMobile, setIsMobile] = useState(false)
 
   // Detect mobile
   useEffect(() => {
@@ -115,7 +111,7 @@ export default function ResponsiveTable<T>({
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {data.map((item, index) => (
+                {data.map((item) => (
                   <tr
                     key={keyExtractor(item)}
                     className="hover:bg-muted/50 transition-colors"

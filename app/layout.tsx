@@ -12,10 +12,14 @@ const THEME_BOOTSTRAP = `(() => {
   const themePairs = {
     forest: { dark: 'forest', light: 'moss' },
     night: { dark: 'night', light: 'skyline' },
-    charcoal: { dark: 'obsidian', light: 'pearl' },
+    charcoal: { dark: 'charcoal', light: 'linen' },
   }
   const themeKeys = Object.keys(themePairs)
   const appearanceKeys = ['light', 'dark', 'system']
+  const legacyThemeMap = {
+    obsidian: 'charcoal',
+    pearl: 'charcoal',
+  }
 
   const getSystemAppearance = () => {
     try {
@@ -25,7 +29,13 @@ const THEME_BOOTSTRAP = `(() => {
     }
   }
 
-  const safeThemeKey = (value) => (themeKeys.includes(value) ? value : 'forest')
+  const normalizeThemeKey = (value) => {
+    if (typeof value !== 'string') return 'forest'
+    const normalized = value.toLowerCase()
+    const legacy = legacyThemeMap[normalized]
+    if (legacy) return legacy
+    return themeKeys.includes(normalized) ? normalized : 'forest'
+  }
   const safeAppearance = (value) => (appearanceKeys.includes(value) ? value : 'system')
   const applyTheme = (appearance, themeName) => {
     root.setAttribute('data-appearance', appearance)
@@ -35,7 +45,7 @@ const THEME_BOOTSTRAP = `(() => {
   try {
     const storedTheme = localStorage.getItem('theme')
     const storedAppearance = localStorage.getItem('appearance')
-    const themeKey = safeThemeKey(storedTheme)
+    const themeKey = normalizeThemeKey(storedTheme)
     const appearance = safeAppearance(storedAppearance)
     const resolvedAppearance =
       appearance === 'system' ? getSystemAppearance() : appearance

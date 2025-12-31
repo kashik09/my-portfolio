@@ -42,12 +42,7 @@ export function PreferencesPanel() {
   }, [])
 
   useEffect(() => {
-    if (reduceMotion) {
-      setDisplayAppearance(resolvedAppearance)
-      setPhase('idle')
-      return
-    }
-
+    if (reduceMotion) return
     if (resolvedAppearance === displayAppearance) return
 
     setPhase('exiting')
@@ -67,6 +62,15 @@ export function PreferencesPanel() {
       if (enterTimer.current) window.clearTimeout(enterTimer.current)
     }
   }, [displayAppearance, reduceMotion, resolvedAppearance])
+
+  useEffect(() => {
+    if (!reduceMotion) return
+    if (exitTimer.current) window.clearTimeout(exitTimer.current)
+    if (enterTimer.current) window.clearTimeout(enterTimer.current)
+  }, [reduceMotion])
+
+  const activeAppearance = reduceMotion ? resolvedAppearance : displayAppearance
+  const activePhase = reduceMotion ? 'idle' : phase
 
   return (
     <div className="space-y-3">
@@ -101,11 +105,11 @@ export function PreferencesPanel() {
         </p>
         <div className="inline-flex flex-wrap items-center gap-1 rounded-3xl border border-app surface-app p-1">
           {THEME_KEYS.map((key, index) => {
-            const shouldAnimate = !reduceMotion && phase !== 'idle'
+            const shouldAnimate = !reduceMotion && activePhase !== 'idle'
             const animationStyle = shouldAnimate
               ? {
                   animationDelay: `${index * 40}ms`,
-                  animationDirection: phase === 'exiting' ? 'reverse' : 'normal',
+                  animationDirection: activePhase === 'exiting' ? 'reverse' : 'normal',
                   animationFillMode: 'both'
                 }
               : undefined
@@ -121,9 +125,9 @@ export function PreferencesPanel() {
                     : 'text-muted hover:text-app hover:bg-app'
                 } ${shouldAnimate ? 'animate-slide-fade' : ''}`}
                 style={animationStyle}
-                aria-selected={preferences.theme === key}
+                aria-pressed={preferences.theme === key}
               >
-                {getThemeLabel(displayAppearance, key)}
+                {getThemeLabel(activeAppearance, key)}
               </button>
             )
           })}

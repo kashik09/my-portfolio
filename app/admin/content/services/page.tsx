@@ -56,7 +56,7 @@ export default function ServicesEditorPage() {
       if (!res.ok) throw new Error('Failed to fetch')
       const json = await res.json()
       setData(json)
-    } catch (err) {
+    } catch {
       setError('Failed to load services data')
     } finally {
       setLoading(false)
@@ -82,7 +82,7 @@ export default function ServicesEditorPage() {
       if (!res.ok) throw new Error('Failed to save')
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
-    } catch (err) {
+    } catch {
       setError('Failed to save changes')
     } finally {
       setSaving(false)

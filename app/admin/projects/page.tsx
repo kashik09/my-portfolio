@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Plus, Search, Package, Star } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -22,10 +22,7 @@ export default function AdminProjectsPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [projectToDelete, setProjectToDelete] = useState<ProjectCardData | null>(null)
   const { showToast } = useToast()
-  useEffect(() => {
-    fetchProjects()
-  }, [statusFilter, featuredFilter, searchQuery])
-  const fetchProjects = async () => {
+  const fetchProjects = useCallback(async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams()
@@ -58,13 +55,12 @@ export default function AdminProjectsPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [featuredFilter, searchQuery, showToast, statusFilter])
+  useEffect(() => {
+    fetchProjects()
+  }, [fetchProjects])
   const handleEdit = (slug: string) => {
     router.push(`/admin/projects/${slug}/edit`)
-  }
-  const confirmDelete = (project: ProjectCardData) => {
-    setProjectToDelete(project)
-    setShowDeleteModal(true)
   }
   const handleDelete = async () => {
     if (!projectToDelete) return

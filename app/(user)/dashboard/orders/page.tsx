@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -11,22 +11,13 @@ import { useToast } from '@/components/ui/Toast'
 import { formatPriceShort } from '@/lib/currency'
 import type { SupportedCurrency } from '@/lib/currency'
 export default function OrdersPage() {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   const { showToast } = useToast()
   const [orders, setOrders] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('')
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login?callbackUrl=/dashboard/orders')
-      return
-    }
-    if (status === 'authenticated') {
-      fetchOrders()
-    }
-  }, [status, statusFilter])
-  async function fetchOrders() {
+  const fetchOrders = useCallback(async () => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams()
@@ -42,21 +33,17 @@ export default function OrdersPage() {
     } finally {
       setIsLoading(false)
     }
-  }
-  function getStatusIcon(status: string) {
-    switch (status) {
-      case 'COMPLETED':
-        return <CheckCircle className="w-5 h-5 text-green-600" />
-      case 'PENDING':
-      case 'PROCESSING':
-        return <Clock className="w-5 h-5 text-yellow-600" />
-      case 'FAILED':
-      case 'CANCELLED':
-        return <XCircle className="w-5 h-5 text-red-600" />
-      default:
-        return <Package className="w-5 h-5 text-muted-foreground" />
+  }, [showToast, statusFilter])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login?callbackUrl=/dashboard/orders')
+      return
     }
-  }
+    if (status === 'authenticated') {
+      fetchOrders()
+    }
+  }, [fetchOrders, router, status])
   function getStatusColor(status: string) {
     switch (status) {
       case 'COMPLETED':

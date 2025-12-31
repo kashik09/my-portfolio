@@ -109,8 +109,8 @@ export default function SettingsPage() {
             setPersonalizedAds(Boolean(consentJson.data.personalizedAds))
           }
         }
-      } catch (error) {
-        console.error('Error loading settings:', error)
+      } catch (err) {
+        console.error('Error loading settings:', err)
         if (!cancelled) {
           showToast('Failed to load settings', 'error')
         }
@@ -218,12 +218,12 @@ export default function SettingsPage() {
             image: avatarUrl || null,
           } as any,
         })
-      } catch (e) {
+      } catch {
         // Not fatal, just means UI might need a refresh
       }
       showToast('Profile updated successfully', 'success')
-    } catch (error) {
-      console.error('Error saving profile:', error)
+    } catch (err) {
+      console.error('Error saving profile:', err)
       showToast('Failed to save profile', 'error')
     } finally {
       setSavingProfile(false)
@@ -264,8 +264,8 @@ export default function SettingsPage() {
       setNewPassword('')
       setConfirmPassword('')
       showToast('Password updated successfully', 'success')
-    } catch (error) {
-      console.error('Error changing password:', error)
+    } catch (err) {
+      console.error('Error changing password:', err)
       showToast('Failed to change password', 'error')
     } finally {
       setSavingPassword(false)
@@ -294,8 +294,8 @@ export default function SettingsPage() {
         return
       }
       showToast('Notification preferences updated', 'success')
-    } catch (error) {
-      console.error('Error saving notifications:', error)
+    } catch (err) {
+      console.error('Error saving notifications:', err)
       showToast('Failed to update notification preferences', 'error')
     } finally {
       setSavingNotifications(false)
@@ -322,8 +322,8 @@ export default function SettingsPage() {
       } else {
         showToast('Ads preference updated', 'success')
       }
-    } catch (error) {
-      console.error('Error updating ads consent:', error)
+    } catch (err) {
+      console.error('Error updating ads consent:', err)
       showToast('Failed to update ads preference', 'error')
     } finally {
       setSavingAdsConsent(false)
@@ -342,8 +342,8 @@ export default function SettingsPage() {
       }
       showToast('Your account has been scheduled for deletion.', 'success')
       window.location.href = '/'
-    } catch (error) {
-      console.error('Error deleting account:', error)
+    } catch (err) {
+      console.error('Error deleting account:', err)
       showToast('Failed to delete your account', 'error')
     }
   }

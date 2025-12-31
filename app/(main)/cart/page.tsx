@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -12,26 +12,15 @@ import { formatPriceShort } from '@/lib/currency'
 import type { SupportedCurrency } from '@/lib/currency'
 
 export default function CartPage() {
-  const { data: session, status } = useSession()
+  const { data: _session, status } = useSession()
   const router = useRouter()
   const { showToast } = useToast()
 
   const [cart, setCart] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [currency, setCurrency] = useState<SupportedCurrency>('USD')
+  const [currency, _setCurrency] = useState<SupportedCurrency>('USD')
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login?callbackUrl=/cart')
-      return
-    }
-
-    if (status === 'authenticated') {
-      fetchCart()
-    }
-  }, [status])
-
-  async function fetchCart() {
+  const fetchCart = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch(`/api/cart?currency=${currency}`)
@@ -47,7 +36,18 @@ export default function CartPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [currency, showToast])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login?callbackUrl=/cart')
+      return
+    }
+
+    if (status === 'authenticated') {
+      fetchCart()
+    }
+  }, [fetchCart, router, status])
 
   async function handleRemoveItem(itemId: string) {
     try {

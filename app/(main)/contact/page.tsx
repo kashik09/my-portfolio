@@ -88,7 +88,7 @@ export default function ContactPage() {
           : "thanks for reaching out. i'll contact you when availability opens up."
       )
       router.push('/')
-    } catch (err) {
+    } catch {
       setError('something went wrong. try again?')
     } finally {
       setLoading(false)

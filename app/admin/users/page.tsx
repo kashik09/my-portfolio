@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Search, UserPlus, Edit, Trash2, Shield, User, Lock, Unlock } from 'lucide-react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast'
@@ -37,10 +37,7 @@ export default function AdminUsersPage() {
     userId: null
   })
   const { showToast } = useToast()
-  useEffect(() => {
-    fetchUsers()
-  }, [searchQuery])
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const params = new URLSearchParams()
       if (searchQuery) params.append('search', searchQuery)
@@ -58,7 +55,10 @@ export default function AdminUsersPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchQuery, showToast])
+  useEffect(() => {
+    fetchUsers()
+  }, [fetchUsers])
   const handleDelete = async () => {
     if (!deleteModal.userId) return
     try {

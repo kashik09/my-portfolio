@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast'
@@ -10,30 +10,19 @@ import type { SupportedCurrency } from '@/lib/currency'
 import { Check, CreditCard, Coins } from 'lucide-react'
 
 export default function CheckoutPage() {
-  const { data: session, status } = useSession()
+  const { data: _session, status } = useSession()
   const router = useRouter()
   const { showToast } = useToast()
 
   const [cart, setCart] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState('MANUAL')
+  const [paymentMethod, _setPaymentMethod] = useState('MANUAL')
   const [purchaseType, setPurchaseType] = useState<'ONE_TIME' | 'CREDITS'>('ONE_TIME')
   const [termsAccepted, setTermsAccepted] = useState(false)
-  const [currency, setCurrency] = useState<SupportedCurrency>('USD')
+  const [currency, _setCurrency] = useState<SupportedCurrency>('USD')
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/login?callbackUrl=/checkout')
-      return
-    }
-
-    if (status === 'authenticated') {
-      fetchCart()
-    }
-  }, [status])
-
-  async function fetchCart() {
+  const fetchCart = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch(`/api/cart?currency=${currency}`)
@@ -55,7 +44,18 @@ export default function CheckoutPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [currency, router, showToast])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login?callbackUrl=/checkout')
+      return
+    }
+
+    if (status === 'authenticated') {
+      fetchCart()
+    }
+  }, [fetchCart, router, status])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

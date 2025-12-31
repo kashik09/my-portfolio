@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Save, FileText } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
@@ -19,10 +19,7 @@ export default function LegalContentEditorPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const { showToast } = useToast()
-  useEffect(() => {
-    fetchContent()
-  }, [])
-  const fetchContent = async () => {
+  const fetchContent = useCallback(async () => {
     try {
       const [termsRes, privacyRes] = await Promise.all([
         fetch('/api/content/terms'),
@@ -40,7 +37,10 @@ export default function LegalContentEditorPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [showToast])
+  useEffect(() => {
+    fetchContent()
+  }, [fetchContent])
   const saveContent = async (type: 'terms' | 'privacy') => {
     const content = type === 'terms' ? terms : privacy
     if (!content) return

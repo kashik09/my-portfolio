@@ -40,25 +40,31 @@ function formatResetsIn(endDate?: string | null): string {
 export function MemberHomeTop() {
   const { data: session, status } = useSession()
   const [data, setData] = useState<MeSummaryData | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      fetch('/api/me/summary')
-        .then((res) => res.json())
-        .then((json) => {
-          if (json.success && json.data) {
-            setData(json.data)
-          }
-        })
-        .catch((err) => {
-          console.error('Failed to fetch member summary:', err)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
-    } else if (status === 'unauthenticated') {
-      setLoading(false)
+    if (status !== 'authenticated') return
+
+    let isActive = true
+
+    fetch('/api/me/summary')
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success && json.data && isActive) {
+          setData(json.data)
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch member summary:', err)
+      })
+      .finally(() => {
+        if (isActive) {
+          setHasLoaded(true)
+        }
+      })
+
+    return () => {
+      isActive = false
     }
   }, [status])
 
@@ -72,7 +78,7 @@ export function MemberHomeTop() {
   return (
     <section className="max-w-6xl mx-auto px-4 mb-12">
       <div className="bg-card rounded-2xl border border-border p-6 md:p-8 shadow-sm">
-        {loading ? (
+        {status === 'authenticated' && !hasLoaded ? (
           <div className="flex items-center justify-center py-8">
             <Spinner size="sm" />
           </div>

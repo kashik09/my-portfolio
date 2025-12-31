@@ -1,7 +1,7 @@
 'use client'
 
 export const dynamic = 'force-dynamic'
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Package, Clock, CheckCircle, DollarSign, Eye, User } from 'lucide-react'
 import { Spinner } from '@/components/ui/Spinner'
@@ -15,10 +15,7 @@ export default function AdminOrdersPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [statusFilter, setStatusFilter] = useState('')
   const [paymentStatusFilter, setPaymentStatusFilter] = useState('')
-  useEffect(() => {
-    fetchOrders()
-  }, [statusFilter, paymentStatusFilter])
-  async function fetchOrders() {
+  const fetchOrders = useCallback(async () => {
     try {
       setIsLoading(true)
       const params = new URLSearchParams()
@@ -36,7 +33,10 @@ export default function AdminOrdersPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [paymentStatusFilter, showToast, statusFilter])
+  useEffect(() => {
+    fetchOrders()
+  }, [fetchOrders])
   async function handleFulfillOrder(orderNumber: string) {
     if (!confirm(`Fulfill order ${orderNumber}? This will issue licenses.`)) {
       return

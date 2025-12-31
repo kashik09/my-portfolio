@@ -2,7 +2,7 @@
 
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
-import { Save, AlertTriangle, Mail, Server, Shield, Settings as SettingsIcon, Megaphone } from 'lucide-react'
+import { Save, AlertTriangle, Mail, Shield, Settings as SettingsIcon, Megaphone } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 interface AdminSiteSettings {
@@ -59,6 +59,14 @@ const providerPresets: Record<
     help: 'Enter the SMTP host, port, and security settings provided by your email provider.',
   },
 }
+
+const initialEmailSettings = {
+  smtpHost: 'smtp.gmail.com',
+  smtpPort: '587',
+  smtpUsername: 'your-email@gmail.com',
+  smtpPassword: '',
+  smtpSecure: false,
+}
 const detectProvider = (email: string): EmailProvider => {
   const domain = email.split('@')[1]?.trim().toLowerCase()
   if (!domain) return 'custom'
@@ -87,13 +95,7 @@ export default function AdminSettingsPage() {
       homepage_hero: false
     }
   })
-  const [emailSettings, setEmailSettings] = useState({
-    smtpHost: 'smtp.gmail.com',
-    smtpPort: '587',
-    smtpUsername: 'your-email@gmail.com',
-    smtpPassword: '',
-    smtpSecure: false,
-  })
+  const [emailSettings, setEmailSettings] = useState(initialEmailSettings)
   const [emailProvider, setEmailProvider] = useState<EmailProvider>('gmail')
   const [showEmailAdvanced, setShowEmailAdvanced] = useState(false)
   const [hasManualHostOverride, setHasManualHostOverride] = useState(false)
@@ -142,17 +144,17 @@ export default function AdminSettingsPage() {
             ...prev.placements,
           },
         }))
-        const resolvedHost = data.smtpHost || emailSettings.smtpHost
+        const resolvedHost = data.smtpHost || initialEmailSettings.smtpHost
         const resolvedPort =
           data.smtpPort !== null && data.smtpPort !== undefined
             ? String(data.smtpPort)
-            : emailSettings.smtpPort
+            : initialEmailSettings.smtpPort
         const resolvedUsername =
-          data.smtpUsername || emailSettings.smtpUsername
+          data.smtpUsername || initialEmailSettings.smtpUsername
         const resolvedPassword =
-          data.smtpPassword || emailSettings.smtpPassword
+          data.smtpPassword || initialEmailSettings.smtpPassword
         const resolvedSecure =
-          data.smtpSecure ?? emailSettings.smtpSecure
+          data.smtpSecure ?? initialEmailSettings.smtpSecure
         setEmailSettings(prev => ({
           ...prev,
           smtpHost: resolvedHost,
@@ -288,7 +290,7 @@ export default function AdminSettingsPage() {
       } else {
         showToast(data.error || 'Failed to save email settings', 'error')
       }
-    } catch (error) {
+    } catch {
       showToast('Failed to save email settings', 'error')
     } finally {
       setSaving(false)
@@ -310,7 +312,7 @@ export default function AdminSettingsPage() {
       } else {
         showToast(data.error || 'Failed to send test email', 'error')
       }
-    } catch (error) {
+    } catch {
       showToast('Failed to send test email', 'error')
     }
   }
