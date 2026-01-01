@@ -203,7 +203,7 @@ export function HomeCanvas({
   const avatarSrc = normalizePublicPath(avatarUrl)
 
   return (
-    <div ref={trackRef} className="relative min-h-[360vh]">
+    <div ref={trackRef} className="relative min-h-[360vh] hide-scrollbar">
       <div
         ref={canvasRef}
         className="canvas-root sticky top-0 h-[100dvh] w-full overflow-hidden"
