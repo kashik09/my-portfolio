@@ -15,42 +15,6 @@
   --color-primary-content: 96% 0.018 272.314;
 }
 
-[data-theme='dracula'] {
-  color-scheme: dark;
-  --color-base-100: 25% 0.015 254;
-  --color-base-200: 22% 0.013 255;
-  --color-base-300: 20% 0.011 256;
-  --color-base-content: 98% 0.02 257;
-  --color-primary: 60% 0.21 330;
-  --color-primary-content: 95% 0.02 330;
-}
-
-/* Obsidian - Dracula renamed */
-[data-theme='obsidian'] {
-  color-scheme: dark;
-  --color-base-100: 28.822% 0.022 277.508;
-  --color-base-200: 26.805% 0.02 277.508;
-  --color-base-300: 24.787% 0.019 277.508;
-  --color-base-content: 97.747% 0.007 106.545;
-  --color-primary: 75.461% 0.183 346.812;
-  --color-primary-content: 15.092% 0.036 346.812;
-  --color-secondary: 74.202% 0.148 301.883;
-  --color-secondary-content: 14.84% 0.029 301.883;
-  --color-accent: 83.392% 0.124 66.558;
-  --color-accent-content: 16.678% 0.024 66.558;
-  --color-neutral: 39.445% 0.032 275.524;
-  --color-neutral-content: 87.889% 0.006 275.524;
-}
-
-[data-theme='synthwave'] {
-  color-scheme: dark;
-  --color-base-100: 20% 0.02 290;
-  --color-base-200: 18% 0.018 292;
-  --color-base-300: 16% 0.016 294;
-  --color-base-content: 97% 0.03 290;
-  --color-primary: 65% 0.25 320;
-  --color-primary-content: 95% 0.02 320;
-}
 
 [data-theme='night'] {
   color-scheme: dark;
@@ -62,63 +26,11 @@
   --color-primary-content: 95% 0.02 225;
 }
 
-[data-theme='cyberpunk'] {
-  color-scheme: dark;
-  --color-base-100: 18% 0.02 60;
-  --color-base-200: 16% 0.018 62;
-  --color-base-300: 14% 0.016 64;
-  --color-base-content: 96% 0.02 60;
-  --color-primary: 75% 0.28 60;
-  --color-primary-content: 20% 0.02 60;
-}
-
-[data-theme='black'] {
-  color-scheme: dark;
-  --color-base-100: 0% 0 0;
-  --color-base-200: 5% 0 0;
-  --color-base-300: 10% 0 0;
-  --color-base-content: 100% 0 0;
-  --color-primary: 50% 0 0;
-  --color-primary-content: 100% 0 0;
-}
 
 /* ========================================
    LIGHT THEMES (Custom)
    ======================================== */
 
-/* 🫧 Pearl - Obsidian Light (Dracula Light) */
-[data-theme='pearl'] {
-  color-scheme: light;
-  --color-base-100: 98% 0.005 280;
-  --color-base-200: 95% 0.008 280;
-  --color-base-300: 91% 0.012 280;
-  --color-base-content: 14% 0.02 280;
-  --color-primary: 60% 0.22 280;
-  --color-primary-content: 98% 0.01 280;
-  --color-secondary: 70% 0.18 330;
-  --color-secondary-content: 14% 0.02 330;
-  --color-accent: 80% 0.12 50;
-  --color-accent-content: 14% 0.02 50;
-  --color-neutral: 88% 0.01 280;
-  --color-neutral-content: 14% 0.02 280;
-}
-
-/* 🌅 Aurora - Synthwave Light */
-[data-theme='aurora'] {
-  color-scheme: light;
-  --color-base-100: 98% 0.008 290;
-  --color-base-200: 95% 0.015 290;
-  --color-base-300: 90% 0.025 290;
-  --color-base-content: 15% 0.03 290;
-  --color-primary: 60% 0.23 285;
-  --color-primary-content: 98% 0.01 285;
-  --color-secondary: 65% 0.22 340;
-  --color-secondary-content: 15% 0.02 340;
-  --color-accent: 75% 0.13 200;
-  --color-accent-content: 15% 0.02 200;
-  --color-neutral: 90% 0.02 290;
-  --color-neutral-content: 15% 0.03 290;
-}
 
 /* 🌇 Skyline - Night Light */
 [data-theme='skyline'] {
@@ -137,22 +49,6 @@
   --color-neutral-content: 12% 0.015 240;
 }
 
-/* 🔮 Prism - Cyberpunk Light */
-[data-theme='prism'] {
-  color-scheme: light;
-  --color-base-100: 99% 0.01 80;
-  --color-base-200: 96% 0.04 80;
-  --color-base-300: 92% 0.08 80;
-  --color-base-content: 15% 0.03 80;
-  --color-primary: 90% 0.18 95;
-  --color-primary-content: 15% 0.03 95;
-  --color-secondary: 60% 0.25 330;
-  --color-secondary-content: 98% 0.01 330;
-  --color-accent: 80% 0.12 200;
-  --color-accent-content: 15% 0.02 200;
-  --color-neutral: 93% 0.06 80;
-  --color-neutral-content: 15% 0.03 80;
-}
 
 /* 🌿 Moss - Forest Light */
 [data-theme='moss'] {
@@ -171,22 +67,6 @@
   --color-neutral-content: 15% 0.03 150;
 }
 
-/* 🤍 White - Black Light */
-[data-theme='white'] {
-  color-scheme: light;
-  --color-base-100: 100% 0 0;
-  --color-base-200: 97% 0 0;
-  --color-base-300: 92% 0 0;
-  --color-base-content: 5% 0 0;
-  --color-primary: 5% 0 0;
-  --color-primary-content: 100% 0 0;
-  --color-secondary: 40% 0 0;
-  --color-secondary-content: 100% 0 0;
-  --color-accent: 50% 0 0;
-  --color-accent-content: 100% 0 0;
-  --color-neutral: 85% 0 0;
-  --color-neutral-content: 5% 0 0;
-}
 
 /* ========================================
    APPLY VARIABLES TO UTILITY CLASSES
