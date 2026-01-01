@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import type { MutableRefObject } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { X } from 'lucide-react'
+import { Palette, X } from 'lucide-react'
 
 const PreferencesModal = dynamic(
   () =>
@@ -96,7 +96,7 @@ export function HomeCanvasMenuOverlay({
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-base-200/70 backdrop-blur-lg"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-base-200/60 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       id="cinema-menu"
@@ -104,24 +104,24 @@ export function HomeCanvasMenuOverlay({
     >
       <div
         ref={overlayRef}
-        className="relative w-full max-w-xl rounded-3xl border border-base-300 bg-base-200/70 px-8 py-10 text-base-content shadow-2xl"
+        className="relative w-full max-w-xl rounded-2xl border border-base-300/60 bg-base-100 bg-gradient-to-br from-primary/10 via-base-100 to-base-100 px-6 py-8 text-base-content shadow-xl"
         onClick={(event) => event.stopPropagation()}
       >
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-5 top-5 rounded-full border border-base-300 p-2 text-base-content hover:bg-base-100/10"
+          className="group absolute right-5 top-5 flex h-8 w-8 items-center justify-center rounded-full border border-base-300/60 bg-base-200/60 text-base-content/50 transition-all duration-150 hover:border-primary/30 hover:bg-primary/10"
           aria-label="Close menu"
         >
-          <X size={16} />
+          <X size={16} className="text-base-content/50 transition-colors duration-150 group-hover:text-primary" />
         </button>
 
-        <nav className="space-y-6 text-center">
+        <nav className="space-y-2 text-left">
           {overlayLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
+              className="block rounded-md px-4 py-2 text-2xl font-semibold tracking-tight text-base-content/90 transition-all duration-150 hover:translate-x-1 hover:bg-primary/10 hover:text-primary"
               onClick={onClose}
             >
               {link.label}
@@ -132,14 +132,14 @@ export function HomeCanvasMenuOverlay({
               href={contactHref}
               target="_blank"
               rel="noreferrer"
-              className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
+              className="block rounded-md px-4 py-2 text-2xl font-semibold tracking-tight text-base-content/90 transition-all duration-150 hover:translate-x-1 hover:bg-primary/10 hover:text-primary"
             >
               Contact
             </a>
           ) : (
             <Link
               href={contactHref}
-              className="block text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
+              className="block rounded-md px-4 py-2 text-2xl font-semibold tracking-tight text-base-content/90 transition-all duration-150 hover:translate-x-1 hover:bg-primary/10 hover:text-primary"
               onClick={onClose}
             >
               Contact
@@ -147,9 +147,10 @@ export function HomeCanvasMenuOverlay({
           )}
           <button
             type="button"
-            className="block w-full text-2xl font-semibold tracking-tight text-base-content/90 hover:text-base-content"
+            className="mt-2 flex w-full items-center justify-start gap-2 rounded-md border-t border-base-300/60 bg-primary/5 px-4 py-2 pt-4 text-xl font-semibold tracking-tight text-base-content/80 transition-all duration-150 hover:translate-x-1 hover:bg-primary/15 hover:text-primary"
             onClick={() => setShowPreferences(true)}
           >
+            <Palette size={18} className="text-base-content/60" />
             Preferences
           </button>
         </nav>

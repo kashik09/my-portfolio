@@ -211,8 +211,8 @@ export function HomeCanvas({
         data-layout={layout}
         data-reduced={reduceMotion ? 'true' : 'false'}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-base-200/30 via-base-200/50 to-base-200/70" />
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-base-200/30 via-base-200/50 to-base-200/70" />
+        <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -left-20 top-10 h-56 w-56 rounded-full bg-primary/15 blur-[120px]" />
           <div className="absolute bottom-[-25%] right-[-10%] h-72 w-72 rounded-full bg-primary/10 blur-[140px]" />
           <div className="absolute right-[18%] top-[18%] h-40 w-40 rounded-full bg-base-100/5 blur-[90px]" />
@@ -337,7 +337,7 @@ export function HomeCanvas({
           ref={menuButtonRef}
           type="button"
           onClick={() => setMenuOpen(true)}
-          className="fixed bottom-6 right-6 z-[60] flex items-center gap-2 rounded-full border border-base-300 bg-base-200/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-base-content backdrop-blur-md transition"
+          className="fixed bottom-6 right-6 z-[80] flex items-center gap-2 rounded-full border border-base-300 bg-base-200/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-base-content backdrop-blur-md transition pointer-events-auto"
           aria-haspopup="dialog"
           aria-expanded={menuOpen}
           aria-controls="cinema-menu"
