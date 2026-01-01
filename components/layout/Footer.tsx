@@ -33,7 +33,7 @@ export default function Footer({ pathname }: { pathname?: string }) {
           <div className="space-y-3">
             <div className="flex items-center gap-2 mb-3 group">
                 <Code2 size={28} className="accent" />
-              <h3 className="text-xl font-bold text-app">
+              <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                 kashi kweyu
               </h3>
             </div>
@@ -150,7 +150,6 @@ export default function Footer({ pathname }: { pathname?: string }) {
               Kashi Kweyu
             </span>
             . Built with Next.js & Tailwind CSS.{' '}
-            <span className="inline-block animate-pulse">⚡</span>
           </p>
         </div>
       </div>
