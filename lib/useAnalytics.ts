@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect } from 'react'
-import { track } from '@vercel/analytics'
 
 interface PageViewData {
   page: string
@@ -16,6 +15,15 @@ interface EventData {
   value?: number
 }
 
+type VercelEventData = Record<string, string | number | boolean | null | undefined>
+
+declare global {
+  interface Window {
+    va?: (...args: unknown[]) => void
+    vaq?: unknown[]
+  }
+}
+
 const getDeviceType = () => {
   if (typeof navigator === 'undefined') return 'desktop'
 
@@ -27,6 +35,30 @@ const getDeviceType = () => {
     return 'mobile'
   }
   return 'desktop'
+}
+
+const ensureVercelQueue = () => {
+  if (typeof window === 'undefined') return
+
+  if (!window.va) {
+    window.va = (...params: unknown[]) => {
+      window.vaq = window.vaq || []
+      window.vaq.push(params)
+    }
+  }
+}
+
+const trackVercelEvent = (name: string, data?: VercelEventData) => {
+  if (typeof window === 'undefined') return
+
+  ensureVercelQueue()
+  if (!window.va) return
+
+  if (data) {
+    window.va('event', { name, data })
+  } else {
+    window.va('event', { name })
+  }
 }
 
 // Helper function to send analytics to our database (non-blocking)
@@ -57,7 +89,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('page_view', {
+    trackVercelEvent('page_view', {
       page: data.page,
       referrer: data.referrer || document.referrer,
       device: getDeviceType(),
@@ -80,7 +112,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track(data.action, {
+    trackVercelEvent(data.action, {
       category: data.category,
       label: data.label,
       value: data.value,
@@ -102,7 +134,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('project_view', {
+    trackVercelEvent('project_view', {
       projectId,
       projectTitle,
       device: getDeviceType(),
@@ -124,7 +156,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('button_click', {
+    trackVercelEvent('button_click', {
       buttonName,
       location,
       timestamp: new Date().toISOString()
@@ -146,7 +178,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('form_submit', {
+    trackVercelEvent('form_submit', {
       formName,
       success,
       timestamp: new Date().toISOString()
@@ -167,7 +199,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('download', {
+    trackVercelEvent('download', {
       fileName,
       fileType,
       timestamp: new Date().toISOString()
@@ -188,7 +220,7 @@ export function useAnalytics() {
     }
 
     // Send to Vercel Analytics
-    track('theme_change', {
+    trackVercelEvent('theme_change', {
       themeName,
       timestamp: new Date().toISOString()
     })
@@ -234,7 +266,7 @@ export function usePageTracking(pageName: string) {
       }
 
       // Send to Vercel Analytics
-      track('time_on_page', {
+      trackVercelEvent('time_on_page', {
         page: pageName,
         seconds: timeSpent,
         timestamp: new Date().toISOString()
