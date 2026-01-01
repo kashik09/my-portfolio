@@ -7,18 +7,18 @@
 
 [data-theme='forest'] {
   color-scheme: dark;
-  --color-base-100: 25.33% 0.016 252.42; /* oklch format */
-  --color-base-200: 23.26% 0.014 253.1;
-  --color-base-300: 21.15% 0.012 254.09;
-  --color-base-content: 97.807% 0.029 256.847;
-  --color-primary: 58% 0.233 277.117;
-  --color-primary-content: 96% 0.018 272.314;
+  --color-base-100: 25% 0.02 140;
+  --color-base-200: 22% 0.018 140;
+  --color-base-300: 19% 0.015 140;
+  --color-base-content: 95% 0.015 140;
+  --color-primary: 60% 0.20 145;
+  --color-primary-content: 98% 0.01 145;
   --color-secondary: 65% 0.20 140;
-  --color-secondary-content: 96% 0.015 140;
-  --color-accent: 70% 0.18 180;
-  --color-accent-content: 15% 0.02 180;
-  --color-neutral: 23% 0.014 253;
-  --color-neutral-content: 97% 0.029 253;
+  --color-secondary-content: 98% 0.015 140;
+  --color-accent: 70% 0.18 155;
+  --color-accent-content: 15% 0.02 155;
+  --color-neutral: 22% 0.018 140;
+  --color-neutral-content: 95% 0.015 140;
 }
 
 
