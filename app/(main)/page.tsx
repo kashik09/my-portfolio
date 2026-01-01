@@ -42,7 +42,7 @@ export default async function HomePage() {
       title: true,
       description: true,
       thumbnail: true,
-      technologies: true,
+      techStack: true,
       category: true,
     },
   })
@@ -54,7 +54,7 @@ export default async function HomePage() {
     title: project.title,
     description: project.description || '',
     image: project.thumbnail || '/products/placeholder.png',
-    technologies: project.technologies || [],
+    technologies: project.techStack || [],
     featured: true,
     category: project.category,
   }))
