@@ -181,7 +181,7 @@ const tabletObjects: SceneObject[] = [
   {
     id: 'chip-2',
     kind: 'chip',
-    top: '68%',
+    top: '74%',
     left: '10%',
     rotate: 2,
     scale: 1,
@@ -211,7 +211,7 @@ const tabletObjects: SceneObject[] = [
   {
     id: 'chip-4',
     kind: 'chip',
-    top: '26%',
+    top: '14%',
     left: '66%',
     rotate: 3,
     scale: 1,
@@ -226,7 +226,7 @@ const tabletObjects: SceneObject[] = [
   {
     id: 'chip-5',
     kind: 'chip',
-    top: '78%',
+    top: '82%',
     left: '48%',
     rotate: -2,
     scale: 1,
