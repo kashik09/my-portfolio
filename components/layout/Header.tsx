@@ -3,8 +3,9 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
-import { Code2, Menu, X, ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react'
+import { Code2, Menu, X, ChevronDown, LogOut, Settings, User as UserIcon, Palette } from 'lucide-react'
 import { UserAvatar } from '@/components/ui/UserAvatar'
+import { usePreferences } from '@/lib/preferences/PreferencesContext'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -12,6 +13,7 @@ export default function Header() {
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   const { data: session, status } = useSession()
+  const { openModal } = usePreferences()
   const isAuthed = status === 'authenticated'
 
   const publicLinks = [
@@ -86,6 +88,13 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-3">
+            <button
+              onClick={openModal}
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-full border border-app surface-app hover:bg-app transition text-app"
+              aria-label="Open preferences"
+            >
+              <Palette size={16} />
+            </button>
 
             {!isAuthed ? (
               <Link
@@ -169,6 +178,17 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pt-4 border-t border-app">
             <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  openModal()
+                }}
+                className="flex items-center gap-2 px-4 py-2 surface-app border border-app rounded-lg transition font-medium text-app"
+              >
+                <Palette size={16} />
+                Preferences
+              </button>
+
               {navLinks.map((link) => (
                 <Link
                   key={link.href}

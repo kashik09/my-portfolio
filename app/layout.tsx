@@ -13,6 +13,7 @@ const THEME_BOOTSTRAP = `(() => {
     forest: { dark: 'forest', light: 'moss' },
     night: { dark: 'night', light: 'skyline' },
     charcoal: { dark: 'charcoal', light: 'linen' },
+    lemonade: { dark: 'lemonade-dark', light: 'lemonade' },
   }
   const themeKeys = Object.keys(themePairs)
   const appearanceKeys = ['light', 'dark', 'system']
@@ -84,11 +85,13 @@ export default function RootLayout({
       data-theme="forest"
       suppressHydrationWarning
     >
-      <Script
-        id="theme-bootstrap"
-        strategy="beforeInteractive"
-        dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }}
-      />
+      <head>
+        <Script
+          id="theme-bootstrap"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }}
+        />
+      </head>
       <body className={`${inter.className} bg-base-100 text-base-content`}>
         <Providers>{children}</Providers>
         <Analytics />

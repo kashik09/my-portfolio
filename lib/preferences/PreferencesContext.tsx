@@ -10,12 +10,16 @@ interface PreferencesContextValue {
   setPreferences: Dispatch<SetStateAction<Preferences>>
   setAppearance: (appearance: Appearance) => void
   setTheme: (theme: ThemeKey) => void
+  isModalOpen: boolean
+  openModal: () => void
+  closeModal: () => void
 }
 
 const PreferencesContext = createContext<PreferencesContextValue | undefined>(undefined)
 
 export function PreferencesProvider({ children }: { children: ReactNode }) {
   const [preferences, setPreferences] = useState<Preferences>(loadPreferences)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     savePreferences(preferences)
@@ -27,8 +31,11 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       setPreferences,
       setAppearance: (appearance) => setPreferences((prev) => ({ ...prev, appearance })),
       setTheme: (theme) => setPreferences((prev) => ({ ...prev, theme })),
+      isModalOpen,
+      openModal: () => setIsModalOpen(true),
+      closeModal: () => setIsModalOpen(false),
     }),
-    [preferences]
+    [preferences, isModalOpen]
   )
 
   return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>

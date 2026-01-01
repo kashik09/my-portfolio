@@ -1,12 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { PreferencesPanel } from '@/components/features/preferences/PreferencesPanel'
 import { Code2 } from 'lucide-react'
 
 export default function Footer({ pathname }: { pathname?: string }) {
   const currentYear = new Date().getFullYear()
-  const showPreferences = !pathname?.startsWith('/admin')
   const isActive = (href: string) =>
     pathname === href || (href !== '/' && pathname?.startsWith(href))
 
@@ -142,15 +140,6 @@ export default function Footer({ pathname }: { pathname?: string }) {
                 </a>
               ))}
             </div>
-
-            {showPreferences && (
-              <div className="mt-6 p-4 rounded-xl bg-surface-base/50 backdrop-blur-sm border border-primary/10">
-                <h4 className="font-semibold text-app mb-3 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Preferences
-                </h4>
-                <PreferencesPanel />
-              </div>
-            )}
           </div>
         </div>
 

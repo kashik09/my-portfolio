@@ -3,19 +3,22 @@ import type { ResolvedAppearance, ThemeKey } from './types'
 export const THEME_KEYS: ThemeKey[] = [
   'forest',
   'night',
-  'charcoal'
+  'charcoal',
+  'lemonade'
 ]
 
 const THEME_LABELS_DARK: Record<ThemeKey, string> = {
   forest: 'Forest',
   night: 'Night',
-  charcoal: 'Charcoal'
+  charcoal: 'Charcoal',
+  lemonade: 'Lemonade Dark'
 }
 
 const THEME_LABELS_LIGHT: Record<ThemeKey, string> = {
   forest: 'Moss',
   night: 'Skyline',
-  charcoal: 'Amber'
+  charcoal: 'Amber',
+  lemonade: 'Lemonade'
 }
 
 export function getThemeLabel(appearance: ResolvedAppearance, key: ThemeKey) {
