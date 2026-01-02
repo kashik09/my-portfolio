@@ -897,6 +897,13 @@ model SiteSettings {
   smtpSecure           Boolean @default(false)
   avatarUrl            String?
 
+  // Service availability settings
+  availabilityStatus  String   @default("AVAILABLE")
+  availabilityMessage String?
+  leaveStart          DateTime?
+  leaveEnd            DateTime?
+  manualOverride      Boolean  @default(false)
+
   updatedAt DateTime @updatedAt
 
   @@map("site_settings")
