@@ -115,6 +115,27 @@ export async function PATCH(request: NextRequest) {
       data.adsPlacements = body.adsPlacements
     }
 
+    // Service availability settings
+    if (typeof body.availabilityStatus === 'string') {
+      data.availabilityStatus = body.availabilityStatus
+    }
+
+    if (body.availabilityMessage !== undefined) {
+      data.availabilityMessage = body.availabilityMessage
+    }
+
+    if (body.leaveStart !== undefined) {
+      data.leaveStart = body.leaveStart ? new Date(body.leaveStart) : null
+    }
+
+    if (body.leaveEnd !== undefined) {
+      data.leaveEnd = body.leaveEnd ? new Date(body.leaveEnd) : null
+    }
+
+    if (typeof body.manualOverride === 'boolean') {
+      data.manualOverride = body.manualOverride
+    }
+
     const settings = await prisma.siteSettings.upsert({
       where: { id: 'site_settings_singleton' },
       update: data,

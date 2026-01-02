@@ -2,13 +2,20 @@
 
 export const dynamic = 'force-dynamic'
 import { useEffect, useState } from 'react'
-import { Save, AlertTriangle, Mail, Shield, Settings as SettingsIcon, Megaphone } from 'lucide-react'
+import { Save, AlertTriangle, Mail, Shield, Settings as SettingsIcon, Megaphone, Calendar } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 interface AdminSiteSettings {
   maintenanceMode: boolean
   availableForBusiness: boolean
   avatarUrl: string
+}
+interface AdminAvailabilitySettings {
+  availabilityStatus: string
+  availabilityMessage: string
+  leaveStart: string
+  leaveEnd: string
+  manualOverride: boolean
 }
 interface AdminAdsSettings {
   adsEnabled: boolean
@@ -87,6 +94,13 @@ export default function AdminSettingsPage() {
     availableForBusiness: true,
     avatarUrl: ''
   })
+  const [availabilitySettings, setAvailabilitySettings] = useState<AdminAvailabilitySettings>({
+    availabilityStatus: 'AVAILABLE',
+    availabilityMessage: '',
+    leaveStart: '',
+    leaveEnd: '',
+    manualOverride: false
+  })
   const [adsSettings, setAdsSettings] = useState<AdminAdsSettings>({
     adsEnabled: false,
     adsProvider: '',
@@ -118,6 +132,11 @@ export default function AdminSettingsPage() {
           maintenanceMode: boolean
           availableForBusiness: boolean
           avatarUrl?: string | null
+          availabilityStatus?: string
+          availabilityMessage?: string | null
+          leaveStart?: string | null
+          leaveEnd?: string | null
+          manualOverride?: boolean
           adsEnabled: boolean
           adsProvider: string
           adsClientId: string | null
@@ -132,6 +151,13 @@ export default function AdminSettingsPage() {
           maintenanceMode: data.maintenanceMode,
           availableForBusiness: data.availableForBusiness,
           avatarUrl: data.avatarUrl || '',
+        })
+        setAvailabilitySettings({
+          availabilityStatus: data.availabilityStatus || 'AVAILABLE',
+          availabilityMessage: data.availabilityMessage || '',
+          leaveStart: data.leaveStart ? data.leaveStart.split('T')[0] : '',
+          leaveEnd: data.leaveEnd ? data.leaveEnd.split('T')[0] : '',
+          manualOverride: data.manualOverride ?? false
         })
         setAdsSettings(prev => ({
           adsEnabled: data.adsEnabled,
@@ -243,6 +269,36 @@ export default function AdminSettingsPage() {
     } catch (error) {
       console.error('Error saving site settings:', error)
       showToast('Failed to save site settings', 'error')
+    } finally {
+      setSaving(false)
+    }
+  }
+  const handleSaveAvailability = async () => {
+    try {
+      setSaving(true)
+      const res = await fetch('/api/admin/site-settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          availabilityStatus: availabilitySettings.availabilityStatus,
+          availabilityMessage: availabilitySettings.availabilityMessage.trim() || null,
+          leaveStart: availabilitySettings.leaveStart || null,
+          leaveEnd: availabilitySettings.leaveEnd || null,
+          manualOverride: availabilitySettings.manualOverride,
+        }),
+      })
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data?.success) {
+        showToast(
+          (data && data.error) || 'Failed to save availability settings',
+          'error'
+        )
+        return
+      }
+      showToast('Availability settings saved successfully', 'success')
+    } catch (error) {
+      console.error('Error saving availability settings:', error)
+      showToast('Failed to save availability settings', 'error')
     } finally {
       setSaving(false)
     }
@@ -430,6 +486,92 @@ export default function AdminSettingsPage() {
         >
           <Save size={20} />
           {saving ? 'Saving...' : 'Save Site Settings'}
+        </button>
+      </div>
+      {/* Service Availability */}
+      <div className="bg-card rounded-2xl border border-border p-6 space-y-6">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <Calendar className="text-primary" size={20} />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold text-foreground">Service Availability</h2>
+            <p className="text-sm text-muted-foreground">Manage availability status and leave periods</p>
+          </div>
+        </div>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Availability Status
+            </label>
+            <select
+              value={availabilitySettings.availabilityStatus}
+              onChange={(e) => setAvailabilitySettings({ ...availabilitySettings, availabilityStatus: e.target.value })}
+              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+            >
+              <option value="AVAILABLE">Available</option>
+              <option value="LIMITED">Limited</option>
+              <option value="UNAVAILABLE">Unavailable</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Custom Message (optional)
+            </label>
+            <input
+              type="text"
+              value={availabilitySettings.availabilityMessage}
+              onChange={(e) => setAvailabilitySettings({ ...availabilitySettings, availabilityMessage: e.target.value })}
+              placeholder="e.g., Booking opens Jan 15"
+              className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Leave Start Date (optional)
+              </label>
+              <input
+                type="date"
+                value={availabilitySettings.leaveStart}
+                onChange={(e) => setAvailabilitySettings({ ...availabilitySettings, leaveStart: e.target.value })}
+                className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Leave End Date (optional)
+              </label>
+              <input
+                type="date"
+                value={availabilitySettings.leaveEnd}
+                onChange={(e) => setAvailabilitySettings({ ...availabilitySettings, leaveEnd: e.target.value })}
+                className="w-full px-4 py-2 bg-muted border border-border rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition"
+              />
+            </div>
+          </div>
+          <label className="flex items-center justify-between p-4 bg-muted rounded-lg cursor-pointer hover:bg-muted/70 transition">
+            <div>
+              <p className="font-medium text-foreground">Manual Override</p>
+              <p className="text-sm text-muted-foreground">
+                Disable automatic holiday adjustments to status
+              </p>
+            </div>
+            <input
+              type="checkbox"
+              checked={availabilitySettings.manualOverride}
+              onChange={(e) => setAvailabilitySettings({ ...availabilitySettings, manualOverride: e.target.checked })}
+              className="w-5 h-5 rounded border-border"
+            />
+          </label>
+        </div>
+        <button
+          onClick={handleSaveAvailability}
+          disabled={saving}
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition disabled:opacity-50"
+        >
+          <Save size={20} />
+          {saving ? 'Saving...' : 'Save Availability Settings'}
         </button>
       </div>
       {/* Ads Settings */}
