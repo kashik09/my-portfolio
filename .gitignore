@@ -50,3 +50,6 @@ public/uploads/**/*
 !public/uploads/.gitkeep
 !public/uploads/**/
 !public/uploads/**/.gitkeep
+
+.env
+.env.local
