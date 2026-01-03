@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import { CookieNotice } from '@/components/shared/CookieNotice'
 import './globals.css'
 import { Providers } from './Providers'
 
-const inter = Inter({ subsets: ['latin'] })
+// System font stack - offline-safe, no network required
+const systemFontStack = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
 const THEME_BOOTSTRAP = `(() => {
   const root = document.documentElement
   const themePairs = {
@@ -98,7 +98,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }}
         />
       </head>
-      <body className={`${inter.className} bg-base-100 text-base-content`}>
+      <body className="bg-base-100 text-base-content" style={{ fontFamily: systemFontStack }}>
         <Providers>{children}</Providers>
         <Analytics />
         <CookieNotice />
