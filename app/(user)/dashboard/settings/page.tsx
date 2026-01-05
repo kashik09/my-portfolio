@@ -21,6 +21,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { isLocalImageUrl, normalizePublicPath } from '@/lib/utils'
+import { usePendingAction } from '@/lib/usePendingAction'
 type UserThemePreference = 'LIGHT' | 'DARK' | 'SYSTEM'
 interface UserProfileResponse {
   success: boolean
@@ -63,19 +64,20 @@ export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true)
   const [personalizedAds, setPersonalizedAds] = useState(false)
   const [hasPassword, setHasPassword] = useState(false)
-  const [savingProfile, setSavingProfile] = useState(false)
-  const [savingPassword, setSavingPassword] = useState(false)
-  const [savingNotifications, setSavingNotifications] = useState(false)
-  const [savingAdsConsent, setSavingAdsConsent] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   // Avatar upload state
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [selectedAvatarFileName, setSelectedAvatarFileName] = useState('')
   const [avatarPreview, setAvatarPreview] = useState<string>('')
+  const { isPending: savingProfile, run: runSaveProfile } = usePendingAction()
+  const { isPending: savingPassword, run: runSavePassword } = usePendingAction()
+  const { isPending: savingNotifications, run: runSaveNotifications } = usePendingAction()
+  const { isPending: savingAdsConsent, run: runAdsConsent } = usePendingAction()
+  const { isPending: uploadingAvatar, run: runAvatarUpload } = usePendingAction()
+  const { isPending: deletingAccount, run: runDeleteAccount } = usePendingAction()
   useEffect(() => {
     let cancelled = false
     async function load() {
@@ -163,71 +165,69 @@ export default function SettingsPage() {
     if (avatarPreview) URL.revokeObjectURL(avatarPreview)
     setAvatarPreview(URL.createObjectURL(file))
     // Upload immediately and set avatarUrl from response
-    try {
-      setUploadingAvatar(true)
-      const form = new FormData()
-      form.append('file', file)
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: form,
-      })
-      const body = await res.json().catch(() => null)
-      if (!res.ok || !body?.url) {
-        const msg = body?.error || 'Failed to upload avatar'
-        showToast(msg, 'error')
-        return
+    await runAvatarUpload(async () => {
+      try {
+        const form = new FormData()
+        form.append('file', file)
+        const res = await fetch('/api/upload', {
+          method: 'POST',
+          body: form,
+        })
+        const body = await res.json().catch(() => null)
+        if (!res.ok || !body?.url) {
+          const msg = body?.error || 'Failed to upload avatar'
+          showToast(msg, 'error')
+          return
+        }
+        setAvatarUrl(body.url as string)
+        showToast('Avatar uploaded. Save profile to apply.', 'success')
+      } catch (err) {
+        console.error('Avatar upload failed:', err)
+        showToast('Failed to upload avatar', 'error')
       }
-      setAvatarUrl(body.url as string)
-      showToast('Avatar uploaded. Save profile to apply.', 'success')
-    } catch (err) {
-      console.error('Avatar upload failed:', err)
-      showToast('Failed to upload avatar', 'error')
-    } finally {
-      setUploadingAvatar(false)
-    }
+    })
   }
   const handleSaveProfile = async () => {
-    try {
-      setSavingProfile(true)
-      const res = await fetch('/api/me/profile', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          image: avatarUrl || null,
-          theme: themePreference,
-        }),
-      })
-      if (!res.ok) {
-        const body = await res.json().catch(() => null)
-        const message = (body && body.error) || 'Failed to save profile'
-        showToast(message, 'error')
-        return
-      }
-      const preferredAppearance = mapUserThemeToAppearance(themePreference)
-      if (preferences.appearance !== preferredAppearance) {
-        setAppearance(preferredAppearance)
-      }
-      // Refresh NextAuth session so Header shows new avatar/name immediately
+    await runSaveProfile(async () => {
       try {
-        await updateSession({
-          user: {
+        const res = await fetch('/api/me/profile', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
             name,
             image: avatarUrl || null,
-          } as any,
+            theme: themePreference,
+          }),
         })
-      } catch {
-        // Not fatal, just means UI might need a refresh
+        if (!res.ok) {
+          const body = await res.json().catch(() => null)
+          const message = (body && body.error) || 'Failed to save profile'
+          showToast(message, 'error')
+          return
+        }
+        const preferredAppearance = mapUserThemeToAppearance(themePreference)
+        if (preferences.appearance !== preferredAppearance) {
+          setAppearance(preferredAppearance)
+        }
+        // Refresh NextAuth session so Header shows new avatar/name immediately
+        try {
+          await updateSession({
+            user: {
+              name,
+              image: avatarUrl || null,
+            } as any,
+          })
+        } catch {
+          // Not fatal, just means UI might need a refresh
+        }
+        showToast('Profile updated successfully', 'success')
+      } catch (err) {
+        console.error('Error saving profile:', err)
+        showToast('Failed to save profile', 'error')
       }
-      showToast('Profile updated successfully', 'success')
-    } catch (err) {
-      console.error('Error saving profile:', err)
-      showToast('Failed to save profile', 'error')
-    } finally {
-      setSavingProfile(false)
-    }
+    })
   }
   const handleChangePassword = async () => {
     if (!hasPassword) {
@@ -242,110 +242,109 @@ export default function SettingsPage() {
       showToast('New passwords do not match', 'error')
       return
     }
-    try {
-      setSavingPassword(true)
-      const res = await fetch('/api/me/password/change', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-        }),
-      })
-      const body = await res.json().catch(() => null)
-      if (!res.ok || !body?.success) {
-        const message = (body && body.error) || 'Failed to change password'
-        showToast(message, 'error')
-        return
+    await runSavePassword(async () => {
+      try {
+        const res = await fetch('/api/me/password/change', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+        })
+        const body = await res.json().catch(() => null)
+        if (!res.ok || !body?.success) {
+          const message = (body && body.error) || 'Failed to change password'
+          showToast(message, 'error')
+          return
+        }
+        setCurrentPassword('')
+        setNewPassword('')
+        setConfirmPassword('')
+        showToast('Password updated successfully', 'success')
+      } catch (err) {
+        console.error('Error changing password:', err)
+        showToast('Failed to change password', 'error')
       }
-      setCurrentPassword('')
-      setNewPassword('')
-      setConfirmPassword('')
-      showToast('Password updated successfully', 'success')
-    } catch (err) {
-      console.error('Error changing password:', err)
-      showToast('Failed to change password', 'error')
-    } finally {
-      setSavingPassword(false)
-    }
+    })
   }
   const handleSaveNotifications = async () => {
-    try {
-      setSavingNotifications(true)
-      const res = await fetch('/api/me/notifications', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          emailNotifications,
-        }),
-      })
-      if (!res.ok) {
-        const body = (await res.json().catch(() => null)) as
-          | NotificationsResponse
-          | null
-        const message =
-          (body && (body as any).error) ||
-          'Failed to update notification preferences'
-        showToast(message, 'error')
-        return
+    await runSaveNotifications(async () => {
+      try {
+        const res = await fetch('/api/me/notifications', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            emailNotifications,
+          }),
+        })
+        if (!res.ok) {
+          const body = (await res.json().catch(() => null)) as
+            | NotificationsResponse
+            | null
+          const message =
+            (body && (body as any).error) ||
+            'Failed to update notification preferences'
+          showToast(message, 'error')
+          return
+        }
+        showToast('Notification preferences updated', 'success')
+      } catch (err) {
+        console.error('Error saving notifications:', err)
+        showToast('Failed to update notification preferences', 'error')
       }
-      showToast('Notification preferences updated', 'success')
-    } catch (err) {
-      console.error('Error saving notifications:', err)
-      showToast('Failed to update notification preferences', 'error')
-    } finally {
-      setSavingNotifications(false)
-    }
+    })
   }
   const handleToggleAdsConsent = async () => {
-    const nextValue = !personalizedAds
-    setPersonalizedAds(nextValue)
-    setSavingAdsConsent(true)
-    try {
-      const res = await fetch('/api/me/ad-consent', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          personalizedAds: nextValue,
-        }),
-      })
-      if (!res.ok) {
-        const body = await res.json().catch(() => null)
-        const message = (body && body.error) || 'Failed to update ads preference'
-        showToast(message, 'error')
-      } else {
-        showToast('Ads preference updated', 'success')
+    await runAdsConsent(async () => {
+      const nextValue = !personalizedAds
+      setPersonalizedAds(nextValue)
+      try {
+        const res = await fetch('/api/me/ad-consent', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            personalizedAds: nextValue,
+          }),
+        })
+        if (!res.ok) {
+          const body = await res.json().catch(() => null)
+          const message = (body && body.error) || 'Failed to update ads preference'
+          showToast(message, 'error')
+        } else {
+          showToast('Ads preference updated', 'success')
+        }
+      } catch (err) {
+        console.error('Error updating ads consent:', err)
+        showToast('Failed to update ads preference', 'error')
       }
-    } catch (err) {
-      console.error('Error updating ads consent:', err)
-      showToast('Failed to update ads preference', 'error')
-    } finally {
-      setSavingAdsConsent(false)
-    }
+    })
   }
   const handleDeleteAccount = async () => {
-    try {
-      const res = await fetch('/api/me/profile', {
-        method: 'DELETE',
-      })
-      if (!res.ok) {
-        const body = await res.json().catch(() => null)
-        const message = (body && body.error) || 'Failed to delete your account'
-        showToast(message, 'error')
-        return
+    await runDeleteAccount(async () => {
+      try {
+        const res = await fetch('/api/me/profile', {
+          method: 'DELETE',
+        })
+        if (!res.ok) {
+          const body = await res.json().catch(() => null)
+          const message = (body && body.error) || 'Failed to delete your account'
+          showToast(message, 'error')
+          return
+        }
+        showToast('Your account has been scheduled for deletion.', 'success')
+        window.location.href = '/'
+      } catch (err) {
+        console.error('Error deleting account:', err)
+        showToast('Failed to delete your account', 'error')
       }
-      showToast('Your account has been scheduled for deletion.', 'success')
-      window.location.href = '/'
-    } catch (err) {
-      console.error('Error deleting account:', err)
-      showToast('Failed to delete your account', 'error')
-    }
+    })
   }
   if (loading) {
     return (
@@ -666,6 +665,7 @@ export default function SettingsPage() {
         <button
           type="button"
           onClick={() => setShowDeleteModal(true)}
+          disabled={deletingAccount}
           className="px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive border border-destructive/30 hover:bg-destructive/20 transition"
         >
           Delete my account

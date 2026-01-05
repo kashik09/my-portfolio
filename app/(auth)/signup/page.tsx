@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { usePendingAction } from '@/lib/usePendingAction'
 
 export default function SignupPage() {
   const router = useRouter()
@@ -14,13 +15,13 @@ export default function SignupPage() {
 
   const { status } = useSession()
 
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: ''
   })
+  const { isPending, run } = usePendingAction()
 
   // 🔁 If already logged in, skip signup entirely
   useEffect(() => {
@@ -45,49 +46,45 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setLoading(true)
+    await run(async () => {
+      try {
+        // Create account
+        const res = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        })
 
-    try {
-      // Create account
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
+        if (!res.ok) {
+          const data = await res.json().catch(() => null)
+          setError(data?.error || 'Failed to create account')
+          return
+        }
 
-      if (!res.ok) {
-        const data = await res.json()
-        setError(data?.error || 'Failed to create account')
-        setLoading(false)
-        return
+        // Auto sign-in after successful signup
+        const result = await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          redirect: false,
+          callbackUrl
+        })
+
+        if (result?.error) {
+          setError('Account created, but sign-in failed. Please try logging in.')
+          return
+        }
+
+        if (result?.ok) {
+          // Force full page reload to ensure session is picked up
+          window.location.assign(callbackUrl)
+          return
+        }
+
+        setError('Something went wrong. Please try logging in.')
+      } catch {
+        setError('Something went wrong. Please try again.')
       }
-
-      // Auto sign-in after successful signup
-      const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
-        callbackUrl
-      })
-
-      if (result?.error) {
-        setError('Account created, but sign-in failed. Please try logging in.')
-        setLoading(false)
-        return
-      }
-
-      if (result?.ok) {
-        // Force full page reload to ensure session is picked up
-        window.location.assign(callbackUrl)
-        return
-      }
-
-      setError('Something went wrong. Please try logging in.')
-      setLoading(false)
-    } catch {
-      setError('Something went wrong. Please try again.')
-      setLoading(false)
-    }
+    })
   }
 
   // Don't show "Checking session..." - just show the form
@@ -138,9 +135,9 @@ export default function SignupPage() {
           variant="primary"
           size="lg"
           className="w-full"
-          disabled={loading}
+          disabled={isPending}
         >
-          {loading ? 'Creating account...' : 'Sign Up'}
+          {isPending ? 'Creating account...' : 'Sign Up'}
         </Button>
       </form>
 

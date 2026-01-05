@@ -7,6 +7,7 @@ import { Download, Package, ArrowLeft, FileText, Shield, Clock, CheckCircle } fr
 import { useToast } from '@/components/ui/Toast'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 import { Spinner } from '@/components/ui/Spinner'
+import { usePendingAction } from '@/lib/usePendingAction'
 interface DownloadHistory {
   id: string
   downloadedAt: string
@@ -43,9 +44,9 @@ interface MeDownloadDetailResponse {
 export default function DownloadDetailPage({ params }: DownloadDetailPageProps) {
   const { showToast } = useToast()
   const [loading, setLoading] = useState(true)
-  const [downloading, setDownloading] = useState(false)
   const [product, setProduct] = useState<ProductDownload | null>(null)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const { isPending: downloading, run: runDownload } = usePendingAction()
   const fetchProductDetails = useCallback(async () => {
     try {
       setLoading(true)
@@ -78,45 +79,44 @@ export default function DownloadDetailPage({ params }: DownloadDetailPageProps) 
       return
     }
     setShowConfirmModal(false)
-    setDownloading(true)
-    try {
-      const tokenResponse = await fetch(
-        `/api/digital-products/${product.slug}/download`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    await runDownload(async () => {
+      try {
+        const tokenResponse = await fetch(
+          `/api/digital-products/${product.slug}/download`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        if (!tokenResponse.ok) {
+          const errorBody = await tokenResponse.json().catch(() => null)
+          const message =
+            (errorBody && errorBody.error) || 'Failed to start download'
+          showToast(message, 'error')
+          return
         }
-      )
-      if (!tokenResponse.ok) {
-        const errorBody = await tokenResponse.json().catch(() => null)
-        const message =
-          (errorBody && errorBody.error) || 'Failed to start download'
-        showToast(message, 'error')
-        return
+        const tokenJson = await tokenResponse.json()
+        const downloadToken = tokenJson?.data?.downloadToken as
+          | string
+          | undefined
+        if (!downloadToken) {
+          showToast('Invalid download token received', 'error')
+          return
+        }
+        const fileUrl = `/api/digital-products/${product.slug}/file?token=${encodeURIComponent(
+          downloadToken
+        )}`
+        window.location.href = fileUrl
+        showToast('Download started successfully', 'success')
+        // Refresh details to update remaining downloads
+        fetchProductDetails()
+      } catch (error) {
+        console.error('Error downloading product:', error)
+        showToast('Failed to download product', 'error')
       }
-      const tokenJson = await tokenResponse.json()
-      const downloadToken = tokenJson?.data?.downloadToken as
-        | string
-        | undefined
-      if (!downloadToken) {
-        showToast('Invalid download token received', 'error')
-        return
-      }
-      const fileUrl = `/api/digital-products/${product.slug}/file?token=${encodeURIComponent(
-        downloadToken
-      )}`
-      window.location.href = fileUrl
-      showToast('Download started successfully', 'success')
-      // Refresh details to update remaining downloads
-      fetchProductDetails()
-    } catch (error) {
-      console.error('Error downloading product:', error)
-      showToast('Failed to download product', 'error')
-    } finally {
-      setDownloading(false)
-    }
+    })
   }
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B'

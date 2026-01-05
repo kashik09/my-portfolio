@@ -6,61 +6,60 @@ import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { usePendingAction } from '@/lib/usePendingAction'
 import { Github } from 'lucide-react'
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
 
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     rememberMe: false
   })
+  const { isPending, run } = usePendingAction()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setLoading(true)
+    await run(async () => {
+      try {
+        const result = await signIn('credentials', {
+          email: formData.email,
+          password: formData.password,
+          rememberMe: formData.rememberMe ? '1' : '0',
+          redirect: false
+        })
 
-    try {
-      const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
-        rememberMe: formData.rememberMe ? '1' : '0',
-        redirect: false
-      })
+        if (result?.error) {
+          setError('Invalid email or password')
+          return
+        }
 
-      if (result?.error) {
-        setError('Invalid email or password')
-        setLoading(false)
-        return
+        if (result?.ok) {
+          // Full reload makes NextAuth pick up fresh session everywhere (Header, middleware, etc.)
+          window.location.assign(callbackUrl)
+          return
+        }
+
+        setError('Something went wrong. Please try again.')
+      } catch {
+        setError('Something went wrong. Please try again.')
       }
-
-      if (result?.ok) {
-        // Full reload makes NextAuth pick up fresh session everywhere (Header, middleware, etc.)
-        window.location.assign(callbackUrl)
-        return
-      }
-
-      setError('Something went wrong. Please try again.')
-      setLoading(false)
-    } catch {
-      setError('Something went wrong. Please try again.')
-      setLoading(false)
-    }
+    })
   }
 
   const handleOAuthSignIn = async (provider: 'google' | 'github') => {
-    setLoading(true)
-    try {
-      await signIn(provider, { callbackUrl })
-    } catch {
-      setError('Failed to sign in with ' + provider)
-      setLoading(false)
-    }
+    setError('')
+    await run(async () => {
+      try {
+        await signIn(provider, { callbackUrl })
+      } catch {
+        setError('Failed to sign in with ' + provider)
+      }
+    })
   }
 
   return (
@@ -83,7 +82,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => handleOAuthSignIn('google')}
-            disabled={loading}
+            disabled={isPending}
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border text-foreground rounded-lg hover:bg-muted transition disabled:opacity-50"
           >
             <span>Continue with Google</span>
@@ -92,7 +91,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={() => handleOAuthSignIn('github')}
-            disabled={loading}
+            disabled={isPending}
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-card border border-border text-foreground rounded-lg hover:bg-muted transition disabled:opacity-50"
           >
             <Github size={20} />
@@ -151,9 +150,9 @@ export default function LoginPage() {
             variant="primary"
             size="lg"
             className="w-full"
-            disabled={loading}
+            disabled={isPending}
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {isPending ? 'Signing in...' : 'Sign In'}
           </Button>
         </form>
 

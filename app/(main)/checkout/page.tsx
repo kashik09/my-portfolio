@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
 import { formatPriceShort } from '@/lib/currency'
 import type { SupportedCurrency } from '@/lib/currency'
+import { usePendingAction } from '@/lib/usePendingAction'
 import { Check, CreditCard, Coins } from 'lucide-react'
 
 export default function CheckoutPage() {
@@ -16,11 +17,11 @@ export default function CheckoutPage() {
 
   const [cart, setCart] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [paymentMethod, _setPaymentMethod] = useState('MANUAL')
   const [purchaseType, setPurchaseType] = useState<'ONE_TIME' | 'CREDITS'>('ONE_TIME')
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [currency, _setCurrency] = useState<SupportedCurrency>('USD')
+  const { isPending: isSubmitting, run: runCheckout } = usePendingAction()
 
   const fetchCart = useCallback(async () => {
     try {
@@ -65,32 +66,31 @@ export default function CheckoutPage() {
       return
     }
 
-    try {
-      setIsSubmitting(true)
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          paymentMethod,
-          termsAccepted,
-          purchaseType,
-          currency,
-        }),
-      })
+    await runCheckout(async () => {
+      try {
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentMethod,
+            termsAccepted,
+            purchaseType,
+            currency,
+          }),
+        })
 
-      const data = await response.json()
+        const data = await response.json().catch(() => null)
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Checkout failed')
+        if (!response.ok) {
+          throw new Error(data?.error || 'Checkout failed')
+        }
+
+        showToast(data.message || 'Order placed successfully!', 'success')
+        router.push(`/checkout/success?orderNumber=${data.order.orderNumber}`)
+      } catch (error: any) {
+        showToast(error.message || 'Checkout failed', 'error')
       }
-
-      showToast(data.message || 'Order placed successfully!', 'success')
-      router.push(`/checkout/success?orderNumber=${data.order.orderNumber}`)
-    } catch (error: any) {
-      showToast(error.message || 'Checkout failed', 'error')
-    } finally {
-      setIsSubmitting(false)
-    }
+    })
   }
 
   if (status === 'loading' || isLoading) {
