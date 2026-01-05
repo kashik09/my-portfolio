@@ -142,6 +142,7 @@ export default function WishlistPage() {
                     purchaseCount: 0, // Not provided
                   }}
                   showQuickAdd={false}
+                  initialIsSaved
                 />
               ))}
             </div>

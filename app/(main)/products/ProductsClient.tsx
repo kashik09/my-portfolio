@@ -1,18 +1,19 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { ProductGrid } from '@/components/features/shop/ProductGrid'
 import { useToast } from '@/components/ui/Toast'
+import { ProductsWishlistLink } from './ProductsWishlistLink'
 
 interface ProductsClientProps {
   initialProducts: any[]
 }
 
 export function ProductsClient({ initialProducts }: ProductsClientProps) {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
   const { showToast } = useToast()
 
@@ -22,6 +23,8 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
   const [category, setCategory] = useState('')
   const [sort, setSort] = useState('newest')
   const [currency, setCurrency] = useState('USD')
+  const [wishlistIds, setWishlistIds] = useState<string[]>([])
+  const [wishlistLoaded, setWishlistLoaded] = useState(false)
   const hasMounted = useRef(false)
 
   const fetchProducts = useCallback(async () => {
@@ -57,6 +60,36 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     fetchProducts()
   }, [category, currency, fetchProducts, search, sort])
 
+  useEffect(() => {
+    if (status !== 'authenticated' || !session?.user?.id) {
+      setWishlistIds([])
+      setWishlistLoaded(false)
+      return
+    }
+
+    let isMounted = true
+    setWishlistLoaded(false)
+
+    fetch('/api/me/wishlist')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!isMounted) return
+        const ids = Array.isArray(data?.items)
+          ? data.items.map((item: { productId: string }) => item.productId)
+          : []
+        setWishlistIds(ids)
+        setWishlistLoaded(true)
+      })
+      .catch(() => {
+        if (!isMounted) return
+        setWishlistLoaded(true)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [session?.user?.id, status])
+
   async function handleAddToCart(productId: string) {
     if (!session) {
       showToast('Please login to add items to cart', 'error')
@@ -83,8 +116,35 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     }
   }
 
+  const wishlistIdSet = useMemo(() => new Set(wishlistIds), [wishlistIds])
+  const wishlistCount =
+    status === 'authenticated' && wishlistLoaded ? wishlistIds.length : null
+
+  const handleWishlistChange = useCallback((productId: string, isSaved: boolean) => {
+    setWishlistIds((prev) => {
+      const next = new Set(prev)
+      if (isSaved) {
+        next.add(productId)
+      } else {
+        next.delete(productId)
+      }
+      return Array.from(next)
+    })
+  }, [])
+
   return (
     <div className="flex flex-col gap-[var(--space-section)]">
+      {/* Header */}
+      <div className="container-lg space-y-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <h1 className="text-h1 font-bold text-foreground">products</h1>
+          <ProductsWishlistLink count={wishlistCount} />
+        </div>
+        <p className="text-body text-muted-foreground/90 max-w-2xl">
+          templates, themes, and tools i've built and packaged. they exist because i needed them first, now you can use them too.
+        </p>
+      </div>
+
       {/* Filters */}
       <div className="container-lg">
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -145,6 +205,8 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
           products={products}
           onAddToCart={handleAddToCart}
           isLoading={isLoading}
+          savedProductIds={wishlistIdSet}
+          onWishlistChange={handleWishlistChange}
         />
       </div>
     </div>

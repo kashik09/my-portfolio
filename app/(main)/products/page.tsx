@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { prisma } from '@/lib/prisma'
 import { convertPrice } from '@/lib/currency'
 import { ProductsClient } from './ProductsClient'
-import { ProductsWishlistLink } from './ProductsWishlistLink'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || ''
 
@@ -65,20 +64,7 @@ export default async function ProductsPage() {
 
   return (
     <div style={{ paddingTop: 'var(--space-block)', paddingBottom: 'var(--space-section)' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-section)' }}>
-        {/* Header */}
-        <div className="container-lg space-y-3">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <h1 className="text-h1 font-bold text-foreground">products</h1>
-            <ProductsWishlistLink />
-          </div>
-          <p className="text-body text-muted-foreground/90 max-w-2xl">
-            templates, themes, and tools i've built and packaged. they exist because i needed them first, now you can use them too.
-          </p>
-        </div>
-
-        <ProductsClient initialProducts={initialProducts} />
-      </div>
+      <ProductsClient initialProducts={initialProducts} />
     </div>
   )
 }

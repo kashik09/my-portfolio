@@ -8,7 +8,7 @@ import { formatPriceShort } from '@/lib/currency'
 import type { SupportedCurrency } from '@/lib/currency'
 import { isLocalImageUrl, normalizePublicPath } from '@/lib/utils'
 import { useSession } from 'next-auth/react'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ProductCardProps {
   product: {
@@ -29,11 +29,19 @@ interface ProductCardProps {
   }
   onAddToCart?: (productId: string) => void
   showQuickAdd?: boolean
+  initialIsSaved?: boolean
+  onWishlistChange?: (productId: string, isSaved: boolean) => void
 }
 
-export function ProductCard({ product, onAddToCart, showQuickAdd = true }: ProductCardProps) {
+export function ProductCard({
+  product,
+  onAddToCart,
+  showQuickAdd = true,
+  initialIsSaved = false,
+  onWishlistChange
+}: ProductCardProps) {
   const { data: session } = useSession()
-  const [isSaved, setIsSaved] = useState(false)
+  const [isSaved, setIsSaved] = useState(initialIsSaved)
   const [isLoadingWishlist, setIsLoadingWishlist] = useState(false)
 
   const price = product.displayPrice || Number(product.usdPrice || product.price)
@@ -41,20 +49,9 @@ export function ProductCard({ product, onAddToCart, showQuickAdd = true }: Produ
   const thumbnailSrc = normalizePublicPath(product.thumbnailUrl)
   const isLocalThumbnail = isLocalImageUrl(thumbnailSrc)
 
-  // Check if product is in wishlist on mount
   useEffect(() => {
-    if (session?.user?.id) {
-      fetch('/api/me/wishlist')
-        .then(res => res.json())
-        .then(data => {
-          if (data.ok) {
-            const isInWishlist = data.items.some((item: any) => item.productId === product.id)
-            setIsSaved(isInWishlist)
-          }
-        })
-        .catch(() => {})
-    }
-  }, [session?.user?.id, product.id])
+    setIsSaved(initialIsSaved)
+  }, [initialIsSaved])
 
   const handleWishlistToggle = async () => {
     if (!session?.user?.id) return
@@ -62,6 +59,7 @@ export function ProductCard({ product, onAddToCart, showQuickAdd = true }: Produ
     setIsLoadingWishlist(true)
     const newSavedState = !isSaved
     setIsSaved(newSavedState) // Optimistic update
+    onWishlistChange?.(product.id, newSavedState)
 
     try {
       if (newSavedState) {
@@ -82,6 +80,7 @@ export function ProductCard({ product, onAddToCart, showQuickAdd = true }: Produ
     } catch (error) {
       // Revert on error
       setIsSaved(!newSavedState)
+      onWishlistChange?.(product.id, !newSavedState)
     } finally {
       setIsLoadingWishlist(false)
     }

@@ -7,9 +7,17 @@ interface ProductGridProps {
   products: any[]
   onAddToCart?: (productId: string) => void
   isLoading?: boolean
+  savedProductIds?: Set<string>
+  onWishlistChange?: (productId: string, isSaved: boolean) => void
 }
 
-export function ProductGrid({ products, onAddToCart, isLoading = false }: ProductGridProps) {
+export function ProductGrid({
+  products,
+  onAddToCart,
+  isLoading = false,
+  savedProductIds,
+  onWishlistChange
+}: ProductGridProps) {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -48,6 +56,8 @@ export function ProductGrid({ products, onAddToCart, isLoading = false }: Produc
           product={product}
           onAddToCart={onAddToCart}
           showQuickAdd={!!onAddToCart}
+          initialIsSaved={savedProductIds?.has(product.id)}
+          onWishlistChange={onWishlistChange}
         />
       ))}
     </div>
