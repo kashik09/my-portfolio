@@ -73,6 +73,7 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GoogleProvider({
+      allowDangerousEmailAccountLinking: true,
       clientId: process.env.GOOGLE_CLIENT_ID || "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       async profile(profile) {
@@ -93,6 +94,7 @@ export const authOptions: NextAuthOptions = {
     }),
 
     GitHubProvider({
+      allowDangerousEmailAccountLinking: true,
       clientId: process.env.GITHUB_CLIENT_ID || "",
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
       async profile(profile) {
