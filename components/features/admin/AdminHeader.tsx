@@ -39,7 +39,7 @@ export default function AdminHeader() {
   })()
   const adminTitle = adminName
     ? `${getPossessive(adminName)} Dashboard`
-    : 'Admin Dashboard'
+    : 'Dashboard'
 
   return (
     <header className="sticky top-0 z-50 border-b border-app backdrop-blur-xl surface-app shadow-sm">

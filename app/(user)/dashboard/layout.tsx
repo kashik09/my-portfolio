@@ -33,7 +33,7 @@ export default function DashboardLayout({
   })()
   const dashboardTitle = displayName
     ? `${getPossessive(displayName)} Dashboard`
-    : 'Your Dashboard'
+    : 'Dashboard'
   const navItems = [
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
     { href: '/dashboard/downloads', icon: Download, label: 'My Downloads' },
