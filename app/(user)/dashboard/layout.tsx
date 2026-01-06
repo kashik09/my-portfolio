@@ -23,6 +23,7 @@ export default function DashboardLayout({
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
     { href: '/dashboard/downloads', icon: Download, label: 'My Downloads' },
     { href: '/dashboard/requests', icon: FileText, label: 'My Requests' },
+    { href: '/grievances', icon: AlertTriangle, label: 'Grievances' },
     { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
   ]
   useEffect(() => {
