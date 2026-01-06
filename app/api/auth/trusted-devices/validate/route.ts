@@ -27,6 +27,8 @@ export async function GET(request: NextRequest) {
       select: {
         blocked: true,
         trustedUntil: true,
+        ipHash: true,
+        userAgent: true,
       },
     })
 
