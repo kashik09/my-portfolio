@@ -38,12 +38,12 @@ export default function AdminGrievancesPage() {
       const response = await fetch('/api/admin/grievances')
       const data = await response.json()
       if (!response.ok || !data.success) {
-        throw new Error(data.error || 'Failed to load grievances')
+        throw new Error(data.error || 'Failed to load complaints')
       }
       setGrievances(data.data || [])
     } catch (error: any) {
       console.error('Error fetching grievances:', error)
-      showToast(error.message || 'Failed to load grievances', 'error')
+      showToast(error.message || 'Failed to load complaints', 'error')
     } finally {
       setLoading(false)
     }
@@ -90,11 +90,11 @@ export default function AdminGrievancesPage() {
       if (!response.ok || !data.success) {
         throw new Error(data.error || 'Failed to update grievance')
       }
-      showToast('Grievance updated', 'success')
+      showToast('Complaint updated', 'success')
       fetchGrievances()
     } catch (error: any) {
       console.error('Error updating grievance:', error)
-      showToast(error.message || 'Failed to update grievance', 'error')
+      showToast(error.message || 'Failed to update complaint', 'error')
     } finally {
       setSavingId(null)
     }
@@ -111,9 +111,9 @@ export default function AdminGrievancesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Grievances</h1>
+        <h1 className="text-3xl font-bold text-foreground">Complaints</h1>
         <p className="text-muted-foreground">
-          Review and resolve customer grievances.
+          Review and resolve customer complaints.
         </p>
       </div>
 
