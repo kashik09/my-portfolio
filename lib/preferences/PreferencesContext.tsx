@@ -2,7 +2,7 @@
 
 import type { Dispatch, ReactNode, SetStateAction } from 'react'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { Appearance, Preferences, ThemeKey } from './types'
+import { Appearance, Preferences, ThemeKey, type DashboardIcon } from './types'
 import { loadPreferences, savePreferences } from './storage'
 
 interface PreferencesContextValue {
@@ -10,6 +10,8 @@ interface PreferencesContextValue {
   setPreferences: Dispatch<SetStateAction<Preferences>>
   setAppearance: (appearance: Appearance) => void
   setTheme: (theme: ThemeKey) => void
+  setDashboardIcon: (icon: DashboardIcon) => void
+  setDashboardSparkle: (enabled: boolean) => void
   isModalOpen: boolean
   openModal: () => void
   closeModal: () => void
@@ -31,6 +33,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
       setPreferences,
       setAppearance: (appearance) => setPreferences((prev) => ({ ...prev, appearance })),
       setTheme: (theme) => setPreferences((prev) => ({ ...prev, theme })),
+      setDashboardIcon: (dashboardIcon) =>
+        setPreferences((prev) => ({ ...prev, dashboardIcon })),
+      setDashboardSparkle: (dashboardSparkle) =>
+        setPreferences((prev) => ({ ...prev, dashboardSparkle })),
       isModalOpen,
       openModal: () => setIsModalOpen(true),
       closeModal: () => setIsModalOpen(false),

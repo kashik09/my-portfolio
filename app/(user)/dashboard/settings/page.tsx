@@ -3,6 +3,7 @@
 export const dynamic = 'force-dynamic'
 import { useEffect, useRef, useState } from 'react'
 import { usePreferences } from '@/lib/preferences/PreferencesContext'
+import { DASHBOARD_ICON_OPTIONS } from '@/components/features/dashboard/dashboard-icons'
 import type { Appearance } from '@/lib/preferences/types'
 import { useToast } from '@/components/ui/Toast'
 import { Spinner } from '@/components/ui/Spinner'
@@ -52,7 +53,7 @@ function mapUserThemeToAppearance(theme: UserThemePreference): Appearance {
   return 'system'
 }
 export default function SettingsPage() {
-  const { preferences, setAppearance } = usePreferences()
+  const { preferences, setAppearance, setDashboardIcon, setDashboardSparkle } = usePreferences()
   const { showToast } = useToast()
   const { update: updateSession } = useSession()
   const [loading, setLoading] = useState(true)
@@ -592,6 +593,55 @@ export default function SettingsPage() {
               </button>
             ))}
           </div>
+        </div>
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-foreground">Dashboard icon</p>
+          <p className="text-sm text-muted-foreground mb-2">
+            Choose the icon shown in your dashboard header.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {DASHBOARD_ICON_OPTIONS.map((option) => {
+              const isActive = preferences.dashboardIcon === option.id
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  onClick={() => setDashboardIcon(option.id)}
+                  className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground border-primary'
+                      : 'bg-card text-foreground border-border hover:bg-muted'
+                  }`}
+                  aria-pressed={isActive}
+                  aria-label={`Use ${option.label} icon`}
+                >
+                  <option.icon size={16} aria-hidden="true" />
+                  <span>{option.label}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-foreground">Sparkle accent</p>
+            <p className="text-sm text-muted-foreground">
+              Add a subtle glow behind your dashboard icon.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setDashboardSparkle(!preferences.dashboardSparkle)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium border border-border ${
+              preferences.dashboardSparkle
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground'
+            }`}
+            aria-pressed={preferences.dashboardSparkle}
+            aria-label="Toggle dashboard sparkle"
+          >
+            {preferences.dashboardSparkle ? 'On' : 'Off'}
+          </button>
         </div>
         <div className="flex items-center justify-between gap-4">
           <div>
