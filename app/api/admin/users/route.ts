@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { hashPassword } from '@/lib/password'
 import { getServerSession } from '@/lib/auth'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 // GET /api/admin/users - Fetch all users
 export async function GET(request: NextRequest) {
@@ -91,6 +92,9 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const body = await request.json()
     const { name, email, role, password } = body

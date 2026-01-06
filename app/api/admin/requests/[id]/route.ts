@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
 import { AuditAction } from '@prisma/client'
 import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 // PATCH /api/admin/requests/[id] - Update request status (accept/reject)
 export async function PATCH(
@@ -80,6 +81,9 @@ export async function DELETE(
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const requestRecord = await prisma.projectRequest.findUnique({
       where: { id: params.id }

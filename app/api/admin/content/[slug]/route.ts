@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
 import { AuditAction } from '@prisma/client'
 import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 // GET /api/admin/content/[slug] - Get specific content page
 export async function GET(
@@ -20,6 +21,9 @@ export async function GET(
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const page = await prisma.contentPage.findUnique({
       where: { slug: params.slug }

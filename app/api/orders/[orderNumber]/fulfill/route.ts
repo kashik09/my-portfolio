@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession, requireAdmin } from '@/lib/auth'
+import { requireAdmin } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { fulfillOrder } from '@/lib/order-fulfillment'
 import { sendLicenseIssuedEmail } from '@/lib/email/order-emails'
 import { getIpHash, getUserAgent } from '@/lib/audit-logger'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 /**
  * POST /api/orders/[orderNumber]/fulfill
@@ -16,6 +17,9 @@ export async function POST(
 ) {
   try {
     const session = await requireAdmin()
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const { orderNumber } = params
 

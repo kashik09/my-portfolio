@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
 import { AuditAction } from '@prisma/client'
 import { createAuditLog, getIpHash, getUserAgent } from '@/lib/audit-logger'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 // GET /api/admin/users/[id] - Get single user
 export async function GET(
@@ -81,6 +82,9 @@ export async function PATCH(
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const body = await request.json()
     const { name, email, role, accountStatus } = body
@@ -174,6 +178,9 @@ export async function DELETE(
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     // Check if user exists
     const user = await prisma.user.findUnique({

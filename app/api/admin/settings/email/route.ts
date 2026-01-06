@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getEmailConfig, sendEmail, getEmailTemplate } from '@/lib/email'
 import { getServerSession } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 // POST /api/admin/settings/email - Save email settings and send test
 export async function POST(request: NextRequest) {
@@ -16,6 +17,9 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const body = await request.json()
     const {

@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { requireAdminStepUp } from '@/lib/admin-stepup'
 
 async function requireAdminOrOwner() {
   const session = await getServerSession()
@@ -69,6 +70,9 @@ export async function PATCH(request: NextRequest) {
         { status: 403 }
       )
     }
+
+    const stepUp = await requireAdminStepUp(request, session)
+    if (stepUp) return stepUp
 
     const body = await request.json()
 
