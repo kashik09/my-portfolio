@@ -1,12 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Heart, ArrowLeft } from 'lucide-react'
 import { ProductCard } from '@/components/features/shop/ProductCard'
 import { Spinner } from '@/components/ui/Spinner'
+import { convertPrice, isSupportedCurrency, type SupportedCurrency } from '@/lib/currency'
+import {
+  getDefaultCurrencyFromCountry,
+  getSavedCurrency,
+  saveCurrency,
+} from '@/lib/currency-preference'
 
 interface WishlistItem {
   id: string
@@ -30,6 +36,8 @@ export default function WishlistPage() {
   const [items, setItems] = useState<WishlistItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [displayCurrency, setDisplayCurrency] = useState<SupportedCurrency>('USD')
+  const hasLoadedCurrency = useRef(false)
 
   useEffect(() => {
     if (status === 'loading') return
@@ -41,6 +49,35 @@ export default function WishlistPage() {
 
     fetchWishlist()
   }, [session, status, router])
+
+  useEffect(() => {
+    if (hasLoadedCurrency.current) return
+    hasLoadedCurrency.current = true
+
+    const saved = getSavedCurrency()
+    if (saved) {
+      setDisplayCurrency(saved)
+      return
+    }
+
+    fetch('/api/geo')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        const defaultCurrency = getDefaultCurrencyFromCountry(
+          typeof data?.country === 'string' ? data.country : null
+        )
+        setDisplayCurrency(defaultCurrency)
+        saveCurrency(defaultCurrency)
+      })
+      .catch(() => {})
+  }, [])
+
+  const handleCurrencyChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const nextCurrency = event.target.value
+    if (!isSupportedCurrency(nextCurrency)) return
+    setDisplayCurrency(nextCurrency)
+    saveCurrency(nextCurrency)
+  }
 
   async function fetchWishlist() {
     try {
@@ -89,6 +126,17 @@ export default function WishlistPage() {
             <p className="text-body text-muted-foreground/90">
               Products you've saved for later
             </p>
+            <div className="mt-4">
+              <select
+                value={displayCurrency}
+                onChange={handleCurrencyChange}
+                aria-label="Currency"
+                className="px-3 py-2 text-sm border border-border/60 rounded-lg bg-muted/40 text-foreground focus:border-primary/50 focus:bg-card focus:ring-2 focus:ring-primary/10 outline-none transition-all"
+              >
+                <option value="USD">USD ($)</option>
+                <option value="UGX">UGX</option>
+              </select>
+            </div>
           </div>
 
           {/* Error State */}
@@ -134,8 +182,11 @@ export default function WishlistPage() {
                     price: item.price,
                     usdPrice: item.usdPrice,
                     ugxPrice: item.ugxPrice,
-                    displayPrice: item.usdPrice,
-                    displayCurrency: 'USD',
+                    displayPrice:
+                      displayCurrency === 'UGX'
+                        ? (item.ugxPrice ?? convertPrice(item.usdPrice, 'USD', 'UGX'))
+                        : item.usdPrice,
+                    displayCurrency: displayCurrency,
                     thumbnailUrl: item.thumbnailUrl,
                     featured: false, // Not tracked in wishlist
                     downloadCount: 0, // Not provided
@@ -143,6 +194,7 @@ export default function WishlistPage() {
                   }}
                   showQuickAdd={false}
                   initialIsSaved
+                  displayCurrency={displayCurrency}
                 />
               ))}
             </div>

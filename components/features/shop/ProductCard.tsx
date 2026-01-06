@@ -31,6 +31,7 @@ interface ProductCardProps {
   showQuickAdd?: boolean
   initialIsSaved?: boolean
   onWishlistChange?: (productId: string, isSaved: boolean) => void
+  displayCurrency?: SupportedCurrency
 }
 
 export function ProductCard({
@@ -38,14 +39,20 @@ export function ProductCard({
   onAddToCart,
   showQuickAdd = true,
   initialIsSaved = false,
-  onWishlistChange
+  onWishlistChange,
+  displayCurrency
 }: ProductCardProps) {
   const { data: session } = useSession()
   const [isSaved, setIsSaved] = useState(initialIsSaved)
   const [isLoadingWishlist, setIsLoadingWishlist] = useState(false)
 
-  const price = product.displayPrice || Number(product.usdPrice || product.price)
-  const currency = (product.displayCurrency || 'USD') as SupportedCurrency
+  const currency = (displayCurrency || product.displayCurrency || 'USD') as SupportedCurrency
+  const basePrice =
+    product.displayPrice ??
+    (currency === 'UGX'
+      ? product.ugxPrice || product.usdPrice || product.price
+      : product.usdPrice || product.price)
+  const price = Number(basePrice || 0)
   const thumbnailSrc = normalizePublicPath(product.thumbnailUrl)
   const isLocalThumbnail = isLocalImageUrl(thumbnailSrc)
 

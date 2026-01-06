@@ -1,12 +1,18 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ChangeEvent } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Search } from 'lucide-react'
 import { ProductGrid } from '@/components/features/shop/ProductGrid'
 import { useToast } from '@/components/ui/Toast'
 import { ProductsWishlistLink } from './ProductsWishlistLink'
+import { isSupportedCurrency, type SupportedCurrency } from '@/lib/currency'
+import {
+  getDefaultCurrencyFromCountry,
+  getSavedCurrency,
+  saveCurrency,
+} from '@/lib/currency-preference'
 
 interface ProductsClientProps {
   initialProducts: any[]
@@ -22,10 +28,11 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState('')
   const [sort, setSort] = useState('newest')
-  const [currency, setCurrency] = useState('USD')
+  const [currency, setCurrency] = useState<SupportedCurrency>('USD')
   const [wishlistIds, setWishlistIds] = useState<string[]>([])
   const [wishlistLoaded, setWishlistLoaded] = useState(false)
   const hasMounted = useRef(false)
+  const hasLoadedCurrency = useRef(false)
 
   const fetchProducts = useCallback(async () => {
     try {
@@ -59,6 +66,28 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     }
     fetchProducts()
   }, [category, currency, fetchProducts, search, sort])
+
+  useEffect(() => {
+    if (hasLoadedCurrency.current) return
+    hasLoadedCurrency.current = true
+
+    const saved = getSavedCurrency()
+    if (saved) {
+      setCurrency(saved)
+      return
+    }
+
+    fetch('/api/geo')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        const defaultCurrency = getDefaultCurrencyFromCountry(
+          typeof data?.country === 'string' ? data.country : null
+        )
+        setCurrency(defaultCurrency)
+        saveCurrency(defaultCurrency)
+      })
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     if (status !== 'authenticated' || !session?.user?.id) {
@@ -132,13 +161,31 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
     })
   }, [])
 
+  const handleCurrencyChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const nextCurrency = event.target.value
+    if (!isSupportedCurrency(nextCurrency)) return
+    setCurrency(nextCurrency)
+    saveCurrency(nextCurrency)
+  }
+
   return (
     <div className="flex flex-col gap-[var(--space-section)]">
       {/* Header */}
       <div className="container-lg space-y-3">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-h1 font-bold text-foreground">products</h1>
-          <ProductsWishlistLink count={wishlistCount} />
+          <div className="flex flex-wrap items-center gap-3">
+            <select
+              value={currency}
+              onChange={handleCurrencyChange}
+              aria-label="Currency"
+              className="px-3 py-2 text-sm border border-border/60 rounded-lg bg-muted/40 text-foreground focus:border-primary/50 focus:bg-card focus:ring-2 focus:ring-primary/10 outline-none transition-all"
+            >
+              <option value="USD">USD ($)</option>
+              <option value="UGX">UGX</option>
+            </select>
+            <ProductsWishlistLink count={wishlistCount} />
+          </div>
         </div>
         <p className="text-body text-muted-foreground/90 max-w-2xl">
           templates, themes, and tools i've built and packaged. they exist because i needed them first, now you can use them too.
@@ -187,15 +234,6 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
             <option value="popular">popular</option>
           </select>
 
-          {/* Currency */}
-          <select
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            className="px-3 py-2 text-sm border border-border/60 rounded-lg bg-muted/40 text-foreground focus:border-primary/50 focus:bg-card focus:ring-2 focus:ring-primary/10 outline-none transition-all"
-          >
-            <option value="USD">usd ($)</option>
-            <option value="UGX">ugx</option>
-          </select>
         </div>
       </div>
 
@@ -207,6 +245,7 @@ export function ProductsClient({ initialProducts }: ProductsClientProps) {
           isLoading={isLoading}
           savedProductIds={wishlistIdSet}
           onWishlistChange={handleWishlistChange}
+          displayCurrency={currency}
         />
       </div>
     </div>

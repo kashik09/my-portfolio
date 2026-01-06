@@ -2,6 +2,7 @@
 
 import { ProductCard } from './ProductCard'
 import { Package } from 'lucide-react'
+import type { SupportedCurrency } from '@/lib/currency'
 
 interface ProductGridProps {
   products: any[]
@@ -9,6 +10,7 @@ interface ProductGridProps {
   isLoading?: boolean
   savedProductIds?: Set<string>
   onWishlistChange?: (productId: string, isSaved: boolean) => void
+  displayCurrency?: SupportedCurrency
 }
 
 export function ProductGrid({
@@ -16,7 +18,8 @@ export function ProductGrid({
   onAddToCart,
   isLoading = false,
   savedProductIds,
-  onWishlistChange
+  onWishlistChange,
+  displayCurrency
 }: ProductGridProps) {
   if (isLoading) {
     return (
@@ -58,6 +61,7 @@ export function ProductGrid({
           showQuickAdd={!!onAddToCart}
           initialIsSaved={savedProductIds?.has(product.id)}
           onWishlistChange={onWishlistChange}
+          displayCurrency={displayCurrency}
         />
       ))}
     </div>
