@@ -1,16 +1,32 @@
-# JSON API Builder Roadmap
+# Notes
 
-## v0
-- Design schema builder UX.
-- Define API generation engine.
-- Draft pricing and plan limits.
+Internal scratchpad for json-api-builder.
 
-## v1
-- Ship MVP with core builder and docs.
-- Add auth layer and rate limits.
-- Launch dashboard and billing.
+## Positioning
+- CLI-first tool
+- Runs a real API server (Fastify)
+- Config-driven via JSON
+- Optimized for speed, prototyping, internal tools, and frontend dev workflows
 
-## v2
-- Add collaboration and team access.
-- Build integration marketplace.
-- Provide CLI and migration tools.
+## What this is NOT
+- Not a framework
+- Not a hosted SaaS
+- Not a production-grade backend replacement
+- Not an OpenAPI-first generator (yet)
+
+## Design principles
+- Zero setup friction
+- Predictable behavior
+- Minimal magic
+- Clear errors over clever abstractions
+
+## Dev reminders
+- Keep v0.x scope tight
+- Avoid auth + roles until CRUD is rock solid
+- Favor explicit config over convention
+- Docs must stay ahead of features
+
+## Known sharp edges
+- Exact-match filtering only
+- No pagination/sorting yet
+- In-memory store resets unless persist=file
